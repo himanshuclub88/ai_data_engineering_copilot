@@ -4,7 +4,7 @@ from pathlib import Path
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
-from llm import get_llm
+from agent_moudle import get_llm
 
 
 RCA_PROMPT = ChatPromptTemplate.from_messages(
