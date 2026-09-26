@@ -1,5 +1,0 @@
-2026-09-03T05:00:00Z INFO Starting pipeline claims_daily_ingestion
-2026-09-03T05:00:00Z INFO Run ID: RUN_000028
-2026-09-03T05:00:00Z INFO Reading source: claims_landing
-2026-09-03T05:00:00Z INFO Running data quality validation
-2026-09-03T05:00:00Z WARN Null-rate threshold exceeded

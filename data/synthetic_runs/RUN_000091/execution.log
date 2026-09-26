@@ -1,5 +1,0 @@
-2026-09-16T04:00:00Z INFO Starting pipeline payments_daily_ingestion
-2026-09-16T04:00:00Z INFO Run ID: RUN_000091
-2026-09-16T04:00:00Z INFO Reading source: payments_landing
-2026-09-16T04:00:00Z INFO Running duplicate validation
-2026-09-16T04:00:00Z WARN Duplicate threshold exceeded

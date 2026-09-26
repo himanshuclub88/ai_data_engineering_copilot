@@ -1,5 +1,0 @@
-2026-09-18T01:00:00Z INFO Starting pipeline claims_daily_ingestion
-2026-09-18T01:00:00Z INFO Run ID: RUN_000043
-2026-09-18T01:00:00Z INFO Reading source: claims_landing
-2026-09-18T01:00:00Z INFO Accessing source path claims_landing
-2026-09-18T01:00:00Z ERROR Access denied

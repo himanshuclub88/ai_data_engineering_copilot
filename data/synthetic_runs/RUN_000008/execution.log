@@ -1,5 +1,0 @@
-2026-09-08T03:00:00Z INFO Starting pipeline customer_daily_ingestion
-2026-09-08T03:00:00Z INFO Run ID: RUN_000008
-2026-09-08T03:00:00Z INFO Reading source: customer_landing
-2026-09-08T03:00:00Z INFO Files discovered: 26
-2026-09-08T03:00:00Z INFO Detecting file format

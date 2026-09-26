@@ -1,6 +1,0 @@
-2026-09-12T05:00:00Z INFO Starting pipeline claims_daily_ingestion
-2026-09-12T05:00:00Z INFO Run ID: RUN_000037
-2026-09-12T05:00:00Z INFO Reading source: claims_landing
-2026-09-12T05:00:00Z INFO Files discovered: 13
-2026-09-12T05:00:00Z INFO Validating source schema
-2026-09-12T05:00:00Z ERROR Schema validation failed

@@ -1,7 +1,0 @@
-2026-09-25T04:00:00Z INFO Starting pipeline claims_daily_ingestion
-2026-09-25T04:00:00Z INFO Run ID: RUN_000025
-2026-09-25T04:00:00Z INFO Reading source: claims_landing
-2026-09-25T04:00:00Z INFO Rows read: 7670629
-2026-09-25T04:00:00Z INFO Partition count: 200
-2026-09-25T04:00:00Z WARN Partition imbalance detected
-2026-09-25T04:10:32Z ERROR Executor stalled during shuffle

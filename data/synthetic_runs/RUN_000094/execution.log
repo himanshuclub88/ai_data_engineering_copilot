@@ -1,5 +1,0 @@
-2026-09-19T03:00:00Z INFO Starting pipeline payments_daily_ingestion
-2026-09-19T03:00:00Z INFO Run ID: RUN_000094
-2026-09-19T03:00:00Z INFO Reading source: payments_landing
-2026-09-19T03:00:00Z INFO Expected files: 29
-2026-09-19T03:00:00Z ERROR Required partition was not found

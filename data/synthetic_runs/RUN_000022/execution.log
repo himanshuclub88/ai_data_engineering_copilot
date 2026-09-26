@@ -1,5 +1,0 @@
-2026-09-22T03:00:00Z INFO Starting pipeline orders_daily_ingestion
-2026-09-22T03:00:00Z INFO Run ID: RUN_000022
-2026-09-22T03:00:00Z INFO Reading source: orders_landing
-2026-09-22T03:00:00Z INFO Files discovered: 67
-2026-09-22T03:00:00Z INFO Detecting file format

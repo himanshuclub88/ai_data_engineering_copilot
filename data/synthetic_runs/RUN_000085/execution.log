@@ -1,7 +1,0 @@
-2026-09-10T04:00:00Z INFO Starting pipeline payments_daily_ingestion
-2026-09-10T04:00:00Z INFO Run ID: RUN_000085
-2026-09-10T04:00:00Z INFO Reading source: payments_landing
-2026-09-10T04:00:00Z INFO Files discovered: 42
-2026-09-10T04:00:00Z INFO Rows read: 13048065
-2026-09-10T04:11:34Z INFO Rows written: 13047397
-2026-09-10T04:11:34Z INFO Pipeline completed successfully

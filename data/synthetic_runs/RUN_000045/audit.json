@@ -1,7 +1,0 @@
-{
-  "run_id": "RUN_000045",
-  "pipeline": "payments_daily_ingestion",
-  "event_count": 26,
-  "scenario": "DUPLICATE_DATA",
-  "generated_at": "2026-09-26T14:12:20Z"
-}

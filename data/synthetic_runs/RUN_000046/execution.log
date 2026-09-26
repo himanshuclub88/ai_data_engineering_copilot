@@ -1,5 +1,0 @@
-2026-09-21T03:00:00Z INFO Starting pipeline customer_daily_ingestion
-2026-09-21T03:00:00Z INFO Run ID: RUN_000046
-2026-09-21T03:00:00Z INFO Reading source: customer_landing
-2026-09-21T03:00:00Z INFO Running data quality validation
-2026-09-21T03:00:00Z WARN Null-rate threshold exceeded

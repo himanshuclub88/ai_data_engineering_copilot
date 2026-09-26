@@ -1,6 +1,0 @@
-2026-09-05T03:00:00Z INFO Starting pipeline claims_daily_ingestion
-2026-09-05T03:00:00Z INFO Run ID: RUN_000005
-2026-09-05T03:00:00Z INFO Reading source: claims_landing
-2026-09-05T03:00:00Z INFO Rows read: 7579409
-2026-09-05T03:00:00Z INFO Executor memory: 16 GB
-2026-09-05T03:04:07Z ERROR Executor lost during shuffle stage

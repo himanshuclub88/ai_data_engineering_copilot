@@ -1,7 +1,0 @@
-2026-09-11T05:00:00Z INFO Starting pipeline payments_daily_ingestion
-2026-09-11T05:00:00Z INFO Run ID: RUN_000086
-2026-09-11T05:00:00Z INFO Reading source: payments_landing
-2026-09-11T05:00:00Z INFO Rows read: 3158375
-2026-09-11T05:00:00Z INFO Partition count: 400
-2026-09-11T05:00:00Z WARN Partition imbalance detected
-2026-09-11T05:03:05Z ERROR Executor stalled during shuffle
