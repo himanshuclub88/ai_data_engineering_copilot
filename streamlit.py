@@ -1,515 +1,73 @@
-import json
-import os
+import os, json
 from pathlib import Path
-
 import streamlit as st
 from dotenv import load_dotenv
-
-from dbmeta_adapter import (
-    get_db,
-    get_job_summary,
-    get_recent_runs,
-    get_run,
-    get_tables,
-    list_jobs,
-)
-
+from dbmeta_adapter import list_jobs, get_db, get_tables, get_recent_runs, get_run, get_job_summary
 from copilot import ask_copilot
-
-from rca import run_rca
-
-
-load_dotenv()
-
-
-DATA_ROOT = Path(
-    os.getenv(
-        "DATA_ROOT",
-        "./jobs",
-    )
-).resolve()
-
-
-def read_text(path):
-    """
-    Safely read a text file.
-    """
-
-    path = Path(path)
-
-    if not path.exists():
-        return f"{path.name} not found."
-
-    return path.read_text(
-        encoding="utf-8",
-        errors="replace",
-    )
-
-
-def go_home():
-    st.session_state.pop(
-        "job",
-        None,
-    )
-
-    st.session_state.pop(
-        "run",
-        None,
-    )
-
-    st.session_state.pop(
-        "copilot_result",
-        None,
-    )
-
-    st.rerun()
-
-
-def go_job(job):
-    st.session_state["job"] = job
-
-    st.session_state.pop(
-        "run",
-        None,
-    )
-
-    st.session_state.pop(
-        "copilot_result",
-        None,
-    )
-
-    st.rerun()
-
-
-def go_run(run_id):
-    st.session_state["run"] = run_id
-    st.rerun()
-
-
-def show_home():
-    st.title(
-        "AI Data Engineering Copilot"
-    )
-
-    st.caption(
-        "Pipeline execution intelligence "
-        "powered by DbMeta + LLM"
-    )
-
-    if not DATA_ROOT.exists():
-        st.error(
-            f"DATA_ROOT does not exist:\n{DATA_ROOT}"
-        )
-
-        st.info(
-            "Check DATA_ROOT in your .env file."
-        )
-
-        return
-
-    jobs = list_jobs(
-        DATA_ROOT
-    )
-
-    if not jobs:
-        st.warning(
-            f"No jobs found under:\n{DATA_ROOT}"
-        )
-
-        return
-
-    st.subheader(
-        "Jobs"
-    )
-
-    for job in jobs:
-
-        if st.button(
-            job,
-            key=f"job_{job}",
-            use_container_width=True,
-        ):
-            go_job(job)
-
-
-def show_job(job):
-    job_path = DATA_ROOT / job
-
-    db = get_db(
-        job_path
-    )
-
-    st.button(
-        "← All Jobs",
-        on_click=go_home,
-    )
-
-    st.title(job)
-
-    # -----------------------------
-    # Summary
-    # -----------------------------
-
-    summary = get_job_summary(
-        db
-    )
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric(
-        "Total Runs",
-        summary["total"],
-    )
-
-    col2.metric(
-        "Successful",
-        summary["success"],
-    )
-
-    col3.metric(
-        "Failed",
-        summary["failed"],
-    )
-
-    col4.metric(
-        "Other",
-        summary["other"],
-    )
-
-    # -----------------------------
-    # Tables
-    # -----------------------------
-
-    with st.expander(
-        "DbMeta Tables"
-    ):
-        st.write(
-            get_tables(db)
-        )
-
-    st.divider()
-
-    # -----------------------------
-    # Recent Runs
-    # -----------------------------
-
-    st.subheader(
-        "Recent Runs"
-    )
-
-    rows = get_recent_runs(
-        db,
-        20,
-    )
-
-    if not rows:
-        st.info(
-            "No execution records found."
-        )
-
-    else:
-
-        for row in rows:
-
-            run_id = row.get(
-                "iid",
-                "-",
-            )
-
-            status = row.get(
-                "status",
-                "-",
-            )
-
-            failure = row.get(
-                "failure_reason"
-            ) or "SUCCESS"
-
-            start_time = row.get(
-                "start_time",
-                "-",
-            )
-
-            duration = row.get(
-                "duration_sec",
-                "-",
-            )
-
-            label = (
-                f"{run_id} | "
-                f"{status} | "
-                f"{failure} | "
-                f"{start_time} | "
-                f"{duration}s"
-            )
-
-            if st.button(
-                label,
-                key=f"run_{job}_{run_id}",
-                use_container_width=True,
-            ):
-                go_run(
-                    run_id
-                )
-
-    st.divider()
-
-    # -----------------------------
-    # Copilot
-    # -----------------------------
-
-    st.subheader(
-        "🤖 Copilot"
-    )
-
-    question = st.text_input(
-        "Ask about this job's history",
-        placeholder=(
-            "Why did the latest run fail?"
-        ),
-        key=f"question_{job}",
-    )
-
-    if st.button(
-        "Ask Copilot",
-        type="primary",
-    ):
-
-        if not question.strip():
-
-            st.warning(
-                "Enter a question first."
-            )
-
-        else:
-
-            with st.spinner(
-                "Analyzing job history..."
-            ):
-
-                try:
-
-                    result = ask_copilot(
-                        db,
-                        question,
-                    )
-
-                    st.session_state[
-                        "copilot_result"
-                    ] = result
-
-                except Exception as exc:
-
-                    st.error(
-                        f"Copilot error: {exc}"
-                    )
-
-    result = st.session_state.get(
-        "copilot_result"
-    )
-
-    if result:
-
-        st.markdown(
-            "### Answer"
-        )
-
-        st.write(
-            result["answer"]
-        )
-
-        with st.expander(
-            "Generated DbMeta SQL"
-        ):
-
-            st.code(
-                result["sql"],
-                language="sql",
-            )
-
-        with st.expander(
-            "DbMeta Result"
-        ):
-
-            st.json(
-                result["result"]
-            )
-
-
-def show_run(
-    job,
-    run_id,
-):
-    job_path = DATA_ROOT / job
-
-    run_path = (
-        job_path / run_id
-    )
-
-    db = get_db(
-        job_path
-    )
-
-    st.button(
-        "← Back to Job",
-        on_click=lambda: (
-            st.session_state.pop(
-                "run",
-                None,
-            ),
-            st.rerun(),
-        ),
-    )
-
-    st.title(
-        f"{job} / {run_id}"
-    )
-
-    # -----------------------------
-    # Metadata
-    # -----------------------------
-
-    metadata = get_run(
-        db,
-        run_id,
-    )
-
-    tab_metadata, tab_execution, tab_error, tab_rca = st.tabs(
-        [
-            "Metadata",
-            "Execution Log",
-            "Error Log",
-            "RCA",
-        ]
-    )
-
-    # -----------------------------
-    # Metadata
-    # -----------------------------
-
-    with tab_metadata:
-
-        st.json(
-            metadata
-        )
-
-    # -----------------------------
-    # Execution Log
-    # -----------------------------
-
-    with tab_execution:
-
-        st.code(
-            read_text(
-                run_path / "execution.log"
-            )
-        )
-
-    # -----------------------------
-    # Error Log
-    # -----------------------------
-
-    with tab_error:
-
-        st.code(
-            read_text(
-                run_path / "error.log"
-            )
-        )
-
-    # -----------------------------
-    # RCA
-    # -----------------------------
-
-    with tab_rca:
-
-        cached_path = (
-            run_path /
-            "rca_analysis.json"
-        )
-
-        if cached_path.exists():
-
-            st.success(
-                "Cached RCA loaded. "
-                "No LLM call required."
-            )
-
-            st.json(
-                json.loads(
-                    cached_path.read_text(
-                        encoding="utf-8"
-                    )
-                )
-            )
-
-        else:
-
-            st.info(
-                "RCA has not been generated "
-                "for this run."
-            )
-
-            if st.button(
-                "Generate RCA",
-                type="primary",
-            ):
-
-                with st.spinner(
-                    "Analyzing error log..."
-                ):
-
-                    try:
-
-                        analysis = run_rca(
-                            run_path,
-                            run_id,
-                            metadata,
-                        )
-
-                        st.success(
-                            "RCA generated "
-                            "and cached."
-                        )
-
-                        st.json(
-                            analysis
-                        )
-
-                    except Exception as exc:
-
-                        st.error(
-                            f"RCA error: {exc}"
-                        )
-
-
-def main():
-
-    st.set_page_config(
-        page_title=(
-            "AI Data Engineering Copilot"
-        ),
-        page_icon="🤖",
-        layout="wide",
-    )
-
-    if "job" not in st.session_state:
-
-        show_home()
-
-    elif "run" in st.session_state:
-
-        show_run(
-            st.session_state["job"],
-            st.session_state["run"],
-        )
-
-    else:
-
-        show_job(
-            st.session_state["job"]
-        )
-
-
-if __name__ == "__main__":
-    main()
+from rca import generate_rca
+
+load_dotenv(); DATA_ROOT = Path(os.getenv("DATA_ROOT", "./jobs")).resolve()
+st.set_page_config(page_title="AI Data Engineering Copilot", layout="wide")
+st.title("AI Data Engineering Copilot")
+
+def home():
+    st.session_state.pop("job", None); st.session_state.pop("run", None); st.rerun()
+
+def job():
+    st.session_state.pop("run", None); st.rerun()
+
+def show_run(job_path, run_id):
+    p = job_path / run_id; data = get_run(get_db(job_path), run_id)
+    st.button("← Back to Job", on_click=job); st.header(run_id)
+    tabs = st.tabs(["Metadata", "Execution Log", "Error Log", "RCA"])
+    with tabs[0]:
+        for name, rows in data.items(): st.subheader(name); st.dataframe(rows, use_container_width=True)
+    with tabs[1]:
+        f = p / "execution.log"; st.code(f.read_text(errors="replace") if f.exists() else "execution.log not found")
+    with tabs[2]:
+        f = p / "error.log"; st.code(f.read_text(errors="replace") if f.exists() else "error.log not found")
+    with tabs[3]:
+        if st.button("Generate / Refresh RCA"): st.session_state["rca"] = generate_rca(p, run_id, job_path.name)
+        rca = st.session_state.get("rca")
+        if not rca and (p / "rca_analysis.json").exists():
+            try: rca = json.loads((p / "rca_analysis.json").read_text())
+            except Exception: rca = None
+        if rca:
+            st.write("**Error:**", rca.get("error")); st.write("**Root Cause:**", rca.get("root_cause")); st.write("**Evidence:**", rca.get("evidence")); st.write("**Fix:**", rca.get("fix"))
+        else: st.info("No RCA generated yet.")
+
+def show_job(job_name):
+    path = DATA_ROOT / job_name; db = get_db(path); s = get_job_summary(db)
+    st.button("← Back to Jobs", on_click=home); st.header(job_name)
+    a,b,c,d = st.columns(4); a.metric("Runs", s["total"]); b.metric("Success", s["success"]); c.metric("Failed", s["failed"]); d.metric("Other", s["other"])
+    st.subheader("DbMeta Tables"); st.write(get_tables(db))
+    st.subheader("Recent Runs"); st.dataframe(get_recent_runs(db), use_container_width=True)
+    st.divider(); st.subheader("Copilot")
+    q = st.text_input("Ask about this pipeline", placeholder="Why are failures increasing?")
+    if q:
+        with st.spinner("Investigating..."):
+            try: result = ask_copilot(db, q, path)
+            except Exception as e: st.error(str(e)); return
+        st.markdown(result["answer"])
+        with st.expander("Investigation Plan"): st.json(result["plan"])
+        for x in result["queries"]:
+            with st.expander(f"SQL {x['id']} — {x['purpose']}"):
+                st.code(x["sql"], language="sql")
+                if "error" in x: st.error(x["error"])
+                else: st.dataframe(x["result"], use_container_width=True)
+        for x in result["rcas"]:
+            with st.expander(f"RCA — {x['run_id']}"): st.json(x["rca"])
+    st.divider(); st.subheader("Open Run")
+    runs = [r["iid"] for r in get_recent_runs(db)]
+    if runs:
+        selected = st.selectbox("Run", runs)
+        if st.button("Open Run"): st.session_state["run"] = selected; st.rerun()
+
+jobs = list_jobs(DATA_ROOT)
+if not jobs: st.warning(f"No jobs found in {DATA_ROOT}. Set DATA_ROOT in .env.")
+elif "job" not in st.session_state:
+    st.subheader("Jobs")
+    for x in jobs:
+        if st.button(x, use_container_width=True): st.session_state["job"] = x; st.rerun()
+elif "run" in st.session_state: show_run(DATA_ROOT / st.session_state["job"], st.session_state["run"])
+else: show_job(st.session_state["job"])

@@ -1,153 +1,225 @@
 # AI Data Engineering Copilot
 
-An AI-powered assistant for analyzing **data engineering pipeline execution history**.
+An AI-powered Data Engineering Copilot for investigating pipeline executions, failures, data-quality issues, and root causes.
 
-The application combines **DbMeta**, **LLM reasoning**, pipeline logs, and **Streamlit** to help data engineers investigate failed runs, understand pipeline history, and generate root-cause analysis.
+The system combines **DbMeta**, **LLM-powered investigation planning**, **multiple SQL queries**, **pipeline logs**, and **automatically generated RCA** into a simple Streamlit application.
 
 ---
 
 ## Overview
 
-The AI Data Engineering Copilot provides two main capabilities:
-
-### 1. Pipeline Run Investigation
-
-For every pipeline job, the application provides:
-
-* Recent pipeline runs
-* Run status
-* Failure reason
-* Execution time
-* Structured pipeline metadata
-* Execution logs
-* Error logs
-* Root Cause Analysis (RCA)
-
-### 2. AI Copilot
-
-The Copilot allows users to ask questions about a job's execution history.
-
-Example questions:
+The Copilot is designed around a real-world data engineering workflow:
 
 ```text
-Why did the latest run fail?
-
-Show me the last 5 failed runs.
-
-Which failure reason occurred most frequently?
-
-Which runs took more than 5 minutes?
-
-Show me the latest successful run.
-
-What happened to RUN_087?
+Pipeline Runs
+     │
+     ├── Metadata
+     ├── Execution Logs
+     ├── Error Logs
+     └── RCA
+          │
+          ▼
+      DbMeta
+          │
+          ▼
+       Copilot
+          │
+     ┌────┴────┐
+     │         │
+   SQL       RCA
+     │         │
+     └────┬────┘
+          ▼
+     Investigation
+          │
+          ▼
+       Answer
 ```
 
-The Copilot converts the question into a **read-only DbMeta SQL query**, executes it, and then explains the result.
+Instead of generating only one SQL query, the Copilot can create a small investigation plan containing **multiple focused SQL queries**.
+
+If the question is related to a failure, the Copilot can also use an existing RCA or generate a new RCA from the run's `error.log`.
+
+---
+
+# Key Features
+
+### 1. Multi-SQL Investigation
+
+The Copilot can generate **1–5 SQL queries** for a single question.
+
+For example:
+
+> Why are failures increasing in this pipeline?
+
+It may investigate:
+
+```text
+SQL 1 → Recent failed runs
+SQL 2 → Failure reason distribution
+SQL 3 → Data-quality problems
+SQL 4 → Recent execution duration
+```
+
+The results are then combined before generating the final answer.
+
+---
+
+### 2. RCA Integration
+
+The Copilot can identify questions related to:
+
+* Root cause
+* Failure cause
+* Errors
+* RCA
+* Failure investigation
+* Specific failed runs
+
+For example:
+
+> Why did RUN_087 fail?
+
+The Copilot can:
+
+```text
+Identify RUN_087
+       ↓
+Check rca_analysis.json
+       ↓
+If missing
+       ↓
+Read error.log
+       ↓
+Generate RCA
+       ↓
+Use RCA in final answer
+```
+
+---
+
+### 3. Automatic RCA Generation
+
+For every run:
+
+```text
+RUN_087/
+├── metadata.json
+├── execution.log
+├── error.log
+└── rca_analysis.json
+```
+
+If `rca_analysis.json` does not exist, the RCA module can generate it from `error.log`.
+
+Generated RCA contains:
+
+```json
+{
+  "error": "...",
+  "root_cause": "...",
+  "evidence": [],
+  "fix": "..."
+}
+```
+
+The generated RCA is cached so it does not need to be regenerated every time.
+
+---
+
+### 4. DbMeta Integration
+
+DbMeta provides the structured pipeline metadata.
+
+The adapter dynamically discovers available tables:
+
+```python
+db.tables.keys()
+```
+
+The Copilot therefore does not depend on a hardcoded table list.
+
+Example tables may include:
+
+```text
+pipeline
+execution
+input
+output
+resources
+data_quality
+spark
+```
+
+---
+
+### 5. SQL Safety
+
+The Copilot only allows read-only SQL.
+
+Allowed:
+
+```sql
+SELECT ...
+```
+
+Blocked:
+
+```text
+INSERT
+UPDATE
+DELETE
+DROP
+ALTER
+CREATE
+TRUNCATE
+REPLACE
+MERGE
+```
+
+Multiple statements are also rejected.
+
+Generated SQL is validated against the tables available in DbMeta before execution.
 
 ---
 
 # Architecture
 
 ```text
-                         ┌─────────────────────┐
-                         │      Streamlit      │
-                         │        UI           │
-                         └──────────┬──────────┘
-                                    │
-                  ┌─────────────────┴─────────────────┐
-                  │                                   │
-                  ▼                                   ▼
-             Job / Runs                           Copilot
-                  │                                   │
-                  │                              User Question
-                  │                                   │
-                  │                                   ▼
-                  │                                  LLM
-                  │                                   │
-                  │                              Generate SQL
-                  │                                   │
-                  │                                   ▼
-                  │                                DbMeta
-                  │                                   │
-                  │                              Query Result
-                  │                                   │
-                  │                                   ▼
-                  │                                  LLM
-                  │                                   │
-                  │                                   ▼
-                  │                                 Answer
-                  │
-                  │
-                  ├──────────────► DbMeta
-                  │                 │
-                  │                 └── Structured Metadata
-                  │
-                  └──────────────► Filesystem
-                                    │
-                                    ├── execution.log
-                                    ├── error.log
-                                    └── rca_analysis.json
-                                             │
-                                             ▼
-                                            RCA
-                                             │
-                                             ▼
-                                            LLM
-```
-
----
-
-# Core Design
-
-The application deliberately avoids unnecessary agent frameworks.
-
-There is:
-
-* No LangGraph
-* No custom Agent class
-* No multi-agent architecture
-* No autonomous tool loop
-
-Instead, the system uses a simple deterministic flow.
-
-## Copilot
-
-```text
-User Question
-      ↓
-LLM
-      ↓
-Read-only SQL
-      ↓
-SQL Validation
-      ↓
-DbMeta
-      ↓
-Query Result
-      ↓
-LLM
-      ↓
-Natural Language Answer
-```
-
-## RCA
-
-```text
-Run
- │
- ├── DbMeta Metadata
- │
- └── error.log
-       │
-       ▼
-      LLM
-       │
-       ▼
-RCA JSON
-       │
-       ▼
-rca_analysis.json
+                    User Question
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │    Copilot    │
+                 │    Planner    │
+                 └───────┬───────┘
+                         │
+             ┌───────────┼───────────┐
+             ▼           ▼           ▼
+          SQL #1       SQL #2      SQL #3
+             │           │           │
+             └───────────┼───────────┘
+                         ▼
+                    DbMeta Query
+                         │
+                         ▼
+                      Results
+                         │
+                         │
+             ┌───────────┴───────────┐
+             │                       │
+             ▼                       ▼
+          RCA Engine               Logs
+             │                       │
+             └───────────┬───────────┘
+                         ▼
+                  Combined Evidence
+                         │
+                         ▼
+                  Answer Generator
+                         │
+                         ▼
+                    Final Answer
 ```
 
 ---
@@ -156,12 +228,6 @@ rca_analysis.json
 
 ```text
 ai_data_engineering_copilot/
-│
-├── dbmeta_adapter.py
-├── llm.py
-├── rca.py
-├── copilot.py
-├── streamlit.py
 │
 ├── jobs/
 │   │
@@ -180,8 +246,11 @@ ai_data_engineering_copilot/
 │   ├── FINANCE_DATA_PLATFORM/
 │   └── CUSTOMER_360_PIPELINE/
 │
-├── secrets/
-│   └── grok_api_key.txt
+├── dbmeta_adapter.py
+├── llm.py
+├── rca.py
+├── copilot.py
+├── streamlit.py
 │
 ├── .env
 ├── .env.example
@@ -191,9 +260,9 @@ ai_data_engineering_copilot/
 
 ---
 
-# Data Model
+# Pipeline Data Structure
 
-Each job contains multiple pipeline runs.
+Each pipeline contains multiple execution runs.
 
 Example:
 
@@ -203,15 +272,14 @@ SCAL_LABS_PIPELINE
 ├── RUN_001
 ├── RUN_002
 ├── RUN_003
-├── ...
-└── RUN_100
+├── RUN_004
+└── ...
 ```
 
 Each run contains:
 
 ```text
-RUN_001/
-│
+RUN_001
 ├── metadata.json
 ├── execution.log
 ├── error.log
@@ -220,28 +288,9 @@ RUN_001/
 
 ---
 
-# DbMeta
+# Metadata Structure
 
-DbMeta is used as the structured metadata query layer.
-
-Each job gets its own `FolderDB`.
-
-```python
-db = FolderDB(
-    base_path=str(job_path),
-    base_metadata="metadata.json",
-)
-```
-
-The application dynamically discovers tables using:
-
-```python
-db.tables.keys()
-```
-
-Therefore, tables are **not hardcoded** in the application.
-
-For example, if DbMeta discovers:
+The metadata contains sections such as:
 
 ```text
 pipeline
@@ -253,213 +302,58 @@ data_quality
 spark
 ```
 
-the application automatically works with those tables.
-
-If another table is added later, it can be discovered without modifying the table list.
-
----
-
-# DbMeta Query Example
-
-To retrieve recent runs:
-
-```sql
-SELECT iid,
-       status,
-       failure_reason,
-       start_time,
-       duration_sec
-FROM execution
-ORDER BY start_time DESC
-LIMIT 5
-```
-
-DbMeta returns the query result as rows.
-
-The adapter materializes the result using:
-
-```python
-db.sql(sql).all()
-```
-
----
-
-# AI Copilot
-
-The Copilot operates at the **job level**.
+DbMeta converts these sections into queryable tables.
 
 For example:
 
 ```text
-SCAL_LABS_PIPELINE
-│
-├── Recent Runs
-│
-├── Failed Runs
-│
-└── Copilot
+execution
 ```
 
-A user can ask:
+can contain:
 
 ```text
-Why did the latest run fail?
+iid
+run_id
+status
+start_time
+end_time
+duration_sec
+failure_reason
 ```
-
-The system performs:
-
-```text
-Question
-   ↓
-LLM generates SQL
-   ↓
-SQL validation
-   ↓
-DbMeta
-   ↓
-Result
-   ↓
-LLM explanation
-```
-
-The generated SQL is also displayed in the UI so that the user can inspect what the Copilot queried.
 
 ---
 
-# SQL Safety
+# DbMeta Adapter
 
-The Copilot is restricted to read-only SQL.
+`dbmeta_adapter.py` provides a small interface over DbMeta.
 
-The application blocks operations such as:
-
-```text
-INSERT
-UPDATE
-DELETE
-DROP
-ALTER
-CREATE
-TRUNCATE
-MERGE
-```
-
-The generated query must:
-
-```text
-START WITH SELECT
-```
-
-and only reference tables available through:
+Main functions:
 
 ```python
-db.tables.keys()
+list_jobs()
+list_runs()
+get_db()
+get_tables()
+query()
+get_run()
+get_recent_runs()
+get_failed_runs()
+get_job_summary()
+get_table_sample()
 ```
 
-The application also checks the tables referenced in:
-
-```sql
-FROM
-JOIN
-```
-
-against the actual DbMeta tables.
-
----
-
-# Root Cause Analysis
-
-RCA is generated for an individual failed run.
-
-The RCA process uses:
-
-```text
-DbMeta Metadata
-+
-error.log
-```
-
-The LLM generates:
-
-```json
-{
-    "error": "Observed error",
-    "root_cause": "Likely root cause",
-    "evidence": [
-        "Evidence from metadata or error log"
-    ],
-    "fix": "Recommended fix"
-}
-```
-
-The result is stored in:
-
-```text
-RUN_xxx/rca_analysis.json
-```
-
----
-
-# RCA Caching
-
-RCA results are cached.
-
-For example:
-
-```text
-RUN_087/
-├── metadata.json
-├── execution.log
-├── error.log
-└── rca_analysis.json
-```
-
-If `rca_analysis.json` already exists:
-
-```text
-Streamlit
-    ↓
-Load cached RCA
-    ↓
-No LLM call
-```
-
-If it does not exist:
-
-```text
-Streamlit
-    ↓
-Read error.log
-    ↓
-Read DbMeta metadata
-    ↓
-LLM
-    ↓
-Save rca_analysis.json
-```
-
-This avoids repeatedly calling the LLM for the same run.
+The adapter dynamically discovers tables instead of maintaining a hardcoded table list.
 
 ---
 
 # LLM Configuration
 
-The project uses `langchain-openai` with an **OpenAI-compatible API**.
+The application uses an OpenAI-compatible API.
 
-This allows providers such as xAI/Grok and other compatible providers to be configured without changing the application code.
+The current configuration supports providers such as xAI/Grok and other OpenAI-compatible endpoints.
 
-The LLM configuration is centralized in:
-
-```text
-llm.py
-```
-
----
-
-# Environment Configuration
-
-Create a `.env` file in the project root.
-
-## API Key Directly in `.env`
+`.env`:
 
 ```env
 DATA_ROOT=./jobs
@@ -471,395 +365,95 @@ LLM_MODEL=grok-4
 LLM_API_KEY_PATH=
 ```
 
----
-
-## API Key From File
-
-Alternatively:
+Alternatively, the API key can be stored in a file:
 
 ```env
-DATA_ROOT=./jobs
-
-LLM_API_KEY=
 LLM_API_KEY_PATH=./secrets/grok_api_key.txt
-
-LLM_BASE_URL=https://api.x.ai/v1
-LLM_MODEL=grok-4
 ```
 
-Then:
+Do not commit API keys to Git.
+
+---
+
+# RCA Flow
+
+The RCA engine is implemented in:
 
 ```text
-secrets/
-└── grok_api_key.txt
+rca.py
 ```
 
-contains only:
+Flow:
 
 ```text
-your-api-key
+RUN
+ │
+ ▼
+Check rca_analysis.json
+ │
+ ├── Exists
+ │      ↓
+ │    Load cached RCA
+ │
+ └── Missing
+        ↓
+     Read error.log
+        ↓
+     Send to LLM
+        ↓
+     Generate RCA
+        ↓
+     Save rca_analysis.json
+```
+
+Example output:
+
+```json
+{
+  "error": "Executor lost due to memory pressure",
+  "root_cause": "Spark executor memory exhaustion",
+  "evidence": [
+    "Executor reported out-of-memory error",
+    "Job processed a large partition"
+  ],
+  "fix": "Increase executor memory and investigate partition distribution"
+}
 ```
 
 ---
 
-# Installation
+# Copilot Investigation Flow
 
-Create and activate your virtual environment.
-
-Then install the dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Requirements
+The Copilot is implemented in:
 
 ```text
-dbmeta
-langchain-core
-langchain-openai
-openai
-streamlit
-python-dotenv
+copilot.py
 ```
 
----
-
-# Running the Application
-
-From the project root:
-
-```bash
-streamlit run streamlit.py
-```
-
-The application will open in Streamlit.
-
----
-
-# Application Flow
-
-## Home
+The workflow is intentionally simple.
 
 ```text
-AI Data Engineering Copilot
-
-Jobs
-
-SCAL_LABS_PIPELINE
-HR_DATA_PLATFORM
-SALES_DATA_PLATFORM
-FINANCE_DATA_PLATFORM
-CUSTOMER_360_PIPELINE
-```
-
-Select a job.
-
----
-
-## Job Page
-
-The job page displays:
-
-```text
-SCAL_LABS_PIPELINE
-
-Total Runs     Successful     Failed     Other
-    100             82           18         0
-```
-
-Then:
-
-```text
-Recent Runs
-
-RUN_100 | FAILED  | DATA_SKEW
-RUN_099 | SUCCESS | SUCCESS
-RUN_098 | FAILED  | OOM
-...
-```
-
-The user can select any run.
-
----
-
-# Run Page
-
-Each run contains four sections:
-
-```text
-Metadata
-Execution Log
-Error Log
-RCA
-```
-
-### Metadata
-
-Displays the structured information retrieved from DbMeta.
-
-### Execution Log
-
-Displays:
-
-```text
-execution.log
-```
-
-### Error Log
-
-Displays:
-
-```text
-error.log
-```
-
-### RCA
-
-Displays either:
-
-```text
-Cached RCA
-```
-
-or allows:
-
-```text
-Generate RCA
-```
-
----
-
-# Example Copilot Questions
-
-The Copilot can answer questions such as:
-
-### Run Investigation
-
-```text
-Why did the latest run fail?
-```
-
-```text
-What happened in RUN_087?
-```
-
-```text
-Show the last 5 failed runs.
-```
-
-### Performance
-
-```text
-Which runs took the longest?
-```
-
-```text
-Show runs that took more than 300 seconds.
-```
-
-### Failure Analysis
-
-```text
-What failure reasons occurred recently?
-```
-
-```text
-Show all failed runs caused by DATA_SKEW.
-```
-
-### Pipeline History
-
-```text
-Show the latest successful run.
-```
-
-```text
-How many runs failed?
-```
-
-```text
-What is the execution history of this pipeline?
-```
-
----
-
-# Design Principles
-
-## 1. DbMeta is the Source of Truth
-
-Structured pipeline information comes from DbMeta.
-
-```text
-DbMeta
+Question
    ↓
-Structured metadata
+Generate Investigation Plan
+   ↓
+Generate 1–5 SQL queries
+   ↓
+Validate SQL
+   ↓
+Execute SQL
+   ↓
+Detect RCA requirement
+   ↓
+Load / Generate RCA
+   ↓
+Combine Evidence
+   ↓
+Generate Final Answer
 ```
 
 ---
 
-## 2. Logs Stay as Files
+# Investigation Plan
 
-Logs are not forced into DbMeta.
-
-```text
-execution.log
-error.log
-```
-
-remain normal files.
-
----
-
-## 3. LLM Does Reasoning
-
-The LLM does not become the database.
-
-Instead:
-
-```text
-LLM
- ↓
-SQL
- ↓
-DbMeta
-```
-
-The actual data comes from DbMeta.
-
----
-
-## 4. RCA Is Cached
-
-Once RCA is generated:
-
-```text
-rca_analysis.json
-```
-
-is reused.
-
----
-
-## 5. Dynamic Tables
-
-The application discovers tables using:
-
-```python
-db.tables.keys()
-```
-
-instead of maintaining a manual table list.
-
----
-
-## 6. Provider Independent
-
-The application does not directly depend on an xAI-specific SDK.
-
-LLM configuration is controlled through:
-
-```env
-LLM_API_KEY
-LLM_BASE_URL
-LLM_MODEL
-```
-
----
-
-# Security
-
-Do not commit API keys.
-
-The following files/directories are ignored:
-
-```text
-.env
-secrets/
-*_api_key.txt
-*.key
-*.pem
-```
-
-Keep secrets outside Git.
-
-Example:
-
-```text
-secrets/
-└── grok_api_key.txt
-```
-
-and make sure `secrets/` is included in `.gitignore`.
-
----
-
-# Future Improvements
-
-Possible future enhancements:
-
-* Dynamic DbMeta column/schema discovery
-* Failure trend visualization
-* Pipeline performance dashboards
-* Failure-pattern detection
-* Automatic RCA generation after failed runs
-* Run comparison
-* Spark resource analysis
-* Data-quality trend analysis
-* Pipeline dependency analysis
-* Historical RCA search
-* Export RCA reports
-* Authentication and role-based access
-* Additional LLM providers
-
----
-
-# Technology Stack
-
-| Component       | Technology                              |
-| --------------- | --------------------------------------- |
-| UI              | Streamlit                               |
-| Structured Data | DbMeta                                  |
-| LLM Integration | LangChain OpenAI-compatible             |
-| LLM             | Configurable OpenAI-compatible provider |
-| Configuration   | python-dotenv                           |
-| Language        | Python                                  |
-| Logs            | Filesystem                              |
-| RCA Cache       | JSON                                    |
-
----
-
-# Summary
-
-The AI Data Engineering Copilot provides a simple interface for investigating data pipeline executions.
-
-The core architecture is:
-
-```text
-                 AI Data Engineering Copilot
-                           │
-             ┌─────────────┴─────────────┐
-             │                           │
-          DbMeta                      Files
-             │                           │
-      Structured Data              Logs / RCA
-             │                           │
-             └─────────────┬─────────────┘
-                           │
-                          LLM
-                           │
-              ┌────────────┴────────────┐
-              │                         │
-            RCA                     Copilot
-              │                         │
-       Root Cause                  SQL + Answer
-```
-
-The goal is not to create a complex autonomous agent.
-
-The goal is to provide a **simple, transparent, and practical AI assistant for data engineering operations**.
-
-```
-```
+The LLM generates a structure similar to:

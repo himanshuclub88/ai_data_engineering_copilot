@@ -1,310 +1,60 @@
-import json
-import re
-
+import json, re
+from pathlib import Path
 from langchain_core.prompts import ChatPromptTemplate
-
 from dbmeta_adapter import query, get_tables
-from agent_moudle import get_llm
+from llm import get_llm
+from rca import generate_rca, load_rca
 
+PLAN_PROMPT = ChatPromptTemplate.from_messages([
+    ("system", 'You are a data-engineering investigation planner. Return ONLY JSON: {"queries":[{"purpose":"...","sql":"..."}],"run_ids":[],"needs_rca":false}. Generate 1-5 focused SELECT queries using only the supplied DbMeta tables. Subqueries are allowed. Put explicit RUN_ IDs in run_ids. Set needs_rca=true for questions about failure cause, RCA, errors, root cause, or failure evidence.'),
+    ("human", "Tables: {tables}\nQuestion: {question}")
+])
+ANSWER_PROMPT = ChatPromptTemplate.from_messages([
+    ("system", "Answer only from the supplied evidence. Explain facts, cite run IDs/query evidence, use RCA when present, and state uncertainty instead of inventing details."),
+    ("human", "Question: {question}\nEvidence:\n{evidence}")
+])
 
-SQL_PROMPT = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            """
-You are a SQL generator for a data engineering pipeline database.
+def _text(x): return x.content if hasattr(x, "content") else str(x)
 
-The database is DbMeta.
+def _json(text):
+    text = _text(text).strip().replace("```json", "").replace("```", "").strip()
+    try: return json.loads(text)
+    except json.JSONDecodeError:
+        a, b = text.find("{"), text.rfind("}")
+        if a >= 0 and b > a: return json.loads(text[a:b + 1])
+        raise
 
-AVAILABLE TABLES:
-
-{schema}
-
-Generate exactly ONE read-only SELECT statement.
-
-Rules:
-
-1. Only SELECT is allowed.
-2. Use only tables shown in AVAILABLE TABLES.
-3. Do not use:
-   INSERT
-   UPDATE
-   DELETE
-   DROP
-   ALTER
-   CREATE
-   TRUNCATE
-   MERGE
-4. Do not generate multiple SQL statements.
-5. Prefer simple SQL.
-6. Do not invent table names.
-7. Do not invent column names.
-8. If the question asks for latest records, use ORDER BY start_time DESC when appropriate.
-9. Return ONLY SQL.
-10. Do not use markdown code fences.
-
-Example:
-
-Question:
-Show the latest 5 failed runs.
-
-SQL:
-SELECT iid, status, failure_reason, start_time, duration_sec
-FROM execution
-WHERE status = 'FAILED'
-ORDER BY start_time DESC
-LIMIT 5
-""",
-        ),
-        (
-            "human",
-            "Question: {question}",
-        ),
-    ]
-)
-
-
-ANSWER_PROMPT = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            """
-You are an AI data engineering copilot.
-
-Answer the user's question using ONLY the DbMeta result.
-
-Rules:
-
-- Do not invent values.
-- Do not assume information that is not in the result.
-- If the result is empty, say that no matching data was found.
-- Explain the result in practical data-engineering language.
-- Mention run IDs, failure reasons, timings, or metrics when useful.
-- Do not claim that you inspected logs unless the result contains log information.
-""",
-        ),
-        (
-            "human",
-            """
-USER QUESTION:
-
-{question}
-
-SQL:
-
-{sql}
-
-DBMETA RESULT:
-
-{result}
-""",
-        ),
-    ]
-)
-
-
-BLOCKED_SQL = re.compile(
-    r"\b("
-    r"insert|"
-    r"update|"
-    r"delete|"
-    r"drop|"
-    r"alter|"
-    r"create|"
-    r"truncate|"
-    r"replace|"
-    r"merge"
-    r")\b",
-    re.IGNORECASE,
-)
-
-
-def build_schema(db):
-    """
-    Build a dynamic schema description from DbMeta.
-
-    We don't hardcode table names.
-    """
-
-    tables = get_tables(db)
-
-    lines = []
-
-    for table_name in tables:
-        lines.append(
-            f"- {table_name}"
-        )
-
-    return "\n".join(lines)
-
-
-def clean_sql(sql):
-    """
-    Clean and validate LLM-generated SQL.
-    """
-
-    if not sql:
-        raise ValueError(
-            "LLM returned empty SQL."
-        )
-
-    sql = sql.strip()
-
-    if sql.startswith("```"):
-        sql = re.sub(
-            r"^```(?:sql)?\s*",
-            "",
-            sql,
-            flags=re.IGNORECASE,
-        )
-
-        sql = re.sub(
-            r"\s*```$",
-            "",
-            sql,
-        )
-
-    sql = sql.strip()
-
-    if sql.endswith(";"):
-        sql = sql[:-1].strip()
-
-    if ";" in sql:
-        raise ValueError(
-            "Only one SQL statement is allowed."
-        )
-
-    if not sql.lower().startswith("select "):
-        raise ValueError(
-            "Copilot generated a non-SELECT statement."
-        )
-
-    if BLOCKED_SQL.search(sql):
-        raise ValueError(
-            "Copilot generated a blocked SQL operation."
-        )
-
+def _safe_sql(sql, db):
+    sql = sql.strip().replace("```sql", "").replace("```", "").strip().rstrip(";")
+    if not re.match(r"^SELECT\b", sql, re.I): raise ValueError("Only SELECT statements are allowed.")
+    if ";" in sql or re.search(r"\b(INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|TRUNCATE|REPLACE|MERGE)\b", sql, re.I): raise ValueError("Unsafe SQL detected.")
+    tables = {t.lower() for t in get_tables(db)}
+    used = re.findall(r"\b(?:FROM|JOIN)\s+([A-Za-z_][\w]*)", sql, re.I)
+    bad = [t for t in used if t.lower() not in tables]
+    if bad: raise ValueError(f"Unknown DbMeta table(s): {', '.join(bad)}")
     return sql
 
+def _plan(db, question):
+    plan = _json(get_llm().invoke(PLAN_PROMPT.format_messages(tables=", ".join(get_tables(db)), question=question)))
+    plan["queries"] = plan.get("queries", [])[:5]
+    plan["run_ids"] = plan.get("run_ids", [])
+    plan["needs_rca"] = bool(plan.get("needs_rca"))
+    return plan
 
-def validate_tables(sql, db):
-    """
-    Make sure every FROM/JOIN table exists in DbMeta.
+def _run_queries(db, queries):
+    out = []
+    for i, q in enumerate(queries, 1):
+        try:
+            sql = _safe_sql(q.get("sql", ""), db); out.append({"id": i, "purpose": q.get("purpose", ""), "sql": sql, "result": query(db, sql)})
+        except Exception as e: out.append({"id": i, "purpose": q.get("purpose", ""), "sql": q.get("sql", ""), "error": str(e)})
+    return out
 
-    This is a second safety layer after the LLM.
-    """
+def _run_rcas(job_path, run_ids):
+    return [{"run_id": rid, "rca": load_rca(Path(job_path) / rid) or generate_rca(Path(job_path) / rid, rid, Path(job_path).name)} for rid in run_ids]
 
-    available = {
-        table.lower()
-        for table in get_tables(db)
-    }
-
-    referenced = re.findall(
-        r"\b(?:FROM|JOIN)\s+([A-Za-z_][A-Za-z0-9_]*)",
-        sql,
-        flags=re.IGNORECASE,
-    )
-
-    for table_name in referenced:
-        if table_name.lower() not in available:
-            raise ValueError(
-                f"SQL references unknown table: {table_name}"
-            )
-
-
-def generate_sql(db, question):
-    """
-    Ask the LLM to generate one SELECT query.
-    """
-
-    schema = build_schema(db)
-
-    messages = SQL_PROMPT.format_messages(
-        schema=schema,
-        question=question,
-    )
-
-    response = get_llm().invoke(messages)
-
-    sql = clean_sql(
-        response.content
-    )
-
-    validate_tables(
-        sql,
-        db,
-    )
-
-    return sql
-
-
-def generate_answer(
-    question,
-    sql,
-    result,
-):
-    """
-    Ask the LLM to explain the DbMeta result.
-    """
-
-    messages = ANSWER_PROMPT.format_messages(
-        question=question,
-        sql=sql,
-        result=json.dumps(
-            result,
-            indent=2,
-            default=str,
-        ),
-    )
-
-    response = get_llm().invoke(messages)
-
-    return str(
-        response.content
-    ).strip()
-
-
-def ask_copilot(db, question):
-    """
-    Complete Copilot flow:
-
-    User question
-        ↓
-    LLM generates SQL
-        ↓
-    SQL validation
-        ↓
-    DbMeta execution
-        ↓
-    LLM explains result
-    """
-
-    question = question.strip()
-
-    if not question:
-        raise ValueError(
-            "Question cannot be empty."
-        )
-
-    sql = generate_sql(
-        db,
-        question,
-    )
-
-    result = query(
-        db,
-        sql,
-    )
-
-    answer = generate_answer(
-        question,
-        sql,
-        result,
-    )
-
-    return {
-        "question": question,
-        "sql": sql,
-        "result": result,
-        "answer": answer,
-    }
+def ask_copilot(db, question, job_path=None):
+    plan = _plan(db, question); queries = _run_queries(db, plan["queries"])
+    rcas = _run_rcas(job_path, plan["run_ids"]) if job_path and plan["needs_rca"] else []
+    evidence = json.dumps({"queries": queries, "rcas": rcas}, indent=2, default=str)
+    answer = _text(get_llm().invoke(ANSWER_PROMPT.format_messages(question=question, evidence=evidence)))
+    return {"answer": answer, "plan": plan, "queries": queries, "rcas": rcas}
