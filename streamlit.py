@@ -19,7 +19,7 @@ from agent_moudle import get_llm as call_llm
 
 
 
-DATA_ROOT = Path(os.getenv("DATA_ROOT", Path(__file__).resolve().parents[1] / "jobs"))
+DATA_ROOT = Path(os.getenv("DATA_ROOT"))
 
 
 
