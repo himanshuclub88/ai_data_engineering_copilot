@@ -1,0 +1,17 @@
+{
+  "project_dir": "/mnt/data/ai_data_engineering_copilot",
+  "runs_generated": 100,
+  "scenarios": {
+    "SUCCESS": 26,
+    "NULL_SPIKE": 8,
+    "PERMISSION_DENIED": 11,
+    "OUT_OF_MEMORY": 9,
+    "BAD_FILE_FORMAT": 9,
+    "DATA_SKEW": 10,
+    "PARTITION_MISSING": 8,
+    "SOURCE_TIMEOUT": 5,
+    "SCHEMA_MISMATCH": 10,
+    "DUPLICATE_DATA": 4
+  },
+  "example_dbmeta_usage": "FolderDB(base_path=\"data/synthetic_runs\", base_metadata=\"metadata.json\")"
+}
