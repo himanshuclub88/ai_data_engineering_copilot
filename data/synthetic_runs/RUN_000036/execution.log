@@ -1,0 +1,5 @@
+2026-09-11T02:00:00Z INFO Starting pipeline claims_daily_ingestion
+2026-09-11T02:00:00Z INFO Run ID: RUN_000036
+2026-09-11T02:00:00Z INFO Reading source: claims_landing
+2026-09-11T02:00:00Z INFO Expected files: 69
+2026-09-11T02:00:00Z ERROR Required partition was not found

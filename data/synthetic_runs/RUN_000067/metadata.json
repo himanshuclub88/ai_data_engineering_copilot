@@ -1,0 +1,44 @@
+{
+  "pipeline": {
+    "name": "customer_daily_ingestion",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "customer_landing",
+    "target": "customer_delta",
+    "run_id": "RUN_000067"
+  },
+  "execution": {
+    "status": "FAILED",
+    "start_time": "2026-09-17T05:00:00Z",
+    "end_time": "2026-09-17T05:06:40Z",
+    "duration_sec": 400,
+    "failure_reason": "PERMISSION_DENIED"
+  },
+  "input": {
+    "files_expected": 69,
+    "files_read": 69,
+    "rows_in": 14930752,
+    "input_size_gb": 111.09
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 8.48,
+    "cpu_utilization_pct": 74,
+    "shuffle_read_gb": 34.9,
+    "shuffle_write_gb": 37.29
+  },
+  "data_quality": {
+    "schema_valid": true,
+    "null_rate_pct": 0.85,
+    "duplicate_rate_pct": 0.25
+  },
+  "spark": {
+    "executors": 12,
+    "partitions": 400,
+    "shuffle_partitions": 200
+  }
+}

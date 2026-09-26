@@ -1,0 +1,44 @@
+{
+  "pipeline": {
+    "name": "payments_daily_ingestion",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "payments_landing",
+    "target": "payments_delta",
+    "run_id": "RUN_000048"
+  },
+  "execution": {
+    "status": "FAILED",
+    "start_time": "2026-09-23T01:00:00Z",
+    "end_time": "2026-09-23T01:06:12Z",
+    "duration_sec": 372,
+    "failure_reason": "OUT_OF_MEMORY"
+  },
+  "input": {
+    "files_expected": 58,
+    "files_read": 58,
+    "rows_in": 17895939,
+    "input_size_gb": 109.4
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 15.71,
+    "cpu_utilization_pct": 95,
+    "shuffle_read_gb": 62.0,
+    "shuffle_write_gb": 12.57
+  },
+  "data_quality": {
+    "schema_valid": true,
+    "null_rate_pct": 1.42,
+    "duplicate_rate_pct": 0.74
+  },
+  "spark": {
+    "executors": 18,
+    "partitions": 800,
+    "shuffle_partitions": 200
+  }
+}

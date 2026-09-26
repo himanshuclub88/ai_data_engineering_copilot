@@ -1,0 +1,5 @@
+2026-09-04T05:00:00Z INFO Starting pipeline payments_daily_ingestion
+2026-09-04T05:00:00Z INFO Run ID: RUN_000079
+2026-09-04T05:00:00Z INFO Reading source: payments_landing
+2026-09-04T05:00:00Z INFO Connecting to source system
+2026-09-04T05:00:00Z WARN Source response time exceeded threshold

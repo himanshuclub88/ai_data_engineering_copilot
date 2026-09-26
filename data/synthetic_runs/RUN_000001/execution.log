@@ -1,0 +1,7 @@
+2026-09-01T03:00:00Z INFO Starting pipeline customer_daily_ingestion
+2026-09-01T03:00:00Z INFO Run ID: RUN_000001
+2026-09-01T03:00:00Z INFO Reading source: customer_landing
+2026-09-01T03:00:00Z INFO Files discovered: 29
+2026-09-01T03:00:00Z INFO Rows read: 7989709
+2026-09-01T03:07:10Z INFO Rows written: 7985242
+2026-09-01T03:07:10Z INFO Pipeline completed successfully

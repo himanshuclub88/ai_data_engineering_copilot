@@ -1,0 +1,6 @@
+2026-09-23T01:00:00Z INFO Starting pipeline payments_daily_ingestion
+2026-09-23T01:00:00Z INFO Run ID: RUN_000048
+2026-09-23T01:00:00Z INFO Reading source: payments_landing
+2026-09-23T01:00:00Z INFO Rows read: 17895939
+2026-09-23T01:00:00Z INFO Executor memory: 16 GB
+2026-09-23T01:06:12Z ERROR Executor lost during shuffle stage

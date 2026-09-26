@@ -1,0 +1,44 @@
+{
+  "pipeline": {
+    "name": "orders_daily_ingestion",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "orders_landing",
+    "target": "orders_delta",
+    "run_id": "RUN_000065"
+  },
+  "execution": {
+    "status": "FAILED",
+    "start_time": "2026-09-15T04:00:00Z",
+    "end_time": "2026-09-15T04:11:58Z",
+    "duration_sec": 718,
+    "failure_reason": "DUPLICATE_DATA"
+  },
+  "input": {
+    "files_expected": 20,
+    "files_read": 20,
+    "rows_in": 4313437,
+    "input_size_gb": 23.21
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 10.67,
+    "cpu_utilization_pct": 77,
+    "shuffle_read_gb": 49.52,
+    "shuffle_write_gb": 24.24
+  },
+  "data_quality": {
+    "schema_valid": true,
+    "null_rate_pct": 0.63,
+    "duplicate_rate_pct": 18.94
+  },
+  "spark": {
+    "executors": 20,
+    "partitions": 400,
+    "shuffle_partitions": 400
+  }
+}

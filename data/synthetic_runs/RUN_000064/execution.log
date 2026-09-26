@@ -1,0 +1,6 @@
+2026-09-14T02:00:00Z INFO Starting pipeline customer_daily_ingestion
+2026-09-14T02:00:00Z INFO Run ID: RUN_000064
+2026-09-14T02:00:00Z INFO Reading source: customer_landing
+2026-09-14T02:00:00Z INFO Files discovered: 44
+2026-09-14T02:00:00Z INFO Validating source schema
+2026-09-14T02:00:00Z ERROR Schema validation failed

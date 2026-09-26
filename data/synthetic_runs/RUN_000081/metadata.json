@@ -1,0 +1,44 @@
+{
+  "pipeline": {
+    "name": "claims_daily_ingestion",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "claims_landing",
+    "target": "claims_delta",
+    "run_id": "RUN_000081"
+  },
+  "execution": {
+    "status": "SUCCESS",
+    "start_time": "2026-09-06T05:00:00Z",
+    "end_time": "2026-09-06T05:04:35Z",
+    "duration_sec": 275,
+    "failure_reason": null
+  },
+  "input": {
+    "files_expected": 77,
+    "files_read": 77,
+    "rows_in": 14707160,
+    "input_size_gb": 70.73
+  },
+  "output": {
+    "rows_out": 14704190,
+    "output_size_gb": 47.58
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 11.71,
+    "cpu_utilization_pct": 66,
+    "shuffle_read_gb": 76.08,
+    "shuffle_write_gb": 25.85
+  },
+  "data_quality": {
+    "schema_valid": true,
+    "null_rate_pct": 0.64,
+    "duplicate_rate_pct": 0.11
+  },
+  "spark": {
+    "executors": 6,
+    "partitions": 400,
+    "shuffle_partitions": 200
+  }
+}

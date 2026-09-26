@@ -1,0 +1,7 @@
+2026-09-09T05:00:00Z INFO Starting pipeline orders_daily_ingestion
+2026-09-09T05:00:00Z INFO Run ID: RUN_000034
+2026-09-09T05:00:00Z INFO Reading source: orders_landing
+2026-09-09T05:00:00Z INFO Files discovered: 25
+2026-09-09T05:00:00Z INFO Rows read: 8648673
+2026-09-09T05:14:47Z INFO Rows written: 8646203
+2026-09-09T05:14:47Z INFO Pipeline completed successfully

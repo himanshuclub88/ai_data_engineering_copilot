@@ -1,0 +1,7 @@
+2026-09-07T04:00:00Z INFO Starting pipeline claims_daily_ingestion
+2026-09-07T04:00:00Z INFO Run ID: RUN_000032
+2026-09-07T04:00:00Z INFO Reading source: claims_landing
+2026-09-07T04:00:00Z INFO Files discovered: 18
+2026-09-07T04:00:00Z INFO Rows read: 18599899
+2026-09-07T04:03:19Z INFO Rows written: 18597033
+2026-09-07T04:03:19Z INFO Pipeline completed successfully

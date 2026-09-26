@@ -1,0 +1,5 @@
+2026-09-17T05:00:00Z INFO Starting pipeline customer_daily_ingestion
+2026-09-17T05:00:00Z INFO Run ID: RUN_000017
+2026-09-17T05:00:00Z INFO Reading source: customer_landing
+2026-09-17T05:00:00Z INFO Accessing source path customer_landing
+2026-09-17T05:00:00Z ERROR Access denied

@@ -1,0 +1,5 @@
+2026-09-19T05:00:00Z INFO Starting pipeline customer_daily_ingestion
+2026-09-19T05:00:00Z INFO Run ID: RUN_000019
+2026-09-19T05:00:00Z INFO Reading source: customer_landing
+2026-09-19T05:00:00Z INFO Expected files: 67
+2026-09-19T05:00:00Z ERROR Required partition was not found

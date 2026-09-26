@@ -1,0 +1,1 @@
+2026-09-07T01:12:39Z ERROR SCHEMA_MISMATCH: Expected 24 columns but received 27. Unexpected columns: customer_segment, legacy_code, temp_flag.
