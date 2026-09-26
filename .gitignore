@@ -53,7 +53,15 @@ logs/
 # =========================
 # Local / Runtime Data
 # =========================
-# data/
+data/*
+!data/synthetic_runs/
+!data/synthetic_runs/**
+
+# Ignore other local data
+data/raw/
+data/processed/
+data/tmp/
+
 tmp/
 temp/
 .cache/
