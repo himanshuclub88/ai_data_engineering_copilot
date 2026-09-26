@@ -457,3 +457,389 @@ Generate Final Answer
 # Investigation Plan
 
 The LLM generates a structure similar to:
+
+```json
+{
+  "queries": [
+    {
+      "purpose": "Find recent failed runs",
+      "sql": "SELECT ..."
+    },
+    {
+      "purpose": "Find failure reason distribution",
+      "sql": "SELECT ..."
+    }
+  ],
+  "run_ids": [
+    "RUN_087"
+  ],
+  "needs_rca": true
+}
+```
+
+The Python code then executes the plan.
+
+The LLM does **not** directly control the database.
+
+---
+
+# Example Questions
+
+The Copilot can answer questions such as:
+
+### Failure Analysis
+
+```text
+Why are failures increasing?
+```
+
+```text
+What is the most common failure reason?
+```
+
+```text
+Show me recent failed runs.
+```
+
+### RCA
+
+```text
+Why did RUN_087 fail?
+```
+
+```text
+What caused the DATA_SKEW failure?
+```
+
+```text
+Give me the root cause of the latest failure.
+```
+
+### Historical Analysis
+
+```text
+Which failure reason occurred most frequently?
+```
+
+```text
+Compare recent failures with older failures.
+```
+
+```text
+Which runs had the longest duration?
+```
+
+### Data Quality
+
+```text
+Are recent failures related to data quality?
+```
+
+```text
+Which runs had null spikes?
+```
+
+---
+
+# Streamlit UI
+
+The application has three main levels.
+
+```text
+Home
+ │
+ ├── Job 1
+ ├── Job 2
+ ├── Job 3
+ └── ...
+```
+
+Selecting a job:
+
+```text
+Job
+ │
+ ├── Summary
+ ├── DbMeta Tables
+ ├── Recent Runs
+ ├── Copilot
+ └── Open Run
+```
+
+Selecting a run:
+
+```text
+Run
+ │
+ ├── Metadata
+ ├── Execution Log
+ ├── Error Log
+ └── RCA
+```
+
+---
+
+# Copilot UI
+
+The job page provides a Copilot input.
+
+Example:
+
+```text
+Ask about this pipeline:
+
+Why are failures increasing?
+```
+
+The UI displays:
+
+```text
+Final Answer
+────────────
+
+...
+
+Investigation Plan
+──────────────────
+
+...
+
+SQL 1
+─────
+SELECT ...
+
+Result
+...
+
+SQL 2
+─────
+SELECT ...
+
+Result
+...
+
+RCA — RUN_087
+─────────────
+
+Root Cause
+...
+
+Evidence
+...
+
+Fix
+...
+```
+
+This makes the investigation transparent instead of hiding the generated SQL and evidence.
+
+---
+
+# Installation
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows:
+
+```powershell
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# Environment Setup
+
+Copy:
+
+```text
+.env.example
+```
+
+to:
+
+```text
+.env
+```
+
+Configure:
+
+```env
+DATA_ROOT=./jobs
+LLM_API_KEY=your-api-key
+LLM_BASE_URL=https://api.x.ai/v1
+LLM_MODEL=grok-4
+```
+
+---
+
+# Run the Application
+
+From the project directory:
+
+```bash
+streamlit run streamlit.py
+```
+
+The application opens the Streamlit interface.
+
+---
+
+# Design Principles
+
+The project intentionally follows a simple architecture.
+
+### No LangGraph
+
+The project does not require a graph-based agent framework.
+
+### No Custom Agent Classes
+
+The workflow is implemented using small Python functions.
+
+### LangChain Core
+
+LangChain Core is used for:
+
+* Prompt templates
+* LLM invocation
+
+### Python Controls Execution
+
+The LLM generates the investigation plan, but Python controls:
+
+* SQL validation
+* Database execution
+* RCA generation
+* File access
+* Evidence collection
+
+### Compact Code
+
+The implementation intentionally keeps functions small and compact.
+
+The goal is:
+
+```text
+Simple
+Readable
+Debuggable
+Extendable
+```
+
+rather than introducing unnecessary abstractions.
+
+---
+
+# Security Considerations
+
+Never commit:
+
+```text
+.env
+API keys
+secrets/
+```
+
+The `.gitignore` already excludes common secret files.
+
+SQL execution is restricted to read-only `SELECT` statements.
+
+The Copilot also validates referenced DbMeta tables before execution.
+
+---
+
+# Future Improvements
+
+Possible future additions include:
+
+```text
+Column-level schema discovery
+        ↓
+Better SQL validation
+        ↓
+Failure pattern detection
+        ↓
+RCA history search
+        ↓
+Run-to-run comparison
+        ↓
+Data-quality trend analysis
+        ↓
+Automated remediation suggestions
+```
+
+Another useful improvement would be allowing Copilot to compare two specific runs:
+
+```text
+Compare RUN_087 with RUN_092.
+Why did one succeed while the other failed?
+```
+
+This could combine:
+
+```text
+metadata
+execution
+data quality
+spark metrics
+logs
+RCA
+```
+
+into one investigation.
+
+---
+
+# Technology Stack
+
+| Component       | Technology            |
+| --------------- | --------------------- |
+| UI              | Streamlit             |
+| Metadata Query  | DbMeta                |
+| LLM Framework   | LangChain Core        |
+| LLM Interface   | OpenAI-compatible API |
+| LLM             | Configurable          |
+| Language        | Python                |
+| Structured Data | JSON                  |
+| RCA Storage     | JSON                  |
+| SQL             | DbMeta SQL            |
+
+---
+
+# Summary
+
+The AI Data Engineering Copilot provides a simple interface for investigating pipeline executions.
+
+Its core workflow is:
+
+```text
+User Question
+      ↓
+Investigation Planning
+      ↓
+Multiple SQL Queries
+      ↓
+DbMeta Results
+      ↓
+RCA / Logs
+      ↓
+Combined Evidence
+      ↓
+LLM Reasoning
+      ↓
+Engineering Answer
+```
+
+The main goal is not simply to generate SQL.
+
+The goal is to help a data engineer **investigate why a pipeline behaved the way it did**, using structured metadata, historical executions, logs, and RCA evidence together.
