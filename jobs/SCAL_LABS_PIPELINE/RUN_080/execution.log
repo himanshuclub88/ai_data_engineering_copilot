@@ -1,0 +1,10 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_080
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=4659245
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=17.37 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Null rate exceeded threshold: 26.8%.
+NULL_SPIKE detected.

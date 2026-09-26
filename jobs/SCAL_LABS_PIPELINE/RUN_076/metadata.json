@@ -1,0 +1,47 @@
+{
+  "pipeline": {
+    "name": "scal_labs_customer_ingestion",
+    "job_name": "SCAL_LABS_PIPELINE",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "scal_labs_landing",
+    "target": "scal_labs_delta"
+  },
+  "execution": {
+    "run_id": "RUN_076",
+    "status": "FAILED",
+    "start_time": "2026-11-15T01:00:00",
+    "end_time": "2026-11-15T01:21:42",
+    "duration_sec": 1302,
+    "failure_reason": "DATA_SKEW"
+  },
+  "input": {
+    "files_expected": 59,
+    "files_read": 59,
+    "rows_in": 14694096,
+    "input_size_gb": 113.17
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 7.43,
+    "cpu_utilization_pct": 48.21,
+    "shuffle_read_gb": 220.78,
+    "shuffle_write_gb": 110.39
+  },
+  "data_quality": {
+    "null_rate_pct": 1.83,
+    "duplicate_rate_pct": 1.9,
+    "schema_valid": true
+  },
+  "spark": {
+    "executors": 8,
+    "partitions": 100,
+    "shuffle_partitions": 800,
+    "largest_partition_mb": 2820,
+    "average_partition_mb": 333
+  }
+}

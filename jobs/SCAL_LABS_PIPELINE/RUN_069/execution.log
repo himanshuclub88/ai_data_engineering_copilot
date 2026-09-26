@@ -1,0 +1,13 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_069
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=22439225
+[INFO] Executor memory=16 GB
+[INFO] Shuffle read=208.98 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+ExecutorLostFailure: executor exited unexpectedly.
+Executor memory configured: 16 GB
+Peak executor memory observed: 16.09 GB
+java.lang.OutOfMemoryError: Java heap space
+Executor lost during shuffle processing.

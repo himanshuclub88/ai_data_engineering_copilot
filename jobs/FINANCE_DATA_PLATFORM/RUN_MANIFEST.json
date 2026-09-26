@@ -1,0 +1,702 @@
+[
+  {
+    "run_id": "RUN_001",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_001/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_001/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_001/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_001/audit.json"
+  },
+  {
+    "run_id": "RUN_002",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_002/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_002/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_002/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_002/audit.json"
+  },
+  {
+    "run_id": "RUN_003",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_003/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_003/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_003/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_003/audit.json"
+  },
+  {
+    "run_id": "RUN_004",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_004/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_004/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_004/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_004/audit.json"
+  },
+  {
+    "run_id": "RUN_005",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_005/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_005/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_005/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_005/audit.json"
+  },
+  {
+    "run_id": "RUN_006",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_006/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_006/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_006/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_006/audit.json"
+  },
+  {
+    "run_id": "RUN_007",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_007/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_007/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_007/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_007/audit.json"
+  },
+  {
+    "run_id": "RUN_008",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_008/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_008/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_008/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_008/audit.json"
+  },
+  {
+    "run_id": "RUN_009",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_009/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_009/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_009/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_009/audit.json"
+  },
+  {
+    "run_id": "RUN_010",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_010/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_010/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_010/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_010/audit.json"
+  },
+  {
+    "run_id": "RUN_011",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_011/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_011/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_011/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_011/audit.json"
+  },
+  {
+    "run_id": "RUN_012",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_012/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_012/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_012/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_012/audit.json"
+  },
+  {
+    "run_id": "RUN_013",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_013/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_013/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_013/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_013/audit.json"
+  },
+  {
+    "run_id": "RUN_014",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_014/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_014/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_014/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_014/audit.json"
+  },
+  {
+    "run_id": "RUN_015",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_015/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_015/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_015/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_015/audit.json"
+  },
+  {
+    "run_id": "RUN_016",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_016/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_016/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_016/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_016/audit.json"
+  },
+  {
+    "run_id": "RUN_017",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_017/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_017/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_017/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_017/audit.json"
+  },
+  {
+    "run_id": "RUN_018",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_018/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_018/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_018/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_018/audit.json"
+  },
+  {
+    "run_id": "RUN_019",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_019/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_019/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_019/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_019/audit.json"
+  },
+  {
+    "run_id": "RUN_020",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_020/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_020/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_020/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_020/audit.json"
+  },
+  {
+    "run_id": "RUN_021",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_021/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_021/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_021/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_021/audit.json"
+  },
+  {
+    "run_id": "RUN_022",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_022/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_022/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_022/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_022/audit.json"
+  },
+  {
+    "run_id": "RUN_023",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_023/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_023/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_023/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_023/audit.json"
+  },
+  {
+    "run_id": "RUN_024",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_024/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_024/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_024/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_024/audit.json"
+  },
+  {
+    "run_id": "RUN_025",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_025/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_025/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_025/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_025/audit.json"
+  },
+  {
+    "run_id": "RUN_026",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_026/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_026/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_026/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_026/audit.json"
+  },
+  {
+    "run_id": "RUN_027",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_027/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_027/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_027/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_027/audit.json"
+  },
+  {
+    "run_id": "RUN_028",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_028/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_028/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_028/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_028/audit.json"
+  },
+  {
+    "run_id": "RUN_029",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_029/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_029/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_029/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_029/audit.json"
+  },
+  {
+    "run_id": "RUN_030",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_030/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_030/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_030/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_030/audit.json"
+  },
+  {
+    "run_id": "RUN_031",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_031/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_031/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_031/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_031/audit.json"
+  },
+  {
+    "run_id": "RUN_032",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_032/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_032/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_032/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_032/audit.json"
+  },
+  {
+    "run_id": "RUN_033",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_033/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_033/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_033/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_033/audit.json"
+  },
+  {
+    "run_id": "RUN_034",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_034/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_034/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_034/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_034/audit.json"
+  },
+  {
+    "run_id": "RUN_035",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_035/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_035/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_035/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_035/audit.json"
+  },
+  {
+    "run_id": "RUN_036",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_036/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_036/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_036/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_036/audit.json"
+  },
+  {
+    "run_id": "RUN_037",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_037/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_037/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_037/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_037/audit.json"
+  },
+  {
+    "run_id": "RUN_038",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_038/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_038/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_038/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_038/audit.json"
+  },
+  {
+    "run_id": "RUN_039",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_039/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_039/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_039/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_039/audit.json"
+  },
+  {
+    "run_id": "RUN_040",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_040/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_040/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_040/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_040/audit.json"
+  },
+  {
+    "run_id": "RUN_041",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_041/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_041/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_041/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_041/audit.json"
+  },
+  {
+    "run_id": "RUN_042",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_042/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_042/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_042/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_042/audit.json"
+  },
+  {
+    "run_id": "RUN_043",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_043/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_043/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_043/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_043/audit.json"
+  },
+  {
+    "run_id": "RUN_044",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_044/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_044/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_044/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_044/audit.json"
+  },
+  {
+    "run_id": "RUN_045",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_045/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_045/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_045/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_045/audit.json"
+  },
+  {
+    "run_id": "RUN_046",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_046/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_046/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_046/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_046/audit.json"
+  },
+  {
+    "run_id": "RUN_047",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_047/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_047/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_047/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_047/audit.json"
+  },
+  {
+    "run_id": "RUN_048",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_048/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_048/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_048/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_048/audit.json"
+  },
+  {
+    "run_id": "RUN_049",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_049/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_049/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_049/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_049/audit.json"
+  },
+  {
+    "run_id": "RUN_050",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_050/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_050/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_050/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_050/audit.json"
+  },
+  {
+    "run_id": "RUN_051",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_051/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_051/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_051/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_051/audit.json"
+  },
+  {
+    "run_id": "RUN_052",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_052/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_052/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_052/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_052/audit.json"
+  },
+  {
+    "run_id": "RUN_053",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_053/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_053/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_053/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_053/audit.json"
+  },
+  {
+    "run_id": "RUN_054",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_054/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_054/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_054/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_054/audit.json"
+  },
+  {
+    "run_id": "RUN_055",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_055/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_055/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_055/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_055/audit.json"
+  },
+  {
+    "run_id": "RUN_056",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_056/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_056/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_056/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_056/audit.json"
+  },
+  {
+    "run_id": "RUN_057",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_057/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_057/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_057/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_057/audit.json"
+  },
+  {
+    "run_id": "RUN_058",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_058/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_058/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_058/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_058/audit.json"
+  },
+  {
+    "run_id": "RUN_059",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_059/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_059/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_059/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_059/audit.json"
+  },
+  {
+    "run_id": "RUN_060",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_060/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_060/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_060/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_060/audit.json"
+  },
+  {
+    "run_id": "RUN_061",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_061/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_061/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_061/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_061/audit.json"
+  },
+  {
+    "run_id": "RUN_062",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_062/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_062/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_062/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_062/audit.json"
+  },
+  {
+    "run_id": "RUN_063",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_063/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_063/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_063/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_063/audit.json"
+  },
+  {
+    "run_id": "RUN_064",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_064/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_064/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_064/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_064/audit.json"
+  },
+  {
+    "run_id": "RUN_065",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_065/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_065/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_065/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_065/audit.json"
+  },
+  {
+    "run_id": "RUN_066",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_066/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_066/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_066/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_066/audit.json"
+  },
+  {
+    "run_id": "RUN_067",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_067/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_067/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_067/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_067/audit.json"
+  },
+  {
+    "run_id": "RUN_068",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_068/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_068/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_068/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_068/audit.json"
+  },
+  {
+    "run_id": "RUN_069",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_069/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_069/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_069/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_069/audit.json"
+  },
+  {
+    "run_id": "RUN_070",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_070/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_070/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_070/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_070/audit.json"
+  },
+  {
+    "run_id": "RUN_071",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_071/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_071/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_071/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_071/audit.json"
+  },
+  {
+    "run_id": "RUN_072",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_072/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_072/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_072/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_072/audit.json"
+  },
+  {
+    "run_id": "RUN_073",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_073/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_073/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_073/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_073/audit.json"
+  },
+  {
+    "run_id": "RUN_074",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_074/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_074/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_074/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_074/audit.json"
+  },
+  {
+    "run_id": "RUN_075",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_075/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_075/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_075/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_075/audit.json"
+  },
+  {
+    "run_id": "RUN_076",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_076/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_076/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_076/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_076/audit.json"
+  },
+  {
+    "run_id": "RUN_077",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_077/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_077/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_077/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_077/audit.json"
+  },
+  {
+    "run_id": "RUN_078",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_078/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_078/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_078/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_078/audit.json"
+  },
+  {
+    "run_id": "RUN_079",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_079/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_079/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_079/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_079/audit.json"
+  },
+  {
+    "run_id": "RUN_080",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_080/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_080/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_080/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_080/audit.json"
+  },
+  {
+    "run_id": "RUN_081",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_081/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_081/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_081/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_081/audit.json"
+  },
+  {
+    "run_id": "RUN_082",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_082/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_082/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_082/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_082/audit.json"
+  },
+  {
+    "run_id": "RUN_083",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_083/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_083/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_083/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_083/audit.json"
+  },
+  {
+    "run_id": "RUN_084",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_084/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_084/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_084/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_084/audit.json"
+  },
+  {
+    "run_id": "RUN_085",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_085/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_085/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_085/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_085/audit.json"
+  },
+  {
+    "run_id": "RUN_086",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_086/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_086/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_086/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_086/audit.json"
+  },
+  {
+    "run_id": "RUN_087",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_087/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_087/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_087/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_087/audit.json"
+  },
+  {
+    "run_id": "RUN_088",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_088/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_088/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_088/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_088/audit.json"
+  },
+  {
+    "run_id": "RUN_089",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_089/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_089/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_089/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_089/audit.json"
+  },
+  {
+    "run_id": "RUN_090",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_090/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_090/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_090/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_090/audit.json"
+  },
+  {
+    "run_id": "RUN_091",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_091/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_091/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_091/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_091/audit.json"
+  },
+  {
+    "run_id": "RUN_092",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_092/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_092/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_092/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_092/audit.json"
+  },
+  {
+    "run_id": "RUN_093",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_093/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_093/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_093/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_093/audit.json"
+  },
+  {
+    "run_id": "RUN_094",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_094/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_094/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_094/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_094/audit.json"
+  },
+  {
+    "run_id": "RUN_095",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_095/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_095/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_095/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_095/audit.json"
+  },
+  {
+    "run_id": "RUN_096",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_096/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_096/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_096/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_096/audit.json"
+  },
+  {
+    "run_id": "RUN_097",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_097/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_097/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_097/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_097/audit.json"
+  },
+  {
+    "run_id": "RUN_098",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_098/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_098/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_098/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_098/audit.json"
+  },
+  {
+    "run_id": "RUN_099",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_099/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_099/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_099/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_099/audit.json"
+  },
+  {
+    "run_id": "RUN_100",
+    "metadata": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_100/metadata.json",
+    "execution_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_100/execution.log",
+    "error_log": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_100/error.log",
+    "audit": "/mnt/data/ai_data_engineering_copilot_v2/jobs/FINANCE_DATA_PLATFORM/RUN_100/audit.json"
+  }
+]

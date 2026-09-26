@@ -1,0 +1,10 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_017
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=8931579
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=156.99 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Access denied while writing to scal_labs_delta.
+PERMISSION_DENIED detected.

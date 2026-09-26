@@ -1,0 +1,10 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_038
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=8262608
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=134.1 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Access denied while writing to customer_360_delta.
+PERMISSION_DENIED detected.

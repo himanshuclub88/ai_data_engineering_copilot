@@ -1,0 +1,11 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_095
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=5426268
+[INFO] Executor memory=16 GB
+[INFO] Shuffle read=168.56 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Input file format validation failed.
+Bad files detected: 2
+BAD_FILE_FORMAT detected.

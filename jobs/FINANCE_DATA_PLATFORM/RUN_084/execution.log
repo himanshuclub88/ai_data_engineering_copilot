@@ -1,0 +1,13 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_084
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=21912603
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=140.19 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+ExecutorLostFailure: executor exited unexpectedly.
+Executor memory configured: 12 GB
+Peak executor memory observed: 12.46 GB
+java.lang.OutOfMemoryError: Java heap space
+Executor lost during shuffle processing.

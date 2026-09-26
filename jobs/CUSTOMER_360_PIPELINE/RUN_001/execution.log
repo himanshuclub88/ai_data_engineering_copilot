@@ -1,0 +1,10 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_001
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=22345075
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=87.01 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Duplicate rate exceeded threshold: 19.59%.
+DUPLICATE_DATA detected.

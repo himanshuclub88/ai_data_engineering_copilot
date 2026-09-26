@@ -1,0 +1,4 @@
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

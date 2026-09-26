@@ -1,0 +1,10 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_037
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=19858195
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=135.95 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Duplicate rate exceeded threshold: 8.89%.
+DUPLICATE_DATA detected.

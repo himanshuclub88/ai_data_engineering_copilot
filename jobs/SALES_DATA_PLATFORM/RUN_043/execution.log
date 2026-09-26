@@ -1,0 +1,12 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_043
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=18592126
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=158.78 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

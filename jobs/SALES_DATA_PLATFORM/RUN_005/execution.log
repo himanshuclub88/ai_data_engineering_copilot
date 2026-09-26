@@ -1,0 +1,11 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_005
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=9698884
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=158.49 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Input file format validation failed.
+Bad files detected: 3
+BAD_FILE_FORMAT detected.

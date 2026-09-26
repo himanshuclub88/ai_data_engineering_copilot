@@ -1,0 +1,12 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_047
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=22632020
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=158.2 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

@@ -1,0 +1,12 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_046
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=0
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=98.46 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Required input partition was not found.
+Expected files: 32
+Files read: 0
+PARTITION_MISSING detected.

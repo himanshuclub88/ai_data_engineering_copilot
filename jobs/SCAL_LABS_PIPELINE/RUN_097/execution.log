@@ -1,0 +1,10 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_097
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=3829616
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=130.3 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Duplicate rate exceeded threshold: 14.34%.
+DUPLICATE_DATA detected.

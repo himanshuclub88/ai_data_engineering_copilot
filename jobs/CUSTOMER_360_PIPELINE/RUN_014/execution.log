@@ -1,0 +1,10 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_014
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=5870420
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=167.63 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Null rate exceeded threshold: 33.11%.
+NULL_SPIKE detected.

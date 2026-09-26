@@ -1,0 +1,12 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_024
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=13492638
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=40.58 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

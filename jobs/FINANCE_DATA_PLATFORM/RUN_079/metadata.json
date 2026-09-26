@@ -1,0 +1,45 @@
+{
+  "pipeline": {
+    "name": "finance_transaction_etl",
+    "job_name": "FINANCE_DATA_PLATFORM",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "finance_landing",
+    "target": "finance_delta"
+  },
+  "execution": {
+    "run_id": "RUN_079",
+    "status": "SUCCESS",
+    "start_time": "2026-11-18T01:00:00",
+    "end_time": "2026-11-18T01:09:29",
+    "duration_sec": 569,
+    "failure_reason": null
+  },
+  "input": {
+    "files_expected": 32,
+    "files_read": 32,
+    "rows_in": 1118544,
+    "input_size_gb": 77.73
+  },
+  "output": {
+    "rows_out": 1118544,
+    "output_size_gb": 38.87
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 7.28,
+    "cpu_utilization_pct": 56.49,
+    "shuffle_read_gb": 94.6,
+    "shuffle_write_gb": 47.3
+  },
+  "data_quality": {
+    "null_rate_pct": 2.04,
+    "duplicate_rate_pct": 1.62,
+    "schema_valid": true
+  },
+  "spark": {
+    "executors": 12,
+    "partitions": 800,
+    "shuffle_partitions": 400
+  }
+}

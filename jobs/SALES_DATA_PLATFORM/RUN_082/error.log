@@ -1,0 +1,4 @@
+Severe partition size imbalance detected.
+Largest partition: 3419 MB
+Average partition: 229 MB
+DATA_SKEW detected during shuffle.

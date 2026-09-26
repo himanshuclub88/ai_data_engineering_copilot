@@ -1,0 +1,12 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_082
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=4327876
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=120.66 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

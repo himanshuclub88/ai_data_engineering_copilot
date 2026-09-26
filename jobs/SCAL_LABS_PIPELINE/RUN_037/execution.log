@@ -1,0 +1,12 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_037
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=0
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=20.92 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Required input partition was not found.
+Expected files: 29
+Files read: 0
+PARTITION_MISSING detected.

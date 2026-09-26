@@ -1,0 +1,12 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_026
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=19786573
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=153.22 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Severe partition size imbalance detected.
+Largest partition: 3008 MB
+Average partition: 320 MB
+DATA_SKEW detected during shuffle.

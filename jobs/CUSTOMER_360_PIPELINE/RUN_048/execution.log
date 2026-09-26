@@ -1,0 +1,12 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_048
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=20909765
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=179.48 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Severe partition size imbalance detected.
+Largest partition: 2261 MB
+Average partition: 297 MB
+DATA_SKEW detected during shuffle.

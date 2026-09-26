@@ -1,0 +1,12 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_013
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=10857165
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=60.26 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Source system timeout.
+Files expected: 54
+Files received: 29
+SOURCE_TIMEOUT detected.

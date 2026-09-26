@@ -1,0 +1,8 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_053
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=1089782
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=15.55 GB
+[INFO] Status=SUCCESS
+[INFO] Pipeline completed successfully.

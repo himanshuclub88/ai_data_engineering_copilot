@@ -1,0 +1,12 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_056
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=14898037
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=34.42 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Source system timeout.
+Files expected: 66
+Files received: 49
+SOURCE_TIMEOUT detected.

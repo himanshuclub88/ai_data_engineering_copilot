@@ -1,0 +1,10 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_067
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=21550357
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=107.39 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Null rate exceeded threshold: 24.47%.
+NULL_SPIKE detected.

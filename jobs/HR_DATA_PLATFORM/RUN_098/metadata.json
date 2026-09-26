@@ -1,0 +1,47 @@
+{
+  "pipeline": {
+    "name": "hr_employee_ingestion",
+    "job_name": "HR_DATA_PLATFORM",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "hr_landing",
+    "target": "hr_delta"
+  },
+  "execution": {
+    "run_id": "RUN_098",
+    "status": "FAILED",
+    "start_time": "2026-12-07T01:00:00",
+    "end_time": "2026-12-07T01:07:20",
+    "duration_sec": 440,
+    "failure_reason": "DATA_SKEW"
+  },
+  "input": {
+    "files_expected": 53,
+    "files_read": 53,
+    "rows_in": 19900916,
+    "input_size_gb": 8.95
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 12,
+    "peak_memory_gb": 7.67,
+    "cpu_utilization_pct": 84.88,
+    "shuffle_read_gb": 161.27,
+    "shuffle_write_gb": 80.64
+  },
+  "data_quality": {
+    "null_rate_pct": 2.55,
+    "duplicate_rate_pct": 0.35,
+    "schema_valid": true
+  },
+  "spark": {
+    "executors": 8,
+    "partitions": 800,
+    "shuffle_partitions": 400,
+    "largest_partition_mb": 1705,
+    "average_partition_mb": 221
+  }
+}

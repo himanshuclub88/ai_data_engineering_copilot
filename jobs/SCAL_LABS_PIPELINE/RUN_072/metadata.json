@@ -1,0 +1,45 @@
+{
+  "pipeline": {
+    "name": "scal_labs_customer_ingestion",
+    "job_name": "SCAL_LABS_PIPELINE",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "scal_labs_landing",
+    "target": "scal_labs_delta"
+  },
+  "execution": {
+    "run_id": "RUN_072",
+    "status": "FAILED",
+    "start_time": "2026-11-11T01:00:00",
+    "end_time": "2026-11-11T01:11:51",
+    "duration_sec": 711,
+    "failure_reason": "OUT_OF_MEMORY"
+  },
+  "input": {
+    "files_expected": 28,
+    "files_read": 28,
+    "rows_in": 19099520,
+    "input_size_gb": 106.16
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 16.39,
+    "cpu_utilization_pct": 48.99,
+    "shuffle_read_gb": 196.2,
+    "shuffle_write_gb": 98.1
+  },
+  "data_quality": {
+    "null_rate_pct": 3.34,
+    "duplicate_rate_pct": 0.55,
+    "schema_valid": true
+  },
+  "spark": {
+    "executors": 8,
+    "partitions": 400,
+    "shuffle_partitions": 800
+  }
+}

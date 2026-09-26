@@ -1,0 +1,10 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_082
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=20871040
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=44.98 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Null rate exceeded threshold: 20.41%.
+NULL_SPIKE detected.

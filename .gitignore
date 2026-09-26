@@ -1,108 +1,32 @@
-# =========================
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Secret/key files
+secrets/
+*.key
+*.pem
+*_api_key.txt
+
 # Python
-# =========================
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-
-# Virtual environments
 .venv/
 venv/
 env/
-ENV/
-.env
-.env.*
 
-# Python packaging
-build/
-dist/
-*.egg-info/
-.eggs/
-
-# =========================
-# IDE / Editors
-# =========================
+# IDE
 .vscode/
 .idea/
-*.swp
-*.swo
-.DS_Store
 
-# =========================
-# Jupyter
-# =========================
-.ipynb_checkpoints/
-
-# =========================
-# Testing / Coverage
-# =========================
-.pytest_cache/
-.coverage
-.coverage.*
-htmlcov/
-.tox/
-.nox/
-
-# =========================
-# Logs
-# =========================
-*.log
-logs/
-
-# =========================
-# Local / Runtime Data
-# =========================
-data/*
-!data/synthetic_runs/
-!data/synthetic_runs/**
-
-# Ignore other local data
-data/raw/
-data/processed/
-data/tmp/
-
-tmp/
-temp/
-.cache/
-*.db
-*.sqlite
-*.sqlite3
-
-# =========================
 # Streamlit
-# =========================
-.streamlit/secrets.toml
+.streamlit/
 
-# =========================
 # OS
-# =========================
-Thumbs.db
 .DS_Store
+Thumbs.db
 
-# =========================
-# Project Generated Files
-# =========================
-outputs/
-artifacts/
-reports/
-
-# ZIP files generated locally
-*.zip
-
-# =========================
-# Secrets / Credentials
-# =========================
-*.pem
-*.key
-credentials.json
-service-account.json
-
-# Azure / Cloud local configs
-.azure/
-
-# =========================
-# Environment-specific config
-# =========================
-config.local.*
-settings.local.*
+# Temporary
+*.tmp
+*.temp

@@ -1,0 +1,12 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_097
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=3376603
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=27.41 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Schema validation failed.
+Expected columns: 18.
+Actual columns: 19.
+SCHEMA_MISMATCH detected.

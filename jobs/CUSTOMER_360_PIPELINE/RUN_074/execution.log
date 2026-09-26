@@ -1,0 +1,11 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_074
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=10358016
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=52.62 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Input file format validation failed.
+Bad files detected: 1
+BAD_FILE_FORMAT detected.

@@ -1,0 +1,8 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_053
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=9525816
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=77.51 GB
+[INFO] Status=SUCCESS
+[INFO] Pipeline completed successfully.

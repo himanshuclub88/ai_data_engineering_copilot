@@ -1,0 +1,11 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_017
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=9162895
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=162.41 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Input file format validation failed.
+Bad files detected: 2
+BAD_FILE_FORMAT detected.

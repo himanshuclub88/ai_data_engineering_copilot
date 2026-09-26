@@ -1,0 +1,5 @@
+ExecutorLostFailure: executor exited unexpectedly.
+Executor memory configured: 32 GB
+Peak executor memory observed: 33.14 GB
+java.lang.OutOfMemoryError: Java heap space
+Executor lost during shuffle processing.

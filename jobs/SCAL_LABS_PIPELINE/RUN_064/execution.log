@@ -1,0 +1,12 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_064
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=5236121
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=27.06 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Source system timeout.
+Files expected: 22
+Files received: 14
+SOURCE_TIMEOUT detected.

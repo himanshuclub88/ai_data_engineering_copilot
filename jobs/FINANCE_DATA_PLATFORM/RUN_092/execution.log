@@ -1,0 +1,12 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_092
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=0
+[INFO] Executor memory=16 GB
+[INFO] Shuffle read=45.67 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Required input partition was not found.
+Expected files: 67
+Files read: 0
+PARTITION_MISSING detected.

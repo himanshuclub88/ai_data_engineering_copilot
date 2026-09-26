@@ -1,0 +1,10 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_044
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=16576586
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=51.13 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Null rate exceeded threshold: 15.76%.
+NULL_SPIKE detected.

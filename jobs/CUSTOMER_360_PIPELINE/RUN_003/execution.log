@@ -1,0 +1,12 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_003
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=0
+[INFO] Executor memory=16 GB
+[INFO] Shuffle read=57.98 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Required input partition was not found.
+Expected files: 20
+Files read: 0
+PARTITION_MISSING detected.

@@ -1,0 +1,10 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_091
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=5453248
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=131.33 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Duplicate rate exceeded threshold: 15.94%.
+DUPLICATE_DATA detected.

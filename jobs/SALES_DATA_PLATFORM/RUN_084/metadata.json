@@ -1,0 +1,47 @@
+{
+  "pipeline": {
+    "name": "sales_daily_etl",
+    "job_name": "SALES_DATA_PLATFORM",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "sales_landing",
+    "target": "sales_delta"
+  },
+  "execution": {
+    "run_id": "RUN_084",
+    "status": "FAILED",
+    "start_time": "2026-11-23T01:00:00",
+    "end_time": "2026-11-23T01:19:11",
+    "duration_sec": 1151,
+    "failure_reason": "SCHEMA_MISMATCH"
+  },
+  "input": {
+    "files_expected": 54,
+    "files_read": 54,
+    "rows_in": 19019936,
+    "input_size_gb": 53.18
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 8.72,
+    "cpu_utilization_pct": 51.08,
+    "shuffle_read_gb": 46.27,
+    "shuffle_write_gb": 23.14
+  },
+  "data_quality": {
+    "null_rate_pct": 1.39,
+    "duplicate_rate_pct": 0.75,
+    "schema_valid": false,
+    "expected_columns": 18,
+    "actual_columns": 19
+  },
+  "spark": {
+    "executors": 4,
+    "partitions": 800,
+    "shuffle_partitions": 200
+  }
+}

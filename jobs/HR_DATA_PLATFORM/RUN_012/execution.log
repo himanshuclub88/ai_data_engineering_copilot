@@ -1,0 +1,10 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_012
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=13973645
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=94.58 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Access denied while writing to hr_delta.
+PERMISSION_DENIED detected.

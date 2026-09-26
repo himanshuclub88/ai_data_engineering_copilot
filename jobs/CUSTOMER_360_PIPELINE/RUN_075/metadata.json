@@ -1,0 +1,47 @@
+{
+  "pipeline": {
+    "name": "customer_360_etl",
+    "job_name": "CUSTOMER_360_PIPELINE",
+    "job_type": "spark_etl",
+    "environment": "production",
+    "source": "customer_landing",
+    "target": "customer_360_delta"
+  },
+  "execution": {
+    "run_id": "RUN_075",
+    "status": "FAILED",
+    "start_time": "2026-11-14T01:00:00",
+    "end_time": "2026-11-14T01:05:54",
+    "duration_sec": 354,
+    "failure_reason": "SCHEMA_MISMATCH"
+  },
+  "input": {
+    "files_expected": 31,
+    "files_read": 31,
+    "rows_in": 13839032,
+    "input_size_gb": 75.71
+  },
+  "output": {
+    "rows_out": 0,
+    "output_size_gb": 0
+  },
+  "resources": {
+    "executor_memory_gb": 16,
+    "peak_memory_gb": 8.25,
+    "cpu_utilization_pct": 55.7,
+    "shuffle_read_gb": 115.73,
+    "shuffle_write_gb": 57.87
+  },
+  "data_quality": {
+    "null_rate_pct": 0.48,
+    "duplicate_rate_pct": 0.2,
+    "schema_valid": false,
+    "expected_columns": 18,
+    "actual_columns": 19
+  },
+  "spark": {
+    "executors": 12,
+    "partitions": 800,
+    "shuffle_partitions": 1200
+  }
+}

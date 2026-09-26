@@ -1,0 +1,5 @@
+dbmeta
+langchain-core
+openai
+streamlit
+python-dotenv

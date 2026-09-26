@@ -1,0 +1,8 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_077
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=11168488
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=32.86 GB
+[INFO] Status=SUCCESS
+[INFO] Pipeline completed successfully.

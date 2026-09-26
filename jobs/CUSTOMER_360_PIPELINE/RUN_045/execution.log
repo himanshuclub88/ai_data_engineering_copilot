@@ -1,0 +1,13 @@
+[INFO] Job=CUSTOMER_360_PIPELINE Run=RUN_045
+[INFO] Source=customer_landing
+[INFO] Target=customer_360_delta
+[INFO] Rows read=17825873
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=246.08 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+ExecutorLostFailure: executor exited unexpectedly.
+Executor memory configured: 8 GB
+Peak executor memory observed: 7.8 GB
+java.lang.OutOfMemoryError: Java heap space
+Executor lost during shuffle processing.

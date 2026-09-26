@@ -1,0 +1,12 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_061
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=18553870
+[INFO] Executor memory=16 GB
+[INFO] Shuffle read=180.49 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Severe partition size imbalance detected.
+Largest partition: 1526 MB
+Average partition: 195 MB
+DATA_SKEW detected during shuffle.

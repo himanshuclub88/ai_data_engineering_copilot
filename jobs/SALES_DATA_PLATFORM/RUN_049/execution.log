@@ -1,0 +1,10 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_049
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=23163719
+[INFO] Executor memory=12 GB
+[INFO] Shuffle read=121.42 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Duplicate rate exceeded threshold: 20.52%.
+DUPLICATE_DATA detected.

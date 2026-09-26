@@ -1,0 +1,8 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_031
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=4677719
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=162.79 GB
+[INFO] Status=SUCCESS
+[INFO] Pipeline completed successfully.

@@ -1,0 +1,12 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_080
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=15826876
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=169.27 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Severe partition size imbalance detected.
+Largest partition: 2837 MB
+Average partition: 328 MB
+DATA_SKEW detected during shuffle.

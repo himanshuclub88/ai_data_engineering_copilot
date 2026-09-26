@@ -1,0 +1,11 @@
+[INFO] Job=SCAL_LABS_PIPELINE Run=RUN_065
+[INFO] Source=scal_labs_landing
+[INFO] Target=scal_labs_delta
+[INFO] Rows read=9892688
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=154.8 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Input file format validation failed.
+Bad files detected: 5
+BAD_FILE_FORMAT detected.

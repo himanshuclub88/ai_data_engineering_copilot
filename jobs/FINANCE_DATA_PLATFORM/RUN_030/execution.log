@@ -1,0 +1,10 @@
+[INFO] Job=FINANCE_DATA_PLATFORM Run=RUN_030
+[INFO] Source=finance_landing
+[INFO] Target=finance_delta
+[INFO] Rows read=8872782
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=77.5 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Access denied while writing to finance_delta.
+PERMISSION_DENIED detected.

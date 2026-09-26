@@ -1,0 +1,12 @@
+[INFO] Job=HR_DATA_PLATFORM Run=RUN_017
+[INFO] Source=hr_landing
+[INFO] Target=hr_delta
+[INFO] Rows read=5115029
+[INFO] Executor memory=8 GB
+[INFO] Shuffle read=242.24 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Severe partition size imbalance detected.
+Largest partition: 2626 MB
+Average partition: 427 MB
+DATA_SKEW detected during shuffle.

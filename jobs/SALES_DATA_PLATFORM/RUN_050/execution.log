@@ -1,0 +1,12 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_050
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=24936701
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=90.87 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Source system timeout.
+Files expected: 41
+Files received: 19
+SOURCE_TIMEOUT detected.

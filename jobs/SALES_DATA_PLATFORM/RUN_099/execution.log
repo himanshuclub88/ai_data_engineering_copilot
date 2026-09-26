@@ -1,0 +1,12 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_099
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=0
+[INFO] Executor memory=24 GB
+[INFO] Shuffle read=16.87 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Required input partition was not found.
+Expected files: 62
+Files read: 0
+PARTITION_MISSING detected.

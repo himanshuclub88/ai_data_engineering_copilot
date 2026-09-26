@@ -1,0 +1,10 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_047
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=8321880
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=77.52 GB
+[INFO] Status=FAILED
+[ERROR] Pipeline execution failed.
+Access denied while writing to sales_delta.
+PERMISSION_DENIED detected.

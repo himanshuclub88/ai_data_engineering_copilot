@@ -1,0 +1,8 @@
+[INFO] Job=SALES_DATA_PLATFORM Run=RUN_032
+[INFO] Source=sales_landing
+[INFO] Target=sales_delta
+[INFO] Rows read=14733153
+[INFO] Executor memory=32 GB
+[INFO] Shuffle read=57.86 GB
+[INFO] Status=SUCCESS
+[INFO] Pipeline completed successfully.
