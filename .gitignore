@@ -1,0 +1,100 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# =========================
+# Jupyter
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# Testing / Coverage
+# =========================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Local / Runtime Data
+# =========================
+# data/
+tmp/
+temp/
+.cache/
+*.db
+*.sqlite
+*.sqlite3
+
+# =========================
+# Streamlit
+# =========================
+.streamlit/secrets.toml
+
+# =========================
+# OS
+# =========================
+Thumbs.db
+.DS_Store
+
+# =========================
+# Project Generated Files
+# =========================
+outputs/
+artifacts/
+reports/
+
+# ZIP files generated locally
+*.zip
+
+# =========================
+# Secrets / Credentials
+# =========================
+*.pem
+*.key
+credentials.json
+service-account.json
+
+# Azure / Cloud local configs
+.azure/
+
+# =========================
+# Environment-specific config
+# =========================
+config.local.*
+settings.local.*
