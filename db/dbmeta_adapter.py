@@ -1,7 +1,9 @@
 from pathlib import Path
 
-from dbmeta import FolderDB
-
+try:
+    from dbmeta import FolderDB
+except ImportError:
+    FolderDB = None
 
 
 class DbMetaAdapter:
