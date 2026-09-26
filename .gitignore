@@ -1,13 +1,13 @@
-# Secrets
+# Environment
 .env
 .env.*
 !.env.example
 
-# Secret/key files
+# Secrets
 secrets/
+*_api_key.txt
 *.key
 *.pem
-*_api_key.txt
 
 # Python
 __pycache__/
@@ -16,12 +16,12 @@ __pycache__/
 venv/
 env/
 
+# Streamlit
+.streamlit/
+
 # IDE
 .vscode/
 .idea/
-
-# Streamlit
-.streamlit/
 
 # OS
 .DS_Store

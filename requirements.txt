@@ -1,5 +1,6 @@
 dbmeta
 langchain-core
+langchain-openai
 openai
 streamlit
 python-dotenv

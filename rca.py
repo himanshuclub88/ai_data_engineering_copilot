@@ -1,113 +1,233 @@
-"""
-AI RCA engine.
-
-Flow:
-error.log -> LangChain Core prompt -> LLM -> structured RCA -> rca_analysis.json
-
-If rca_analysis.json already exists, the LLM is NOT called again.
-"""
-
 import json
 from pathlib import Path
 
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 
+from llm import get_llm
 
-RCA_PROMPT = ChatPromptTemplate.from_messages([
-    (
-        "system",
-        """You are a data engineering incident RCA assistant.
 
-Analyze ONLY the supplied error log and run metadata.
-Do not invent evidence.
+RCA_PROMPT = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """
+You are a senior data engineering root-cause-analysis assistant.
 
-Return valid JSON with exactly these keys:
-error
-root_cause
-evidence
-fix
+Analyze exactly one pipeline execution.
 
-Rules:
-- error: short technical error name.
-- root_cause: concise explanation.
-- evidence: array of concrete facts from the input.
-- fix: array of practical engineering actions.
-"""
-    ),
-    (
-        "human",
-        """RUN ID:
+Use ONLY:
+1. The supplied DbMeta metadata.
+2. The supplied error.log.
+
+Do not invent:
+- logs
+- metrics
+- tables
+- files
+- Spark configuration
+- infrastructure details
+- root causes that are not supported by evidence
+
+Return ONLY valid JSON.
+
+Required JSON structure:
+
+{
+    "error": "What error actually occurred",
+    "root_cause": "Most likely root cause",
+    "evidence": [
+        "Evidence from metadata or error log"
+    ],
+    "fix": "Practical fix"
+}
+
+Important:
+- Separate observed error from inferred root cause.
+- Evidence must come from supplied information.
+- If evidence is insufficient, explicitly say so.
+- Keep the fix practical and specific.
+""",
+        ),
+        (
+            "human",
+            """
+RUN ID:
 {run_id}
 
-METADATA:
+DBMETA METADATA:
 {metadata}
 
 ERROR LOG:
 {error_log}
-"""
-    ),
-])
+""",
+        ),
+    ]
+)
+
+
+def get_rca_path(run_path):
+    return Path(run_path) / "rca_analysis.json"
 
 
 def read_error_log(run_path):
     path = Path(run_path) / "error.log"
-    return path.read_text(encoding="utf-8") if path.exists() else ""
 
-
-def rca_path(run_path):
-    return Path(run_path) / "rca_analysis.json"
-
-
-def load_cached_rca(run_path):
-    path = rca_path(run_path)
     if not path.exists():
-        return None
-    return json.loads(path.read_text(encoding="utf-8"))
+        return ""
 
-
-def build_rca_messages(run_id, metadata, error_log):
-    return RCA_PROMPT.format_messages(
-        run_id=run_id,
-        metadata=json.dumps(metadata, indent=2),
-        error_log=error_log,
+    return path.read_text(
+        encoding="utf-8",
+        errors="replace",
     )
 
 
-def parse_rca(content):
-    if isinstance(content, str):
-        text = content.strip()
-    else:
-        text = content.content.strip()
+def load_cached_rca(run_path):
+    path = get_rca_path(run_path)
 
-    if text.startswith("```"):
-        text = text.replace("```json", "").replace("```", "").strip()
+    if not path.exists():
+        return None
 
-    return json.loads(text)
+    try:
+        return json.loads(
+            path.read_text(
+                encoding="utf-8"
+            )
+        )
+    except json.JSONDecodeError:
+        return None
 
 
 def save_rca(run_path, analysis):
-    path = rca_path(run_path)
-    path.write_text(json.dumps(analysis, indent=2), encoding="utf-8")
-    return analysis
+    path = get_rca_path(run_path)
+
+    path.write_text(
+        json.dumps(
+            analysis,
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
 
 
-def run_rca(run_path, run_id, metadata, llm):
-    """Return cached RCA or generate it once with the supplied LLM."""
+def normalize_rca(data):
+    """
+    Validate the basic RCA structure.
+    """
+
+    if not isinstance(data, dict):
+        raise ValueError(
+            "RCA response is not a JSON object."
+        )
+
+    required = [
+        "error",
+        "root_cause",
+        "evidence",
+        "fix",
+    ]
+
+    for key in required:
+        if key not in data:
+            raise ValueError(
+                f"RCA response missing key: {key}"
+            )
+
+    evidence = data["evidence"]
+
+    if not isinstance(evidence, list):
+        evidence = [str(evidence)]
+
+    return {
+        "error": str(data["error"]),
+        "root_cause": str(data["root_cause"]),
+        "evidence": [
+            str(item)
+            for item in evidence
+        ],
+        "fix": str(data["fix"]),
+    }
+
+
+def run_rca(
+    run_path,
+    run_id,
+    metadata,
+):
+    """
+    Generate RCA for one run.
+
+    Cached RCA is returned without calling the LLM.
+    """
+
     cached = load_cached_rca(run_path)
+
     if cached is not None:
+        cached["cached"] = True
         return cached
 
     error_log = read_error_log(run_path)
+
     if not error_log.strip():
         analysis = {
-            "error": "NO_ERROR_LOG",
-            "root_cause": "No error log was available.",
-            "evidence": [],
-            "fix": [],
+            "error": (
+                "No error log was found "
+                "or the error log is empty."
+            ),
+            "root_cause": (
+                "Insufficient evidence."
+            ),
+            "evidence": [
+                "error.log is empty or missing."
+            ],
+            "fix": (
+                "Inspect the execution and "
+                "upstream logs before generating RCA."
+            ),
+            "cached": False,
         }
-        return save_rca(run_path, analysis)
 
-    messages = build_rca_messages(run_id, metadata, error_log)
-    response = llm(messages)
-    analysis = parse_rca(response)
-    return save_rca(run_path, analysis)
+        save_rca(
+            run_path,
+            analysis,
+        )
+
+        return analysis
+
+    parser = JsonOutputParser()
+
+    messages = RCA_PROMPT.format_messages(
+        run_id=run_id,
+        metadata=json.dumps(
+            metadata,
+            indent=2,
+            default=str,
+        ),
+        error_log=error_log,
+    )
+
+    response = get_llm().invoke(messages)
+
+    raw = response.content
+
+    if isinstance(raw, list):
+        raw = "".join(
+            item.get("text", str(item))
+            if isinstance(item, dict)
+            else str(item)
+            for item in raw
+        )
+
+    parsed = parser.parse(raw)
+
+    analysis = normalize_rca(parsed)
+
+    analysis["cached"] = False
+
+    save_rca(
+        run_path,
+        analysis,
+    )
+
+    return analysis
