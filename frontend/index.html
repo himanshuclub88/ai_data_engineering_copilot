@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0f1f" />
+  <title>AI Data Engineering Copilot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark"><span>✦</span></div>
+        <div>
+          <div class="brand-name">Data Copilot</div>
+          <div class="brand-subtitle">Engineering Intelligence</div>
+        </div>
+      </div>
+
+      <button class="nav-home active" data-action="home">
+        <span class="nav-icon">⌂</span>
+        <span>Overview</span>
+      </button>
+
+      <div class="sidebar-label">PIPELINES</div>
+      <div id="job-list" class="job-list"></div>
+
+      <div class="sidebar-spacer"></div>
+      <div class="sidebar-footer">
+        <div class="tiny-status"><span class="status-dot"></span> API Connected</div>
+        <div class="tiny-text">FastAPI backend</div>
+      </div>
+    </aside>
+
+    <main class="main-shell">
+      <header class="topbar">
+        <div class="mobile-menu-wrap">
+          <button class="icon-button mobile-only" data-action="toggle-sidebar" aria-label="Open navigation">☰</button>
+        </div>
+
+        <div class="topbar-title">
+          <div class="eyebrow">AI OPERATIONS CONSOLE</div>
+          <div class="page-title" id="topbar-title">Overview</div>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="connection-pill" id="connection-pill">
+            <span class="status-dot"></span>
+            <span id="connection-text">Checking API</span>
+          </div>
+          <button class="icon-button" data-action="refresh" title="Refresh">↻</button>
+        </div>
+      </header>
+
+      <section class="content" id="app"></section>
+    </main>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root"></div>
+
+  <!-- Markdown rendering for Copilot responses. -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.7/dist/purify.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
