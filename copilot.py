@@ -93,6 +93,23 @@ def _text(value):
     return str(value)
 
 
+def _build_answer_evidence(queries, rcas):
+    evidence = []
+
+    for query_result in queries:
+        if "error" in query_result:
+            continue
+
+        evidence.append({
+            "purpose": query_result["purpose"],
+            "data": query_result["result"],
+        })
+
+    return {
+        "observations": evidence,
+        "rcas": rcas,
+    }
+
 def _json(text):
     text = _text(text).strip()
     text = text.replace("```json", "").replace("```", "").strip()
@@ -229,35 +246,44 @@ def _run_rcas(job_path, run_ids):
         })
 
     return results
-
-
 def ask_copilot(db, question, job_path=None):
     plan = _plan(db, question)
-    queries = _run_queries(db, plan["queries"])
+
+    queries = _run_queries(
+        db,
+        plan["queries"],
+    )
 
     rcas = []
 
-    if job_path and (plan["needs_rca"] or  plan["run_ids"]):
-        rcas = _run_rcas(job_path, plan["run_ids"])
+    if job_path and plan["needs_rca"]:
+        rcas = _run_rcas(
+            job_path,
+            plan["run_ids"],
+        )
+
+    answer_evidence = _build_answer_evidence(
+        queries,
+        rcas,
+    )
 
     evidence = json.dumps(
-        {
-            "queries": queries,
-            "rcas": rcas,
-        },
+        answer_evidence,
         indent=2,
         default=str,
     )
 
-    response = get_llm().invoke(
-        ANSWER_PROMPT.format_messages(
-            question=question,
-            evidence=evidence,
+    answer = _text(
+        get_llm().invoke(
+            ANSWER_PROMPT.format_messages(
+                question=question,
+                evidence=evidence,
+            )
         )
     )
 
     return {
-        "answer": _text(response),
+        "answer": answer,
         "plan": plan,
         "queries": queries,
         "rcas": rcas,
