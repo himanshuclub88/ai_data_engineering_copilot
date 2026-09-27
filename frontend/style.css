@@ -1218,3 +1218,684 @@ html[data-theme="sand"] pre {
   max-height: min(560px, calc(100vh - 90px));
   overflow-y: auto;
 }
+
+
+/* ============================================================
+   COPILOT ANALYSIS V5
+   Content-first layout: ~80% of the modal is the result canvas.
+   Header/context become a compact command bar.
+   ============================================================ */
+
+.copilot-modal {
+  grid-template-rows: 50px 40px minmax(0, 1fr) 78px;
+}
+
+/* Compact top header */
+.copilot-modal-head {
+  padding: 6px 18px;
+  min-height: 0;
+}
+
+.copilot-modal-brand {
+  gap: 9px;
+}
+
+.copilot-modal-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.copilot-modal-title {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.copilot-modal-sub {
+  display: none;
+}
+
+.copilot-modal-actions {
+  gap: 7px;
+}
+
+.copilot-live {
+  padding: 5px 8px;
+  font-size: 8px;
+}
+
+/* Compact context / suggestions bar */
+.copilot-modal-toolbar {
+  min-height: 0;
+  padding: 5px 18px;
+  gap: 14px;
+}
+
+.analysis-context {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+.analysis-context-label {
+  font-size: 7px;
+  letter-spacing: .12em;
+  margin: 0;
+}
+
+.analysis-context-value {
+  margin: 0;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.analysis-context-note {
+  display: none;
+}
+
+.analysis-suggestions {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.analysis-suggestions::-webkit-scrollbar {
+  display: none;
+}
+
+.analysis-suggestions .chip {
+  flex: 0 0 auto;
+  padding: 5px 9px;
+  font-size: 8px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Give nearly all remaining height to the result canvas */
+.copilot-modal-main {
+  min-height: 0;
+  padding: 0 18px 8px;
+}
+
+.analysis-canvas-head {
+  height: 34px;
+  flex: 0 0 34px;
+  padding: 4px 2px 5px;
+  align-items: center;
+}
+
+.copilot-pane-label {
+  font-size: 7px;
+  margin: 0 0 2px 1px;
+  letter-spacing: .13em;
+}
+
+.analysis-canvas-title {
+  font-size: 12px;
+  line-height: 1.1;
+}
+
+.analysis-state {
+  padding: 5px 8px;
+  font-size: 7px;
+}
+
+/* Large scrolling document area */
+.copilot-modal-answer {
+  min-height: 0;
+  padding: 26px 30px;
+  border-radius: 14px;
+}
+
+.copilot-modal-answer .answer-content {
+  max-width: 1450px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.copilot-modal-answer .answer-content h1 {
+  font-size: 29px;
+}
+
+.copilot-modal-answer .answer-content h2 {
+  font-size: 23px;
+}
+
+.copilot-modal-answer .answer-content h3 {
+  font-size: 19px;
+}
+
+/* Keep query / RCA details compact so they don't dominate the reading area. */
+.copilot-modal-answer > div[style*="margin-top"] {
+  margin-top: 10px !important;
+}
+
+.copilot-modal-answer .rca-card {
+  padding: 12px 14px;
+}
+
+.copilot-modal-answer .rca-card summary {
+  font-size: 10px !important;
+}
+
+.copilot-modal-answer .code-log {
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  max-height: 300px !important;
+}
+
+/* Smaller empty state so the canvas still feels spacious. */
+.copilot-empty {
+  max-width: 620px;
+  padding: 22px;
+}
+
+.copilot-empty-orb {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 10px;
+  font-size: 23px;
+}
+
+.copilot-empty-title {
+  font-size: 18px;
+}
+
+.copilot-empty-copy {
+  font-size: 11px;
+}
+
+/* Slim bottom request bar */
+.copilot-modal-footer {
+  position: relative;
+  min-height: 0;
+  padding: 8px 18px 10px;
+}
+
+.copilot-modal-form {
+  position: relative;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  padding-top: 0;
+}
+
+.analysis-input-label {
+  position: absolute;
+  top: -1px;
+  left: 2px;
+  z-index: 2;
+  margin: 0;
+  font-size: 7px;
+  letter-spacing: .12em;
+}
+
+.copilot-modal-input {
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  max-height: 58px;
+  padding: 18px 170px 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.copilot-input-actions {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  margin: 0;
+  gap: 7px;
+}
+
+.copilot-input-actions .kbd {
+  display: none;
+}
+
+.copilot-send-btn {
+  min-width: 140px;
+  height: 40px;
+  font-size: 11px;
+}
+
+/* The result pane must remain the visually dominant element. */
+.copilot-modal-main,
+.analysis-canvas,
+.copilot-modal-answer {
+  overflow: hidden;
+}
+
+.copilot-modal-answer {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+  .copilot-modal {
+    grid-template-rows: 48px auto minmax(0, 1fr) 84px;
+  }
+
+  .copilot-modal-toolbar {
+    min-height: 40px;
+  }
+
+  .analysis-context {
+    max-width: 42%;
+  }
+
+  .analysis-suggestions {
+    justify-content: flex-start;
+  }
+
+  .copilot-modal-main {
+    padding: 0 12px 7px;
+  }
+
+  .copilot-modal-answer {
+    padding: 20px 18px;
+  }
+
+  .copilot-modal-answer .answer-content {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .copilot-modal-footer {
+    padding: 7px 12px 9px;
+  }
+
+  .copilot-modal-input {
+    height: 62px;
+    min-height: 62px;
+    max-height: 62px;
+    padding-right: 145px;
+  }
+
+  .copilot-send-btn {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 600px) {
+  .copilot-modal {
+    grid-template-rows: 48px auto minmax(0, 1fr) 92px;
+  }
+
+  .copilot-live {
+    display: none;
+  }
+
+  .analysis-context {
+    max-width: 100%;
+  }
+
+  .analysis-suggestions {
+    display: none;
+  }
+
+  .copilot-modal-answer .answer-content {
+    font-size: 13px;
+  }
+
+  .copilot-modal-input {
+    height: 66px;
+    min-height: 66px;
+    max-height: 66px;
+    padding-right: 12px;
+    padding-bottom: 44px;
+  }
+
+  .copilot-input-actions {
+    left: 7px;
+    right: 7px;
+    bottom: 7px;
+    justify-content: flex-end;
+  }
+
+  .copilot-send-btn {
+    width: 100%;
+  }
+}
+
+
+/* ============================================================
+   COPILOT ANALYSIS V6
+   Exact screen allocation:
+     7.5%  compact top command bar
+    85.0%  analysis/document canvas
+     7.5%  compact request bar
+
+   The result area is intentionally dominant so long analyses
+   can be read without sacrificing useful screen real estate.
+   ============================================================ */
+
+.copilot-modal {
+  position: relative;
+  grid-template-rows: 7.5% 85% 7.5%;
+  grid-template-columns: 1fr;
+}
+
+/* Top 7.5%: brand/actions on the left/right and pipeline controls
+   compressed into the same header band. */
+.copilot-modal-head {
+  grid-row: 1;
+  grid-column: 1;
+  height: 100%;
+  min-height: 0;
+  padding: 0 22px;
+  z-index: 3;
+}
+
+.copilot-modal-toolbar {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 310px;
+  right: 86px;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+  border-bottom: 0;
+  background: transparent;
+  padding: 0 8px 0 0;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.copilot-modal-toolbar .analysis-context,
+.copilot-modal-toolbar .analysis-suggestions {
+  pointer-events: auto;
+}
+
+.copilot-modal-toolbar .analysis-context {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.copilot-modal-toolbar .analysis-context-label {
+  margin: 0;
+  font-size: 7px;
+  white-space: nowrap;
+}
+
+.copilot-modal-toolbar .analysis-context-value {
+  margin: 0;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.copilot-modal-toolbar .analysis-context-note {
+  display: none;
+}
+
+.copilot-modal-toolbar .analysis-suggestions {
+  flex: 1;
+  min-width: 0;
+  justify-content: flex-end;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.copilot-modal-toolbar .analysis-suggestions::-webkit-scrollbar {
+  display: none;
+}
+
+.copilot-modal-toolbar .analysis-suggestions .chip {
+  padding: 5px 8px;
+  font-size: 7px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Middle 85%: ALL useful reading content lives here. */
+.copilot-modal-main {
+  grid-row: 2;
+  grid-column: 1;
+  min-height: 0;
+  height: 100%;
+  padding: 0 16px 10px;
+}
+
+.analysis-canvas {
+  min-height: 0;
+  height: 100%;
+}
+
+.analysis-canvas-head {
+  flex: 0 0 36px;
+  height: 36px;
+  padding: 5px 2px 6px;
+  box-sizing: border-box;
+}
+
+.copilot-pane-label {
+  font-size: 7px;
+  letter-spacing: .13em;
+  margin-bottom: 2px;
+}
+
+.analysis-canvas-title {
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.analysis-state {
+  padding: 4px 8px;
+  font-size: 7px;
+}
+
+.copilot-modal-answer {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 30px 38px;
+}
+
+.copilot-modal-answer .answer-content {
+  max-width: 1500px;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.copilot-modal-answer .answer-content h1 {
+  font-size: 31px;
+  line-height: 1.2;
+}
+
+.copilot-modal-answer .answer-content h2 {
+  font-size: 25px;
+  line-height: 1.25;
+}
+
+.copilot-modal-answer .answer-content h3 {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.copilot-modal-answer .answer-content table {
+  min-width: 800px;
+}
+
+.copilot-modal-answer .code-log {
+  max-height: 380px !important;
+  font-size: 12px !important;
+}
+
+/* Bottom 7.5%: just the new request. */
+.copilot-modal-footer {
+  grid-row: 3;
+  grid-column: 1;
+  min-height: 0;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 6px 16px 8px;
+}
+
+.copilot-modal-form {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.analysis-input-label {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  z-index: 2;
+  margin: 0;
+  font-size: 7px;
+}
+
+.copilot-modal-input {
+  width: 100%;
+  height: calc(100% - 4px);
+  min-height: 0;
+  max-height: none;
+  box-sizing: border-box;
+  padding: 16px 160px 8px 13px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.copilot-input-actions {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  margin: 0;
+}
+
+.copilot-input-actions .kbd {
+  display: none;
+}
+
+.copilot-send-btn {
+  min-width: 138px;
+  height: 38px;
+  font-size: 11px;
+}
+
+/* Make the empty state readable while retaining the same large canvas. */
+.copilot-empty {
+  max-width: 680px;
+  padding: 28px;
+}
+
+.copilot-empty-orb {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  font-size: 26px;
+}
+
+.copilot-empty-title {
+  font-size: 20px;
+}
+
+.copilot-empty-copy {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+@media (max-width: 1050px) {
+  .copilot-modal-toolbar {
+    left: 260px;
+  }
+
+  .copilot-modal-toolbar .analysis-suggestions .chip:nth-child(n+3) {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .copilot-modal {
+    grid-template-rows: 9% 82% 9%;
+  }
+
+  .copilot-modal-head {
+    padding: 0 14px;
+  }
+
+  .copilot-modal-toolbar {
+    left: 180px;
+    right: 62px;
+  }
+
+  .copilot-modal-toolbar .analysis-context {
+    display: none;
+  }
+
+  .copilot-modal-toolbar .analysis-suggestions {
+    justify-content: flex-start;
+  }
+
+  .copilot-modal-main {
+    padding: 0 10px 7px;
+  }
+
+  .copilot-modal-answer {
+    padding: 22px 18px;
+  }
+
+  .copilot-modal-answer .answer-content {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .copilot-modal-footer {
+    padding: 6px 10px 7px;
+  }
+
+  .copilot-modal-input {
+    padding-right: 130px;
+  }
+
+  .copilot-send-btn {
+    min-width: 112px;
+  }
+}
+
+@media (max-width: 560px) {
+  .copilot-modal {
+    grid-template-rows: 10% 80% 10%;
+  }
+
+  .copilot-modal-toolbar {
+    display: none;
+  }
+
+  .copilot-modal-answer {
+    padding: 18px 14px;
+  }
+
+  .copilot-modal-answer .answer-content {
+    font-size: 13px;
+  }
+
+  .copilot-modal-input {
+    padding: 16px 10px 40px;
+  }
+
+  .copilot-input-actions {
+    left: 6px;
+    right: 6px;
+  }
+
+  .copilot-send-btn {
+    width: 100%;
+  }
+}
