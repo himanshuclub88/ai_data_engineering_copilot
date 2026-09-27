@@ -359,9 +359,6 @@ def run_copilot(job_name: str, request: CopilotRequest):
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
-    # The current Streamlit UI creates a display version of the plan by
-    # renaming sql -> SQL and adding an action field. Preserve that behavior
-    # while also returning the original result.
     response = deepcopy(result)
 
     plan = response.get("plan")
@@ -370,6 +367,6 @@ def run_copilot(job_name: str, request: CopilotRequest):
             if isinstance(query, dict):
                 query["action"] = "Data sets created for analytics"
                 if "sql" in query:
-                    query["SQL"] = query.pop("sql")
+                    query["querry"] = query.pop("sql")
 
     return make_json_safe(response)

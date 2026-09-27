@@ -659,8 +659,8 @@ function renderCopilotAnswer(result) {
       ${plan ? `<details class="rca-card"><summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">Investigation plan</summary><pre class="code-log" style="margin-top:10px;max-height:260px">${escapeHtml(JSON.stringify(plan, null, 2))}</pre></details>` : ""}
       ${queries.map((q) => `
         <details class="rca-card">
-          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">SQL ${escapeHtml(q.id ?? "")} · ${escapeHtml(q.purpose ?? "Query")}</summary>
-          <pre class="code-log" style="margin-top:10px;max-height:220px">${escapeHtml(q.sql ?? q.SQL ?? "")}</pre>
+          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">Step ${escapeHtml(q.id ?? "")} · ${escapeHtml(q.purpose ?? "Query")}</summary>
+          <pre class="code-log" style="margin-top:10px;max-height:220px">${escapeHtml(q.sql ?? q.querry ?? "")}</pre>
           ${q.error ? `<div class="alert error" style="margin-top:9px">${escapeHtml(q.error)}</div>` : `<pre class="code-log" style="margin-top:9px;max-height:260px">${escapeHtml(JSON.stringify(q.result ?? [], null, 2))}</pre>`}
         </details>
       `).join("")}
