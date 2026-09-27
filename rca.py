@@ -98,13 +98,23 @@ def _json(text):
 def _fallback(msg):
     return {"error": "RCA unavailable", "root_cause": "Insufficient evidence", "evidence": [msg], "fix": "Inspect the execution and error logs manually.", "cached": False}
 
+def _read_file(path):
+    if not path.exists():   return ""
+    return path.read_text(encoding="utf-8", errors="replace",).strip()
+
+
 def generate_rca(run_path, run_id, job=""):
 
     run_path = Path(run_path)
+    print(run_path)
     log_file = run_path / "execution.log"
     error_log = run_path / "error.log"
     metadata_json = run_path / "metadata.json"
     key = f"{run_path}"
+
+    metadata = _read_file(metadata_json)
+    execution_log = _read_file(log_file)
+    error_log = _read_file(error_log)
 
     if RCA_FILE.exists():
         try:
@@ -116,27 +126,29 @@ def generate_rca(run_path, run_id, job=""):
         except Exception: pass
 
     if not log_file.exists(): 
-        data = _fallback("error.log was not found.")
+        execution_log = "error.log was not found."
     else:
-        log = log_file.read_text(encoding="utf-8", errors="replace").strip()
-        if not log: 
-            data = _fallback("error.log is empty.")
-        else:
+        if not execution_log: 
+            execution_log = "error.log is empty."
+        else:            
 
             try:
                 response = get_llm().invoke(
                     RCA_PROMPT.format_messages(
                         job=job,
                         run_id=run_id,
-                        metadata=metadata_json or "Metadata not available.",
-                        execution_log=( log_file or "Execution log not available."),
+                        metadata=metadata or "Metadata not available.",
+                        execution_log=(execution_log),
                         error_log=(error_log or "Error log not available."))
                     )
+
                 data = _json(response.content)
                 data = {k: data.get(k, "") for k in ("error", "root_cause", "evidence", "fix")}
                 data["evidence"] = data["evidence"] if isinstance(data["evidence"], list) else [str(data["evidence"])]
                 data["cached"] = False
-            except Exception as e: data = _fallback(f"RCA generation failed: {e}")
+            except Exception as e: 
+                data = _fallback(f"RCA generation failed: {e}")
+                print(e)
     
     rcas = {}
     if RCA_FILE.exists():
