@@ -21,7 +21,7 @@ def show_run(job_path, run_id):
     st.button("← Back to Job", on_click=job); st.header(run_id)
     tabs = st.tabs(["Metadata", "Execution Log", "Error Log", "RCA"])
     with tabs[0]:
-        for name, rows in data.items(): st.subheader(name); st.dataframe(rows, use_container_width=True)
+        for name, rows in data.items(): st.subheader(name); st.dataframe(rows, width='stretch')
     with tabs[1]:
         f = p / "execution.log"; st.code(f.read_text(errors="replace") if f.exists() else "execution.log not found")
     with tabs[2]:
@@ -41,7 +41,7 @@ def show_job(job_name):
     st.button("← Back to Jobs", on_click=home); st.header(job_name)
     a,b,c,d = st.columns(4); a.metric("Runs", s["total"]); b.metric("Success", s["success"]); c.metric("Failed", s["failed"]); d.metric("Other", s["other"])
     st.subheader("DbMeta Tables"); st.write(get_tables(db))
-    st.subheader("Recent Runs"); st.dataframe(get_recent_runs(db), use_container_width=True)
+    st.subheader("Recent Runs"); st.dataframe(get_recent_runs(db), width='stretch')
     st.divider(); st.subheader("Copilot")
     q = st.text_input("Ask about this pipeline", placeholder="Why are failures increasing?")
     if q:
@@ -54,7 +54,7 @@ def show_job(job_name):
             with st.expander(f"SQL {x['id']} — {x['purpose']}"):
                 st.code(x["sql"], language="sql")
                 if "error" in x: st.error(x["error"])
-                else: st.dataframe(x["result"], use_container_width=True)
+                else: st.dataframe(x["result"], width='stretch')
         for x in result["rcas"]:
             with st.expander(f"RCA — {x['run_id']}"): st.json(x["rca"])
     st.divider(); st.subheader("Open Run")
@@ -68,6 +68,6 @@ if not jobs: st.warning(f"No jobs found in {DATA_ROOT}. Set DATA_ROOT in .env.")
 elif "job" not in st.session_state:
     st.subheader("Jobs")
     for x in jobs:
-        if st.button(x, use_container_width=True): st.session_state["job"] = x; st.rerun()
+        if st.button(x, width='stretch'): st.session_state["job"] = x; st.rerun()
 elif "run" in st.session_state: show_run(DATA_ROOT / st.session_state["job"], st.session_state["run"])
 else: show_job(st.session_state["job"])
