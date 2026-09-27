@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0a0f1f" />
+  <meta name="theme-color" content="#070b16" />
   <title>AI Data Engineering Copilot</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -45,6 +45,40 @@
         </div>
 
         <div class="topbar-actions">
+          <div class="theme-picker" id="theme-picker">
+            <button class="theme-button" data-action="toggle-theme-menu" title="Change theme" aria-label="Change theme" aria-expanded="false">
+              <span class="theme-button-icon">◐</span>
+              <span class="theme-button-label">Theme</span>
+            </button>
+            <div class="theme-menu" id="theme-menu" role="menu">
+              <button class="theme-option" data-action="select-theme" data-theme="obsidian" role="menuitem">
+                <span class="theme-swatch obsidian"></span>
+                <span><strong>Obsidian</strong><small>Current dark</small></span>
+                <span class="theme-check" aria-hidden="true">✓</span>
+              </button>
+              <button class="theme-option" data-action="select-theme" data-theme="light" role="menuitem">
+                <span class="theme-swatch light"></span>
+                <span><strong>Light</strong><small>Clean enterprise</small></span>
+                <span class="theme-check" aria-hidden="true">✓</span>
+              </button>
+              <button class="theme-option" data-action="select-theme" data-theme="midnight" role="menuitem">
+                <span class="theme-swatch midnight"></span>
+                <span><strong>Midnight</strong><small>Deep blue</small></span>
+                <span class="theme-check" aria-hidden="true">✓</span>
+              </button>
+              <button class="theme-option" data-action="select-theme" data-theme="emerald" role="menuitem">
+                <span class="theme-swatch emerald"></span>
+                <span><strong>Emerald</strong><small>Observability green</small></span>
+                <span class="theme-check" aria-hidden="true">✓</span>
+              </button>
+              <button class="theme-option" data-action="select-theme" data-theme="amethyst" role="menuitem">
+                <span class="theme-swatch amethyst"></span>
+                <span><strong>Amethyst</strong><small>Violet premium</small></span>
+                <span class="theme-check" aria-hidden="true">✓</span>
+              </button>
+            </div>
+          </div>
+
           <div class="connection-pill" id="connection-pill">
             <span class="status-dot"></span>
             <span id="connection-text">Checking API</span>

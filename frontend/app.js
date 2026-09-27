@@ -38,6 +38,65 @@ const connectionText = document.getElementById("connection-text");
 const modalRoot = document.getElementById("modal-root");
 const toastRoot = document.getElementById("toast-root");
 
+const themePicker = document.getElementById("theme-picker");
+const themeMenu = document.getElementById("theme-menu");
+const THEME_STORAGE_KEY = "ai-data-engineering-copilot-theme";
+const THEMES = ["obsidian", "light", "midnight", "emerald", "amethyst"];
+
+function updateThemeMeta(theme) {
+  const meta = document.querySelector('meta[name="theme-color"]');
+  const colors = {
+    obsidian: "#070b16",
+    light: "#f4f7fb",
+    midnight: "#050a16",
+    emerald: "#06100e",
+    amethyst: "#0f0a17",
+  };
+  if (meta) meta.setAttribute("content", colors[theme] || colors.obsidian);
+}
+
+function setTheme(theme, persist = true) {
+  const chosen = THEMES.includes(theme) ? theme : "obsidian";
+  document.documentElement.dataset.theme = chosen;
+  updateThemeMeta(chosen);
+
+  document.querySelectorAll(".theme-option").forEach((option) => {
+    const active = option.dataset.theme === chosen;
+    option.classList.toggle("active", active);
+    option.setAttribute("aria-checked", String(active));
+  });
+
+  if (persist) {
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, chosen);
+    } catch (_) {
+      // Continue without persistence when storage is unavailable.
+    }
+  }
+}
+
+function loadTheme() {
+  let saved = "obsidian";
+  try {
+    saved = localStorage.getItem(THEME_STORAGE_KEY) || "obsidian";
+  } catch (_) {
+    // Use default theme.
+  }
+  setTheme(saved, false);
+}
+
+function toggleThemeMenu(force) {
+  if (!themeMenu || !themePicker) return;
+  const shouldOpen = typeof force === "boolean"
+    ? force
+    : !themeMenu.classList.contains("open");
+
+  themeMenu.classList.toggle("open", shouldOpen);
+  const button = themePicker.querySelector(".theme-button");
+  if (button) button.setAttribute("aria-expanded", String(shouldOpen));
+}
+
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -828,6 +887,17 @@ document.addEventListener("click", async (event) => {
     return;
   }
 
+  if (action === "toggle-theme-menu") {
+    toggleThemeMenu();
+    return;
+  }
+
+  if (action === "select-theme") {
+    setTheme(target.dataset.theme);
+    toggleThemeMenu(false);
+    return;
+  }
+
   if (action === "refresh") {
     if (state.currentJob) await loadJobData();
     else await loadJobs();
@@ -911,9 +981,20 @@ document.addEventListener("click", async (event) => {
   }
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeModal();
+document.addEventListener("click", (event) => {
+  if (themePicker && !themePicker.contains(event.target)) {
+    toggleThemeMenu(false);
+  }
 });
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal();
+    toggleThemeMenu(false);
+  }
+});
+
+loadTheme();
 
 (async function bootstrap() {
   setConnection("", "Checking API");
