@@ -33,12 +33,286 @@ PLAN_PROMPT = ChatPromptTemplate.from_messages([
         'All SQL must be read-only SELECT statements.'
 
         """
-        note -> dbmeta is diy sql language not support proper join but support join only on using column
-        SELECT e.iid, e.status, s.rows_in, i.files_read
-        FROM execution_info e
-        JOIN stats s USING(iid)
-        JOIN inputs i USING(iid)
-        """
+        ## DBMeta SQL GENERATOR — STRICT PARSER MODE
+
+        Generate SQL ONLY for the currently supported syntax of
+        `FolderDB.sql()` / `SQLParserAdvanced`.
+
+        The generated query MUST be directly executable by the current DBMeta parser.
+
+        ### CRITICAL IDENTIFIER RULE — HIGHEST PRIORITY
+
+        **NEVER use table aliases. NEVER qualify column names.**
+
+        Every column reference MUST be a single bare identifier:
+
+        VALID:
+        `iid`
+        `status`
+        `failure_reason`
+        `null_rate_pct`
+
+        INVALID:
+        `e.iid`
+        `e.status`
+        `execution.iid`
+        `dq.null_rate_pct`
+        `data_quality.schema_valid`
+
+        If you generate `table.column` or `alias.column`, the query is INVALID.
+
+        Therefore:
+
+        INVALID:
+        `SELECT e.iid, e.failure_reason FROM execution e`
+
+        VALID:
+        `SELECT iid, failure_reason FROM execution`
+
+        INVALID:
+        `WHERE e.status = 'FAILED'`
+
+        VALID:
+        `WHERE status = 'FAILED'`
+
+        ### TABLE ALIAS RULE
+
+        Aliases are completely forbidden.
+
+        NEVER generate:
+
+        `FROM execution e`
+        `FROM execution AS e`
+        `JOIN data_quality dq USING(iid)`
+        `JOIN data_quality AS dq USING(iid)`
+
+        ONLY:
+
+        `FROM execution`
+        `JOIN data_quality USING(iid)`
+
+        ### SUPPORTED SQL
+
+        ONLY use:
+
+        * SELECT
+        * FROM
+        * JOIN table USING(column)
+        * WHERE
+        * AND
+        * OR
+        * NOT
+        * Parentheses
+        * =, !=, >, <, >=, <=
+        * IN with literal values
+        * NOT IN with literal values
+        * CONTAINS
+        * GROUP BY
+        * HAVING
+        * ORDER BY bare_column [ASC|DESC]
+        * LIMIT integer
+        * COUNT()
+        * SUM()
+        * MIN()
+        * MAX()
+        * AVG()
+
+        Nothing else is supported.
+
+        ### JOIN RULE
+
+        JOIN is ONLY:
+
+        `JOIN table USING(column)`
+
+        The USING column must exist in both tables.
+
+        Never use:
+
+        * ON
+        * INNER JOIN
+        * LEFT JOIN
+        * RIGHT JOIN
+        * FULL JOIN
+        * CROSS JOIN
+        * aliases
+
+        Example:
+
+        VALID:
+        `SELECT iid, failure_reason, null_rate_pct, duplicate_rate_pct, schema_valid`
+        `FROM execution`
+        `JOIN data_quality USING(iid)`
+        `WHERE status = 'FAILED'`
+
+        INVALID:
+        `SELECT e.iid, e.failure_reason, dq.null_rate_pct`
+        `FROM execution e`
+        `JOIN data_quality dq USING(iid)`
+        `WHERE e.status = 'FAILED'`
+
+        ### WHERE RULE
+
+        All columns in WHERE MUST be bare column names.
+
+        VALID:
+        `WHERE status = 'FAILED'`
+
+        INVALID:
+        `WHERE execution.status = 'FAILED'`
+        `WHERE e.status = 'FAILED'`
+
+        ### COLUMN RULE
+
+        Use ONLY columns that actually exist in FolderDB metadata.
+
+        NEVER invent columns.
+
+        NEVER prefix a column with a table name or alias.
+
+        NEVER use column aliases.
+
+        INVALID:
+        `COUNT() AS total`
+        `execution.status`
+        `e.status`
+
+        VALID:
+        `COUNT()`
+        `status`
+
+        ### IN RULE
+
+        IN and NOT IN accept literal values only.
+
+        VALID:
+        `WHERE status IN ('FAILED', 'SUCCESS')`
+
+        INVALID:
+        `WHERE iid IN (SELECT iid FROM execution)`
+
+        ### GROUP BY / HAVING
+
+        Only existing bare columns are allowed.
+
+        VALID:
+
+        `SELECT environment, COUNT()`
+        `FROM execution`
+        `GROUP BY environment`
+        `HAVING COUNT() > 1`
+
+        ### ORDER BY
+
+        ORDER BY accepts ONLY a bare existing column.
+
+        VALID:
+        `ORDER BY start_time DESC`
+
+        INVALID:
+        `ORDER BY execution.start_time DESC`
+        `ORDER BY e.start_time DESC`
+        `ORDER BY COUNT() DESC`
+
+        ### FORBIDDEN
+
+        NEVER generate:
+
+        * table aliases
+        * column qualification (`table.column`, `alias.column`)
+        * column aliases
+        * DISTINCT
+        * subqueries
+        * nested SELECT
+        * CTE / WITH
+        * EXISTS
+        * NOT EXISTS
+        * UNION
+        * UNION ALL
+        * JOIN ... ON
+        * window functions
+        * OVER
+        * PARTITION BY
+        * CASE
+        * date functions
+        * string functions
+        * mathematical functions
+        * unsupported functions
+        * INSERT
+        * UPDATE
+        * DELETE
+        * CREATE
+        * DROP
+        * ALTER
+        * TRUNCATE
+
+        Also never use functions such as:
+
+        `YEAR()`
+        `MONTH()`
+        `WEEK()`
+        `DAY()`
+        `DATE_TRUNC()`
+        `DATE_PART()`
+        `DATEDIFF()`
+        `ROW_NUMBER()`
+        `RANK()`
+        `LAG()`
+        `LEAD()`
+
+        unless explicitly supported by the parser.
+
+        ### EXACTLY ONE SELECT
+
+        The query MUST contain exactly one SELECT statement.
+
+        No nested SELECT.
+        No SELECT inside IN.
+        No SELECT inside WHERE.
+        No SELECT inside FROM.
+        No UNION.
+        No CTE.
+
+        ### SIMPLICITY
+
+        Generate the simplest valid query.
+
+        Do not add unnecessary:
+
+        * JOINs
+        * conditions
+        * functions
+        * GROUP BY
+        * columns
+
+        ### UNSUPPORTED REQUEST
+
+        If the request requires unsupported syntax, return exactly:
+
+        NOT_SUPPORTED
+
+        ### FINAL VALIDATION
+
+        Before outputting SQL, internally verify:
+
+        * No `alias.column`
+        * No `table.column`
+        * No table aliases
+        * No `AS`
+        * No DISTINCT
+        * No subquery
+        * No CTE
+        * No JOIN ON
+        * Exactly one SELECT
+        * All tables exist
+        * All columns exist
+        * All JOIN USING columns exist in both tables
+        * Only supported syntax is used
+
+        If ANY validation fails, regenerate the query before returning it.
+    """
+
+        
     ),
     (
         "human",
