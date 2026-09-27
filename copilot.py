@@ -97,10 +97,27 @@ def _safe_sql(sql, db):
 
     return sql
 
-
 def _plan(db, question):
-    tables = ", ".join(get_tables(db))
-    
+    table_context = []
+
+    for table_name, table_data in db.tables.items():
+        if not table_data:
+            continue
+
+        columns = list(table_data[0].keys())
+        sample_rows = table_data[:2]
+
+        table_context.append({
+            "table": table_name,
+            "columns": columns,
+            "sample_rows": sample_rows,
+        })
+
+    tables = json.dumps(
+        table_context,
+        indent=2,
+        default=str,
+    )
 
     print(tables)
 
@@ -112,6 +129,7 @@ def _plan(db, question):
     )
 
     plan = _json(response)
+
     plan["queries"] = plan.get("queries", [])[:5]
     plan["run_ids"] = plan.get("run_ids", [])
     plan["needs_rca"] = bool(plan.get("needs_rca"))
