@@ -183,7 +183,7 @@ def _plan(db, question):
         default=str,
     )
 
-    print(tables)
+    # print(tables)
 
     response = get_llm().invoke(
         PLAN_PROMPT.format_messages(
