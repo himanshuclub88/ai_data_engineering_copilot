@@ -20,7 +20,9 @@ def _fallback(msg):
     return {"error": "RCA unavailable", "root_cause": "Insufficient evidence", "evidence": [msg], "fix": "Inspect the execution and error logs manually.", "cached": False}
 
 def generate_rca(run_path, run_id, job=""):
-    run_path = Path(run_path); cache = run_path / "rca_analysis.json"; log_file = run_path / "error.log"
+    run_path = Path(run_path)
+    cache = run_path / "rca_analysis.json"
+    log_file = run_path / "error.log"
     if cache.exists():
         try:
             data = json.loads(cache.read_text(encoding="utf-8")); data["cached"] = True; return data

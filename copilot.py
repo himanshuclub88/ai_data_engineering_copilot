@@ -31,6 +31,14 @@ PLAN_PROMPT = ChatPromptTemplate.from_messages([
         'errors, root cause, or failure evidence. Otherwise set it to false. '
 
         'All SQL must be read-only SELECT statements.'
+
+        """
+        note -> dbmeta is diy sql language not support proper join but support join only on using column
+        SELECT e.iid, e.status, s.rows_in, i.files_read
+        FROM execution_info e
+        JOIN stats s USING(iid)
+        JOIN inputs i USING(iid)
+        """
     ),
     (
         "human",
@@ -203,7 +211,7 @@ def ask_copilot(db, question, job_path=None):
 
     rcas = []
 
-    if job_path and plan["needs_rca"]:
+    if job_path and (plan["needs_rca"] or  plan["run_ids"]):
         rcas = _run_rcas(job_path, plan["run_ids"])
 
     evidence = json.dumps(
