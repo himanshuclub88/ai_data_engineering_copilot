@@ -41,13 +41,25 @@ const toastRoot = document.getElementById("toast-root");
 const themePicker = document.getElementById("theme-picker");
 const themeMenu = document.getElementById("theme-menu");
 const THEME_STORAGE_KEY = "ai-data-engineering-copilot-theme";
-const THEMES = ["obsidian", "light", "midnight", "emerald", "amethyst"];
+const THEMES = [
+  "obsidian",
+  "light",
+  "slate",
+  "cloud",
+  "sand",
+  "midnight",
+  "emerald",
+  "amethyst",
+];
 
 function updateThemeMeta(theme) {
   const meta = document.querySelector('meta[name="theme-color"]');
   const colors = {
     obsidian: "#070b16",
     light: "#f4f7fb",
+    slate: "#e7ecf2",
+    cloud: "#f8fafc",
+    sand: "#f3efe8",
     midnight: "#050a16",
     emerald: "#06100e",
     amethyst: "#0f0a17",
@@ -497,9 +509,9 @@ function openCopilotModal(prefill = "") {
     return;
   }
 
-  // Copilot is intentionally a one-shot analysis workspace, not a chat session.
-  // Every submission is independent; only the latest analysis is shown.
-  state.copilotAnswer = null;
+  // Copilot is a one-shot analysis workspace, not a chat session.
+  // Keep the latest completed analysis when the modal is closed/reopened.
+  // A new submission replaces the previous analysis.
   state.copilotBusy = false;
 
   const modal = document.createElement("div");
@@ -619,8 +631,10 @@ function refreshCopilotModal() {
     status.textContent = state.copilotBusy ? "ANALYZING" : (state.copilotAnswer ? "COMPLETE" : "READY");
     status.className = `analysis-state ${state.copilotBusy ? "busy" : state.copilotAnswer ? "complete" : ""}`;
   }
-  if (input && !state.copilotBusy && state.copilotAnswer?.question) {
-    input.value = state.copilotAnswer.question;
+  // The request box remains empty after an analysis. The latest result
+  // stays visible until the user submits a new analysis.
+  if (input && !state.copilotBusy && !state.copilotAnswer) {
+    input.value = "";
   }
 }
 
@@ -668,6 +682,9 @@ async function runCopilot(inModal = false) {
   state.copilotBusy = true;
   state.copilotAnswer = { question, answer: "Building investigation…" };
 
+  // Clear the request box as soon as a new analysis starts.
+  if (inModal && input) input.value = "";
+
   if (inModal) refreshCopilotModal();
   else renderJobDashboard();
 
@@ -687,8 +704,10 @@ async function runCopilot(inModal = false) {
   } finally {
     state.copilotBusy = false;
     if (inModal) {
+      const modalInput = document.getElementById("copilot-modal-question");
+      if (modalInput) modalInput.value = "";
       refreshCopilotModal();
-      setTimeout(() => document.getElementById("copilot-modal-question")?.focus(), 0);
+      setTimeout(() => modalInput?.focus(), 0);
     } else {
       renderJobDashboard();
       setTimeout(() => document.getElementById("copilot-question")?.focus(), 0);
