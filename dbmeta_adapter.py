@@ -14,10 +14,10 @@ def get_tables(db): return list(db.tables.keys())
 def query(db, sql): return db.sql(sql).all()
 def get_run(db, run_id): return {t: query(db, f"SELECT * FROM {t} WHERE iid = '{run_id}'") for t in db.tables.keys()}
 
-def get_recent_runs(db, limit=20):
+def get_recent_runs(db, limit=365):
     return query(db, f"SELECT iid, status, failure_reason, start_time, duration_sec FROM execution ORDER BY start_time DESC LIMIT {max(1, int(limit))}")
 
-def get_failed_runs(db, limit=100):
+def get_failed_runs(db, limit=365):
     return query(db, f"SELECT iid, status, failure_reason, start_time, duration_sec FROM execution WHERE status = 'FAILED' ORDER BY start_time DESC LIMIT {max(1, int(limit))}")
 
 def get_job_summary(db):
