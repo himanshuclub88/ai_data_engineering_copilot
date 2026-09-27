@@ -1,7 +1,9 @@
 import os
 import json
+import math
 from pathlib import Path
 
+import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -37,7 +39,8 @@ def home():
     st.rerun()
 
 
-def clear_run():
+def open_job(job_name):
+    st.session_state["job"] = job_name
     st.session_state.pop("run", None)
     st.rerun()
 
@@ -132,7 +135,9 @@ def show_run_dialog(job_path, run_id):
 
         st.session_state[f"rca_{run_id}"] = rca
 
-    rca = st.session_state.get(f"rca_{run_id}")
+    rca = st.session_state.get(
+        f"rca_{run_id}"
+    )
 
     if rca is not None:
         st.divider()
@@ -170,9 +175,17 @@ def show_run_dialog(job_path, run_id):
             )
 
         st.caption("Evidence")
-        st.write(
-            rca.get("evidence", "N/A")
+
+        evidence = rca.get(
+            "evidence",
+            [],
         )
+
+        if isinstance(evidence, list):
+            for item in evidence:
+                st.write(f"• {item}")
+        else:
+            st.write(evidence)
 
         st.caption("Recommended Fix")
         st.write(
@@ -181,7 +194,7 @@ def show_run_dialog(job_path, run_id):
 
         st.divider()
 
-        metadata_col, _ = st.columns([1, 4])
+        metadata_col, _ = st.columns([1, 5])
 
         with metadata_col:
             with st.popover("📋 Metadata"):
@@ -231,18 +244,12 @@ def show_copilot(db, job_path):
             st.json(result["plan"])
 
         if result["queries"]:
-            st.subheader("Evidence")
+            st.subheader("Investigation Data")
 
             for query_result in result["queries"]:
                 with st.expander(
-                    f"SQL {query_result['id']} — "
-                    f"{query_result['purpose']}"
+                    query_result["purpose"]
                 ):
-                    st.code(
-                        query_result["sql"],
-                        language="sql",
-                    )
-
                     if "error" in query_result:
                         st.error(
                             query_result["error"]
@@ -251,6 +258,7 @@ def show_copilot(db, job_path):
                         st.dataframe(
                             query_result["result"],
                             width="stretch",
+                            hide_index=True,
                         )
 
         if result["rcas"]:
@@ -263,13 +271,358 @@ def show_copilot(db, job_path):
                     st.json(rca["rca"])
 
 
+def show_jobs_page():
+    st.subheader("Pipelines")
+
+    jobs = list_jobs(DATA_ROOT)
+
+    if not jobs:
+        st.warning(
+            f"No jobs found in {DATA_ROOT}. "
+            "Set DATA_ROOT in .env."
+        )
+        return
+
+    rows = []
+
+    with st.spinner("Loading pipelines..."):
+        for job_name in jobs:
+            try:
+                db = get_db(
+                    DATA_ROOT / job_name
+                )
+
+                summary = get_job_summary(db)
+
+                rows.append(
+                    {
+                        "Pipeline": job_name,
+                        "Runs": summary.get(
+                            "total",
+                            0,
+                        ),
+                        "Success": summary.get(
+                            "success",
+                            0,
+                        ),
+                        "Failed": summary.get(
+                            "failed",
+                            0,
+                        ),
+                        "Other": summary.get(
+                            "other",
+                            0,
+                        ),
+                    }
+                )
+
+            except Exception:
+                rows.append(
+                    {
+                        "Pipeline": job_name,
+                        "Runs": 0,
+                        "Success": 0,
+                        "Failed": 0,
+                        "Other": 0,
+                    }
+                )
+
+    df = pd.DataFrame(rows)
+
+    st.caption(
+        f"{len(df)} pipelines"
+    )
+
+    search_col, size_col = st.columns(
+        [4, 1]
+    )
+
+    with search_col:
+        search = st.text_input(
+            "Search",
+            placeholder="Search pipeline name...",
+            label_visibility="collapsed",
+        )
+
+    with size_col:
+        page_size = st.selectbox(
+            "Rows",
+            [10, 20, 50, 100],
+            index=1,
+            label_visibility="collapsed",
+        )
+
+    if search:
+        df = df[
+            df["Pipeline"]
+            .str.contains(
+                search,
+                case=False,
+                na=False,
+            )
+        ]
+
+    if df.empty:
+        st.info("No pipelines match your search.")
+        return
+
+    total_pages = max(
+        1,
+        math.ceil(
+            len(df) / page_size
+        ),
+    )
+
+    if (
+        "jobs_page" not in st.session_state
+        or st.session_state["jobs_page"] > total_pages
+    ):
+        st.session_state["jobs_page"] = 1
+
+    current_page = st.session_state[
+        "jobs_page"
+    ]
+
+    start = (
+        current_page - 1
+    ) * page_size
+
+    end = start + page_size
+
+    page_df = df.iloc[
+        start:end
+    ].reset_index(drop=True)
+
+    st.dataframe(
+        page_df,
+        width="stretch",
+        hide_index=True,
+        height=450,
+        selection_mode="single-row",
+        on_select="rerun",
+        column_config={
+            "Pipeline": st.column_config.TextColumn(
+                "Pipeline",
+                width="large",
+            ),
+            "Runs": st.column_config.NumberColumn(
+                "Runs",
+                format="%d",
+            ),
+            "Success": st.column_config.NumberColumn(
+                "Success",
+                format="%d",
+            ),
+            "Failed": st.column_config.NumberColumn(
+                "Failed",
+                format="%d",
+            ),
+            "Other": st.column_config.NumberColumn(
+                "Other",
+                format="%d",
+            ),
+        },
+    )
+
+    st.caption(
+        "Click a pipeline row to open it. "
+        "Click column headers to sort."
+    )
+
+    selected_rows = st.session_state.get(
+        "jobs_table",
+        None,
+    )
+
+
+def show_jobs_page():
+    st.subheader("Pipelines")
+
+    jobs = list_jobs(DATA_ROOT)
+
+    if not jobs:
+        st.warning(
+            f"No jobs found in {DATA_ROOT}. "
+            "Set DATA_ROOT in .env."
+        )
+        return
+
+    rows = []
+
+    with st.spinner("Loading pipelines..."):
+        for job_name in jobs:
+            try:
+                db = get_db(
+                    DATA_ROOT / job_name
+                )
+
+                summary = get_job_summary(db)
+
+                rows.append(
+                    {
+                        "Pipeline": job_name,
+                        "Runs": summary.get("total", 0),
+                        "Success": summary.get("success", 0),
+                        "Failed": summary.get("failed", 0),
+                        "Other": summary.get("other", 0),
+                    }
+                )
+
+            except Exception:
+                rows.append(
+                    {
+                        "Pipeline": job_name,
+                        "Runs": 0,
+                        "Success": 0,
+                        "Failed": 0,
+                        "Other": 0,
+                    }
+                )
+
+    df = pd.DataFrame(rows)
+
+    search_col, size_col = st.columns([4, 1])
+
+    with search_col:
+        search = st.text_input(
+            "Search pipelines",
+            placeholder="Search pipeline name...",
+        )
+
+    with size_col:
+        page_size = st.selectbox(
+            "Rows per page",
+            [10, 20, 50, 100],
+            index=1,
+        )
+
+    if search:
+        df = df[
+            df["Pipeline"].str.contains(
+                search,
+                case=False,
+                na=False,
+            )
+        ]
+
+    if df.empty:
+        st.info("No pipelines found.")
+        return
+
+    total_pages = max(
+        1,
+        math.ceil(len(df) / page_size),
+    )
+
+    if "jobs_page" not in st.session_state:
+        st.session_state["jobs_page"] = 1
+
+    if st.session_state["jobs_page"] > total_pages:
+        st.session_state["jobs_page"] = 1
+
+    current_page = st.session_state[
+        "jobs_page"
+    ]
+
+    start = (
+        current_page - 1
+    ) * page_size
+
+    end = start + page_size
+
+    page_df = df.iloc[
+        start:end
+    ].reset_index(drop=True)
+
+    event = st.dataframe(
+        page_df,
+        width="stretch",
+        hide_index=True,
+        height=450,
+        selection_mode="single-row",
+        on_select="rerun",
+        column_config={
+            "Pipeline": st.column_config.TextColumn(
+                "Pipeline",
+                width="large",
+            ),
+            "Runs": st.column_config.NumberColumn(
+                "Runs",
+                format="%d",
+            ),
+            "Success": st.column_config.NumberColumn(
+                "Success",
+                format="%d",
+            ),
+            "Failed": st.column_config.NumberColumn(
+                "Failed",
+                format="%d",
+            ),
+            "Other": st.column_config.NumberColumn(
+                "Other",
+                format="%d",
+            ),
+        },
+        key="jobs_table",
+    )
+
+    selected_rows = event.selection.rows
+
+    if selected_rows:
+        selected_index = selected_rows[0]
+        selected_job = page_df.iloc[
+            selected_index
+        ]["Pipeline"]
+
+        open_job(selected_job)
+
+    st.divider()
+
+    page_col1, page_col2, page_col3 = st.columns(
+        [1, 2, 1]
+    )
+
+    with page_col1:
+        if st.button(
+            "← Previous",
+            disabled=current_page == 1,
+            width="stretch",
+        ):
+            st.session_state["jobs_page"] -= 1
+            st.rerun()
+
+    with page_col2:
+        st.markdown(
+            f"<div style='text-align:center;'>"
+            f"Page <b>{current_page}</b> of "
+            f"<b>{total_pages}</b>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+    with page_col3:
+        if st.button(
+            "Next →",
+            disabled=current_page == total_pages,
+            width="stretch",
+        ):
+            st.session_state["jobs_page"] += 1
+            st.rerun()
+
+    st.caption(
+        f"Showing {start + 1}–"
+        f"{min(end, len(df))} of "
+        f"{len(df)} pipelines"
+    )
+
+
 def show_job(job_name):
     job_path = DATA_ROOT / job_name
     db = get_db(job_path)
     summary = get_job_summary(db)
 
     st.button(
-        "← Back to Jobs",
+        "← Back to Pipelines",
         on_click=home,
     )
 
@@ -385,15 +738,7 @@ if not jobs:
     )
 
 elif "job" not in st.session_state:
-    st.subheader("Jobs")
-
-    for job_name in jobs:
-        if st.button(
-            job_name,
-            width="stretch",
-        ):
-            st.session_state["job"] = job_name
-            st.rerun()
+    show_jobs_page()
 
 else:
     show_job(
