@@ -1,7 +1,7 @@
 import os
 import json
 from pathlib import Path
-
+from copy import deepcopy
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
@@ -223,21 +223,27 @@ def show_copilot(db, job_path):
         st.subheader("Answer")
         st.markdown(result["answer"])
 
+        queries_cp = deepcopy(result['plan'])
+        for i in queries_cp['queries']:
+            i["action"] = "Data sets created for analytics"
+            i["SQL"] = i.pop("sql")
+
+
         with st.expander("Investigation Plan"):
-            st.json(result["plan"])
+            st.json(queries_cp)
 
         if result["queries"]:
-            st.subheader("Evidence")
+            st.subheader("Agentic Orchestration")
 
             for query_result in result["queries"]:
                 with st.expander(
-                    f"SQL {query_result['id']} — "
+                    f"Step {query_result['id']} — "
                     f"{query_result['purpose']}"
                 ):
-                    st.code(
-                        query_result["sql"],
-                        language="sql",
-                    )
+                    # st.code(
+                    #     query_result["sql"],
+                    #     language="sql",
+                    # )
 
                     if "error" in query_result:
                         st.error(
