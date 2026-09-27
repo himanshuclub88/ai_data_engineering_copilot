@@ -57,7 +57,7 @@ Important rules:
 
 The output must have this structure:
 
-{
+{{
   "error": "specific observed error",
   "root_cause": "supported root cause or insufficient evidence",
   "evidence": [
@@ -66,7 +66,7 @@ The output must have this structure:
     "Relevant metadata observation"
   ],
   "fix": "Recommended fix or next investigation step"
-}
+}}
         """
     ),
     (
@@ -126,26 +126,27 @@ def generate_rca(run_path, run_id, job=""):
         except Exception: pass
 
     if not log_file.exists(): 
-        execution_log = "error.log was not found."
+        execution_log = "log file was not found."
     else:
         if not execution_log: 
-            execution_log = "error.log is empty."
-        else:            
-
+            execution_log = "log is empty."
+        else:
             try:
-                response = get_llm().invoke(
-                    RCA_PROMPT.format_messages(
-                        job=job,
-                        run_id=run_id,
-                        metadata=metadata or "Metadata not available.",
-                        execution_log=(execution_log),
-                        error_log=(error_log or "Error log not available."))
-                    )
+                prompt = RCA_PROMPT.format_messages(
+                    job=job,
+                    run_id=run_id,
+                    metadata=metadata or "Metadata not available.",
+                    execution_log=(execution_log),
+                    error_log=(error_log or "Error log not available.")
+                )
+                # print(prompt)
+                response = get_llm().invoke(prompt)
 
                 data = _json(response.content)
                 data = {k: data.get(k, "") for k in ("error", "root_cause", "evidence", "fix")}
                 data["evidence"] = data["evidence"] if isinstance(data["evidence"], list) else [str(data["evidence"])]
-                data["cached"] = False
+                data["cached"] = False         
+
             except Exception as e: 
                 data = _fallback(f"RCA generation failed: {e}")
                 print(e)
