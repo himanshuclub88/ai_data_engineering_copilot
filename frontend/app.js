@@ -509,9 +509,8 @@ function openCopilotModal(prefill = "") {
     return;
   }
 
-  // Copilot is a one-shot analysis workspace, not a chat session.
-  // Keep the latest completed analysis when the modal is closed/reopened.
-  // A new submission replaces the previous analysis.
+  // One-shot analysis workspace:
+  // the latest completed result remains when the modal is closed/reopened.
   state.copilotBusy = false;
 
   const modal = document.createElement("div");
@@ -522,58 +521,35 @@ function openCopilotModal(prefill = "") {
       <header class="copilot-modal-head">
         <div class="copilot-modal-brand">
           <div class="copilot-modal-icon">✦</div>
-          <div>
+          <div class="copilot-modal-title-wrap">
             <div class="copilot-modal-title">Data Engineering Analysis</div>
-            <div class="copilot-modal-sub">${escapeHtml(state.currentJob || "Pipeline")} · one-shot investigation workspace</div>
+            <div class="copilot-modal-sub">${escapeHtml(state.currentJob || "Pipeline")} · one-shot analysis</div>
           </div>
         </div>
+
         <div class="copilot-modal-actions">
+          <div class="analysis-state" id="analysis-state">READY</div>
           <span class="copilot-live"><span class="status-dot"></span> API Connected</span>
           <button class="icon-button" data-action="close-copilot" aria-label="Close analysis">✕</button>
         </div>
       </header>
 
-      <div class="copilot-modal-toolbar">
-        <div class="analysis-context">
-          <div class="analysis-context-label">CURRENT PIPELINE</div>
-          <div class="analysis-context-value">${escapeHtml(state.currentJob || "Pipeline")}</div>
-          <div class="analysis-context-note">No conversational memory · each analysis starts fresh</div>
+      <main class="copilot-modal-main">
+        <div class="copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}" id="copilot-modal-answer">
+          ${state.copilotAnswer ? renderCopilotAnswer(state.copilotAnswer) : `
+            <div class="copilot-empty">
+              <div class="copilot-empty-orb">✦</div>
+              <div class="copilot-empty-title">Run an analysis</div>
+              <div class="copilot-empty-copy">Ask one question about the selected pipeline. Each request is a fresh investigation with no conversational history.</div>
+            </div>`}
         </div>
-        <div class="chips analysis-suggestions">
-          <button class="chip" data-action="modal-sample-question" data-question="Hi summary of last runs">Summary of last runs</button>
-          <button class="chip" data-action="modal-sample-question" data-question="Why did RUN_100 fail?">Why did RUN_100 fail?</button>
-          <button class="chip" data-action="modal-sample-question" data-question="Give me RCA for RUN_100">RCA for RUN_100</button>
-          <button class="chip" data-action="modal-sample-question" data-question="Which runs had OUT_OF_MEMORY errors?">Memory failures</button>
-        </div>
-      </div>
-
-      <div class="copilot-modal-main">
-        <div class="analysis-canvas">
-          <div class="analysis-canvas-head">
-            <div>
-              <div class="copilot-pane-label">INVESTIGATION OUTPUT</div>
-              <div class="analysis-canvas-title">Run an analysis against the current pipeline data</div>
-            </div>
-            <div class="analysis-state" id="analysis-state">READY</div>
-          </div>
-
-          <div class="copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}" id="copilot-modal-answer">
-            ${state.copilotAnswer ? renderCopilotAnswer(state.copilotAnswer) : `
-              <div class="copilot-empty">
-                <div class="copilot-empty-orb">✦</div>
-                <div class="copilot-empty-title">What should I investigate?</div>
-                <div class="copilot-empty-copy">Enter one question. The backend will inspect the pipeline data, generate the required SQL, execute it, and return the analysis. Previous questions are not carried into the next run.</div>
-              </div>`}
-          </div>
-        </div>
-      </div>
+      </main>
 
       <footer class="copilot-modal-footer">
         <form class="copilot-modal-form" id="copilot-modal-form">
-          <div class="analysis-input-label">ANALYSIS REQUEST</div>
-          <textarea id="copilot-modal-question" class="textarea copilot-modal-input" rows="3" placeholder="Example: Summarize the last 10 runs and highlight the main failure patterns">${escapeHtml(prefill || "")}</textarea>
+          <textarea id="copilot-modal-question" class="textarea copilot-modal-input" rows="2" aria-label="Analysis request" placeholder="Ask about the selected pipeline…">${escapeHtml(prefill || "")}</textarea>
           <div class="copilot-input-actions">
-            <div class="kbd">Ctrl / ⌘ + Enter · independent analysis</div>
+            <div class="kbd">Ctrl / ⌘ + Enter</div>
             <button class="btn primary copilot-send-btn" id="copilot-modal-submit" type="submit">Run Analysis →</button>
           </div>
         </form>
@@ -659,8 +635,8 @@ function renderCopilotAnswer(result) {
       ${plan ? `<details class="rca-card"><summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">Investigation plan</summary><pre class="code-log" style="margin-top:10px;max-height:260px">${escapeHtml(JSON.stringify(plan, null, 2))}</pre></details>` : ""}
       ${queries.map((q) => `
         <details class="rca-card">
-          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">Step ${escapeHtml(q.id ?? "")} · ${escapeHtml(q.purpose ?? "Query")}</summary>
-          <pre class="code-log" style="margin-top:10px;max-height:220px">${escapeHtml(q.sql ?? q.querry ?? "")}</pre>
+          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">SQL ${escapeHtml(q.id ?? "")} · ${escapeHtml(q.purpose ?? "Query")}</summary>
+          <pre class="code-log" style="margin-top:10px;max-height:220px">${escapeHtml(q.sql ?? q.SQL ?? "")}</pre>
           ${q.error ? `<div class="alert error" style="margin-top:9px">${escapeHtml(q.error)}</div>` : `<pre class="code-log" style="margin-top:9px;max-height:260px">${escapeHtml(JSON.stringify(q.result ?? [], null, 2))}</pre>`}
         </details>
       `).join("")}
