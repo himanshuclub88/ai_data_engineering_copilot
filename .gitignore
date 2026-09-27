@@ -31,5 +31,9 @@ Thumbs.db
 *.tmp
 *.temp
 
-data/
 RCA.*
+
+
+#local test scripts
+zbakendapi.bat
+zfronend.bat

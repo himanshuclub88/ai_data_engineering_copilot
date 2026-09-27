@@ -360,13 +360,12 @@ function renderJobDashboard() {
         <div class="table-wrap">
           ${runs.length ? `
           <table>
-            <thead><tr><th>Run</th><th>Status</th><th>Failure</th><th>Start</th><th>Duration</th><th></th></tr></thead>
+            <thead><tr><th>Run</th><th>Status</th><th>Start</th><th>Duration</th><th></th></tr></thead>
             <tbody>
               ${runs.map((r) => `
                 <tr>
                   <td><button class="table-link run-id" data-action="run" data-run="${escapeHtml(r.iid)}">${escapeHtml(r.iid)}</button></td>
                   <td><span class="status-badge ${statusClass(r.status)}">${escapeHtml(r.status || "UNKNOWN")}</span></td>
-                  <td class="failure">${escapeHtml(r.failure_reason || "—")}</td>
                   <td>${formatDate(r.start_time)}</td>
                   <td>${formatDuration(r.duration_sec)}</td>
                   <td><button class="btn small" data-action="run" data-run="${escapeHtml(r.iid)}">Inspect</button></td>
@@ -384,31 +383,27 @@ function renderJobDashboard() {
         </div>
       </section>
 
-      <section class="panel copilot-panel">
+      <section class="panel copilot-panel copilot-launch-panel">
         <div class="copilot-head">
           <div class="copilot-title-row">
             <div class="copilot-title"><span class="spark">✦</span> Data Engineering Copilot</div>
             <span class="status-dot" style="background:var(--success);box-shadow:0 0 0 4px var(--success-soft)"></span>
           </div>
-          <div class="copilot-sub">Ask questions about ${escapeHtml(state.currentJob)}. The answer, generated SQL, query output and RCA results come directly from your existing backend flow.</div>
+          <div class="copilot-sub">Ask questions about ${escapeHtml(state.currentJob)}. Investigate runs, inspect generated SQL, review query results and retrieve RCA from the same FastAPI backend.</div>
+        </div>
+        <div class="copilot-launch-body">
+          <div class="copilot-orb"><span>✦</span></div>
+          <div class="copilot-launch-copy">
+            <div class="copilot-launch-title">Your pipeline, explained.</div>
+            <div class="copilot-launch-sub">Open the full-screen Copilot workspace for a focused investigation experience.</div>
+          </div>
+          <button class="btn primary copilot-open-btn" data-action="open-copilot">Open Copilot <span>↗</span></button>
           <div class="chips">
             <button class="chip" data-action="sample-question" data-question="Hi summary of last runs">Summary of last runs</button>
-            <button class="chip" data-action="sample-question" data-question="Why did RUN_100 fail?">Why did the latest run fail?</button>
+            <button class="chip" data-action="sample-question" data-question="Why did RUN_100 fail?">Latest failure</button>
             <button class="chip" data-action="sample-question" data-question="Give me RCA for RUN_100">RCA for RUN_100</button>
             <button class="chip" data-action="sample-question" data-question="Which runs had OUT_OF_MEMORY errors?">Memory failures</button>
           </div>
-        </div>
-        <div class="copilot-body">
-          <div class="answer-card ${state.copilotAnswer ? "" : "empty"}" id="answer-card">
-            ${state.copilotAnswer ? renderCopilotAnswer(state.copilotAnswer) : `<div><div style="font-size:25px;margin-bottom:8px">✦</div><div style="color:var(--text);font-weight:700">Ask your first question</div><div style="font-size:10px;margin-top:5px">Try “Hi summary of last runs” or “Give me RCA for RUN_100”.</div></div>`}
-          </div>
-          <form class="copilot-form" id="copilot-form">
-            <textarea class="textarea" id="copilot-question" placeholder="Ask anything about this pipeline...">${escapeHtml(state.copilotAnswer?.question || "")}</textarea>
-            <div class="copilot-footer">
-              <div class="kbd">ENTER with Ctrl / ⌘</div>
-              <button class="btn primary" id="copilot-submit" type="submit">${state.copilotBusy ? "Analyzing…" : "Ask Copilot →"}</button>
-            </div>
-          </form>
         </div>
       </section>
     </div>
@@ -432,6 +427,142 @@ function renderJobDashboard() {
       document.getElementById("copilot-form")?.requestSubmit();
     }
   });
+}
+
+function openCopilotModal(prefill = "") {
+  const existing = document.getElementById("copilot-modal");
+  if (existing) {
+    const input = existing.querySelector("#copilot-modal-question");
+    if (prefill && input) input.value = prefill;
+    input?.focus();
+    return;
+  }
+
+  // Copilot is intentionally a one-shot analysis workspace, not a chat session.
+  // Every submission is independent; only the latest analysis is shown.
+  state.copilotAnswer = null;
+  state.copilotBusy = false;
+
+  const modal = document.createElement("div");
+  modal.id = "copilot-modal";
+  modal.className = "copilot-modal-backdrop";
+  modal.innerHTML = `
+    <section class="copilot-modal" role="dialog" aria-modal="true" aria-label="Data Engineering Analysis">
+      <header class="copilot-modal-head">
+        <div class="copilot-modal-brand">
+          <div class="copilot-modal-icon">✦</div>
+          <div>
+            <div class="copilot-modal-title">Data Engineering Analysis</div>
+            <div class="copilot-modal-sub">${escapeHtml(state.currentJob || "Pipeline")} · one-shot investigation workspace</div>
+          </div>
+        </div>
+        <div class="copilot-modal-actions">
+          <span class="copilot-live"><span class="status-dot"></span> API Connected</span>
+          <button class="icon-button" data-action="close-copilot" aria-label="Close analysis">✕</button>
+        </div>
+      </header>
+
+      <div class="copilot-modal-toolbar">
+        <div class="analysis-context">
+          <div class="analysis-context-label">CURRENT PIPELINE</div>
+          <div class="analysis-context-value">${escapeHtml(state.currentJob || "Pipeline")}</div>
+          <div class="analysis-context-note">No conversational memory · each analysis starts fresh</div>
+        </div>
+        <div class="chips analysis-suggestions">
+          <button class="chip" data-action="modal-sample-question" data-question="Hi summary of last runs">Summary of last runs</button>
+          <button class="chip" data-action="modal-sample-question" data-question="Why did RUN_100 fail?">Why did RUN_100 fail?</button>
+          <button class="chip" data-action="modal-sample-question" data-question="Give me RCA for RUN_100">RCA for RUN_100</button>
+          <button class="chip" data-action="modal-sample-question" data-question="Which runs had OUT_OF_MEMORY errors?">Memory failures</button>
+        </div>
+      </div>
+
+      <div class="copilot-modal-main">
+        <div class="analysis-canvas">
+          <div class="analysis-canvas-head">
+            <div>
+              <div class="copilot-pane-label">INVESTIGATION OUTPUT</div>
+              <div class="analysis-canvas-title">Run an analysis against the current pipeline data</div>
+            </div>
+            <div class="analysis-state" id="analysis-state">READY</div>
+          </div>
+
+          <div class="copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}" id="copilot-modal-answer">
+            ${state.copilotAnswer ? renderCopilotAnswer(state.copilotAnswer) : `
+              <div class="copilot-empty">
+                <div class="copilot-empty-orb">✦</div>
+                <div class="copilot-empty-title">What should I investigate?</div>
+                <div class="copilot-empty-copy">Enter one question. The backend will inspect the pipeline data, generate the required SQL, execute it, and return the analysis. Previous questions are not carried into the next run.</div>
+              </div>`}
+          </div>
+        </div>
+      </div>
+
+      <footer class="copilot-modal-footer">
+        <form class="copilot-modal-form" id="copilot-modal-form">
+          <div class="analysis-input-label">ANALYSIS REQUEST</div>
+          <textarea id="copilot-modal-question" class="textarea copilot-modal-input" rows="3" placeholder="Example: Summarize the last 10 runs and highlight the main failure patterns">${escapeHtml(prefill || "")}</textarea>
+          <div class="copilot-input-actions">
+            <div class="kbd">Ctrl / ⌘ + Enter · independent analysis</div>
+            <button class="btn primary copilot-send-btn" id="copilot-modal-submit" type="submit">Run Analysis →</button>
+          </div>
+        </form>
+      </footer>
+    </section>
+  `;
+
+  modalRoot.innerHTML = "";
+  modalRoot.appendChild(modal);
+
+  const form = document.getElementById("copilot-modal-form");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await runCopilot(true);
+  });
+
+  document.getElementById("copilot-modal-question")?.addEventListener("keydown", (event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+      event.preventDefault();
+      form?.requestSubmit();
+    }
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeCopilotModal();
+  });
+
+  setTimeout(() => document.getElementById("copilot-modal-question")?.focus(), 0);
+}
+
+function closeCopilotModal() {
+  const modal = document.getElementById("copilot-modal");
+  if (modal) modal.remove();
+}
+
+function refreshCopilotModal() {
+  const modal = document.getElementById("copilot-modal");
+  if (!modal) return;
+  const answer = modal.querySelector("#copilot-modal-answer");
+  const button = modal.querySelector("#copilot-modal-submit");
+  const input = modal.querySelector("#copilot-modal-question");
+  const status = modal.querySelector("#analysis-state");
+  if (answer) {
+    answer.className = `copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}`;
+    answer.innerHTML = state.copilotAnswer
+      ? renderCopilotAnswer(state.copilotAnswer)
+      : `<div class="copilot-empty"><div class="copilot-empty-orb">✦</div><div class="copilot-empty-title">What should I investigate?</div><div class="copilot-empty-copy">Enter one question. Each analysis is independent and uses the current pipeline data only.</div></div>`;
+    answer.scrollTop = 0;
+  }
+  if (button) {
+    button.disabled = state.copilotBusy;
+    button.textContent = state.copilotBusy ? "Running Analysis…" : "Run Analysis →";
+  }
+  if (status) {
+    status.textContent = state.copilotBusy ? "ANALYZING" : (state.copilotAnswer ? "COMPLETE" : "READY");
+    status.className = `analysis-state ${state.copilotBusy ? "busy" : state.copilotAnswer ? "complete" : ""}`;
+  }
+  if (input && !state.copilotBusy && state.copilotAnswer?.question) {
+    input.value = state.copilotAnswer.question;
+  }
 }
 
 function renderCopilotAnswer(result) {
@@ -470,14 +601,16 @@ function renderCopilotAnswer(result) {
   `;
 }
 
-async function runCopilot() {
-  const input = document.getElementById("copilot-question");
+async function runCopilot(inModal = false) {
+  const input = document.getElementById(inModal ? "copilot-modal-question" : "copilot-question");
   const question = input?.value?.trim();
   if (!question || !state.currentJob) return;
 
   state.copilotBusy = true;
-  state.copilotAnswer = { question, answer: "Analyzing pipeline history…" };
-  renderJobDashboard();
+  state.copilotAnswer = { question, answer: "Building investigation…" };
+
+  if (inModal) refreshCopilotModal();
+  else renderJobDashboard();
 
   try {
     const result = await api(`/api/jobs/${encodeURIComponent(state.currentJob)}/copilot`, {
@@ -485,7 +618,7 @@ async function runCopilot() {
       body: JSON.stringify({ question }),
     });
     state.copilotAnswer = { ...result, question };
-    showToast("Copilot response received", "success");
+    showToast("Analysis complete", "success");
   } catch (error) {
     state.copilotAnswer = {
       question,
@@ -494,8 +627,13 @@ async function runCopilot() {
     showToast(error.message, "error");
   } finally {
     state.copilotBusy = false;
-    renderJobDashboard();
-    setTimeout(() => document.getElementById("copilot-question")?.focus(), 0);
+    if (inModal) {
+      refreshCopilotModal();
+      setTimeout(() => document.getElementById("copilot-modal-question")?.focus(), 0);
+    } else {
+      renderJobDashboard();
+      setTimeout(() => document.getElementById("copilot-question")?.focus(), 0);
+    }
   }
 }
 
@@ -524,12 +662,12 @@ function renderRunDrawer() {
         <div>
           <div class="drawer-title">${escapeHtml(run.job)} / ${escapeHtml(run.run_id)}</div>
           <div class="drawer-sub">Detailed execution context</div>
-          <div class="drawer-status"><span class="status-badge ${statusClass(status)}">${escapeHtml(status)}</span><span style="color:var(--muted);font-size:10px">${escapeHtml(executionData.failure_reason || "No failure reason")}</span></div>
+          <div class="drawer-status"><span class="status-badge ${statusClass(status)}">${escapeHtml(status)}</span></div>
         </div>
         <div class="drawer-actions"><button class="btn small" data-action="generate-rca">Generate RCA</button><button class="icon-button" data-action="close-modal">✕</button></div>
       </div>
       <div class="drawer-tabs">
-        ${["metadata","execution","error","rca"].map(tab => `<button class="tab ${state.currentTab === tab ? "active" : ""}" data-action="run-tab" data-tab="${tab}">${tab === "metadata" ? "Metadata" : tab === "execution" ? "Execution Log" : tab === "error" ? "Error Log" : "RCA"}</button>`).join("")}
+        ${["metadata","execution","rca"].map(tab => `<button class="tab ${state.currentTab === tab ? "active" : ""}" data-action="run-tab" data-tab="${tab}">${tab === "metadata" ? "Overview" : tab === "execution" ? "Execution Log" : "RCA"}</button>`).join("")}
       </div>
       <div class="drawer-body" id="drawer-body">${renderRunTabBody()}</div>
     </div>
@@ -550,20 +688,17 @@ function renderRunTabBody() {
     const tiles = [
       ["Run ID", run.run_id], ["Status", execution.status || run.status], ["Start", formatDate(execution.start_time || run.start_time)], ["Duration", formatDuration(execution.duration_sec ?? run.duration_sec)]
     ];
-    const sections = Object.entries(run.data || {}).map(([name, rows]) => {
-      if (!Array.isArray(rows) || !rows.length) return "";
-      const keys = Object.keys(rows[0]);
-      return `
-        <div class="meta-section">
-          <div class="meta-title">${escapeHtml(name)}</div>
-          <div class="table-wrap"><table class="meta-table"><thead><tr>${keys.map(k => `<th>${escapeHtml(k)}</th>`).join("")}</tr></thead><tbody>${rows.map(row => `<tr>${keys.map(k => `<td>${escapeHtml(row[k])}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
-        </div>
-      `;
-    }).join("");
+    const metadataJson = JSON.stringify(run.data || {}, null, 2);
 
     return `
       <div class="run-summary-grid">${tiles.map(([label, value]) => `<div class="summary-tile"><div class="summary-label">${escapeHtml(label)}</div><div class="summary-value">${escapeHtml(value)}</div></div>`).join("")}</div>
-      ${sections || `<div class="alert">No metadata tables returned.</div>`}
+      <div class="metadata-hidden-row">
+        <div>
+          <div class="meta-title">Run metadata</div>
+          <div class="metadata-hidden-note">Detailed DB metadata is available when needed.</div>
+        </div>
+        <button class="subtle-action" data-action="view-metadata-json">View JSON</button>
+      </div>
     `;
   }
 
@@ -588,10 +723,15 @@ function renderRunTabBody() {
     }
 
     const rca = state.currentRca.rca ?? state.currentRca;
+    const errorLog = state.currentRunLogs?.error_log;
     return `
       <div class="rca-grid">
         <div class="alert success">RCA loaded for ${escapeHtml(run.run_id)}.</div>
         ${[["Error", rca.error], ["Root Cause", rca.root_cause], ["Evidence", rca.evidence], ["Fix", rca.fix]].map(([label, value]) => `<div class="rca-card"><div class="rca-label">${label}</div><div class="rca-value">${escapeHtml(value ?? "—")}</div></div>`).join("")}
+        <div class="rca-log-section">
+          <div class="meta-title">Error log</div>
+          ${errorLog ? `<div class="code-log rca-error-log">${escapeHtml(errorLog)}</div>` : `<div class="alert">error.log not found.</div>`}
+        </div>
       </div>
     `;
   }
@@ -610,12 +750,44 @@ async function generateRca() {
   if (button) { button.disabled = true; button.textContent = "Analyzing…"; }
   try {
     state.currentRca = await api(`/api/jobs/${encodeURIComponent(state.currentJob)}/runs/${encodeURIComponent(state.currentRun.run_id)}/rca`, { method: "POST" });
+    try {
+      await ensureLogsLoaded();
+    } catch {
+      // RCA remains usable even if the error log cannot be loaded.
+    }
     state.currentTab = "rca";
     renderRunDrawer();
     showToast("RCA generated", "success");
   } catch (error) {
     showToast(error.message, "error");
   }
+}
+
+function openMetadataJsonModal() {
+  if (!state.currentRun) return;
+  const existing = document.getElementById("metadata-json-modal");
+  if (existing) return;
+
+  const metadata = JSON.stringify(state.currentRun.data || {}, null, 2);
+  const modal = document.createElement("div");
+  modal.id = "metadata-json-modal";
+  modal.className = "metadata-json-backdrop";
+  modal.innerHTML = `
+    <section class="metadata-json-modal" role="dialog" aria-modal="true" aria-label="Run metadata JSON">
+      <header class="metadata-json-head">
+        <div>
+          <div class="drawer-title">Run Metadata</div>
+          <div class="drawer-sub">${escapeHtml(state.currentRun.job)} / ${escapeHtml(state.currentRun.run_id)}</div>
+        </div>
+        <button class="icon-button" data-action="close-metadata-json" aria-label="Close metadata JSON">✕</button>
+      </header>
+      <div class="metadata-json-body"><pre class="code-log metadata-json-code">${escapeHtml(metadata)}</pre></div>
+    </section>
+  `;
+  modalRoot.appendChild(modal);
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) modal.remove();
+  });
 }
 
 function closeModal() {
@@ -690,6 +862,26 @@ document.addEventListener("click", async (event) => {
     return;
   }
 
+  if (action === "view-metadata-json") {
+    openMetadataJsonModal();
+    return;
+  }
+
+  if (action === "close-metadata-json") {
+    document.getElementById("metadata-json-modal")?.remove();
+    return;
+  }
+
+  if (action === "open-copilot") {
+    openCopilotModal();
+    return;
+  }
+
+  if (action === "close-copilot") {
+    closeCopilotModal();
+    return;
+  }
+
   if (action === "run-tab") {
     await handleRunTab(target.dataset.tab);
     return;
@@ -701,7 +893,12 @@ document.addEventListener("click", async (event) => {
   }
 
   if (action === "sample-question") {
-    const q = document.getElementById("copilot-question");
+    openCopilotModal(target.dataset.question || "");
+    return;
+  }
+
+  if (action === "modal-sample-question") {
+    const q = document.getElementById("copilot-modal-question");
     if (q) {
       q.value = target.dataset.question || "";
       q.focus();
