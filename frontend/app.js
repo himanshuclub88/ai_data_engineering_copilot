@@ -460,7 +460,7 @@ function renderJobDashboard() {
             <div class="copilot-title"><span class="spark">✦</span> Data Engineering Copilot</div>
             <span class="status-dot" style="background:var(--success);box-shadow:0 0 0 4px var(--success-soft)"></span>
           </div>
-          <div class="copilot-sub">Ask questions about ${escapeHtml(state.currentJob)}. Investigate runs, inspect generated SQL, review query results and retrieve RCA from the same FastAPI backend.</div>
+          <div class="copilot-sub">Ask questions about ${escapeHtml(state.currentJob)}. Analyze runs, metrics, failures, and root causes.</div>
         </div>
         <div class="copilot-launch-body">
           <div class="copilot-orb"><span>✦</span></div>
@@ -474,6 +474,8 @@ function renderJobDashboard() {
             <button class="chip" data-action="sample-question" data-question="Why did RUN_100 fail?">Latest failure</button>
             <button class="chip" data-action="sample-question" data-question="Give me RCA for RUN_100">RCA for RUN_100</button>
             <button class="chip" data-action="sample-question" data-question="Which runs had OUT_OF_MEMORY errors?">Memory failures</button>
+            <button class="chip" data-action="sample-question" data-question="What are the most common failure reasons?">Common failure reasons</button>
+            <button class="chip" data-action="sample-question" data-question="What is the average run duration?">Average run duration</button>
           </div>
         </div>
       </section>
