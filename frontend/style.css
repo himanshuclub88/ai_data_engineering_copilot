@@ -1865,3 +1865,463 @@ html[data-theme="slate"] .copilot-modal-answer,
 html[data-theme="sand"] .copilot-modal-answer {
   background: var(--panel-2) !important;
 }
+
+
+/* ============================================================
+   V11 — STEP-BASED INVESTIGATION UI
+   SQL is hidden from the primary view and kept only as
+   expandable evidence. The user sees analysis steps, not
+   database implementation details.
+   ============================================================ */
+
+.analysis-steps {
+  margin-top: 26px;
+  display: grid;
+  gap: 9px;
+}
+
+.analysis-section-label {
+  margin: 0 0 3px 2px;
+  color: var(--muted-2);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.analysis-step {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel-3);
+  overflow: hidden;
+}
+
+.analysis-step > summary {
+  list-style: none;
+  cursor: pointer;
+  min-height: 48px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.analysis-step > summary::-webkit-details-marker {
+  display: none;
+}
+
+.analysis-step > summary::after {
+  content: "›";
+  margin-left: auto;
+  color: var(--muted-2);
+  font-size: 17px;
+  transition: transform .16s ease;
+}
+
+.analysis-step[open] > summary::after {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+
+.analysis-step-number {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line));
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .03em;
+}
+
+.analysis-step-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.analysis-step-body {
+  padding: 0 14px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.analysis-step-action {
+  padding: 12px 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.evidence-result-label,
+.evidence-label {
+  margin: 10px 0 6px;
+  color: var(--muted-2);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.analysis-result-json,
+.evidence-sql {
+  margin: 0;
+  max-height: 320px !important;
+  overflow: auto;
+  font-size: 11px !important;
+  line-height: 1.55 !important;
+}
+
+.evidence-details {
+  margin-top: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 9px;
+}
+
+.evidence-details > summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 750;
+  list-style: none;
+}
+
+.evidence-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-details > summary::before {
+  content: "＋";
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--accent);
+}
+
+.evidence-details[open] > summary::before {
+  content: "−";
+}
+
+.rca-step .analysis-step-number {
+  width: auto;
+  min-width: 38px;
+  padding: 0 7px;
+}
+
+/* ChatGPT-like analysis loading state */
+.copilot-modal-answer.loading {
+  display: grid;
+  place-items: center;
+}
+
+.copilot-thinking {
+  text-align: center;
+  padding: 20px;
+}
+
+.copilot-thinking-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.copilot-thinking-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: copilotTyping 1.05s infinite ease-in-out;
+}
+
+.copilot-thinking-dots span:nth-child(2) {
+  animation-delay: .14s;
+}
+
+.copilot-thinking-dots span:nth-child(3) {
+  animation-delay: .28s;
+}
+
+@keyframes copilotTyping {
+  0%, 60%, 100% { transform: translateY(0); opacity: .34; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.copilot-thinking-title {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.copilot-thinking-copy {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+/* Simple send button */
+.copilot-send-btn {
+  width: 42px;
+  min-width: 42px !important;
+  height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.send-icon {
+  display: inline-block;
+  transform: translateX(1px);
+}
+
+.send-spinner {
+  width: 15px;
+  height: 15px;
+  display: block;
+  border: 2px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: sendSpin .7s linear infinite;
+}
+
+@keyframes sendSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Strong readable text in every analysis table, including light themes. */
+.copilot-modal-answer table td,
+.copilot-modal-answer table th,
+.copilot-modal-answer tbody td,
+.copilot-modal-answer tbody th {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+
+/* Never let the compact footer obscure the reading canvas. */
+.copilot-modal-answer {
+  scrollbar-width: thin;
+}
+
+@media (max-width: 700px) {
+  .analysis-step > summary {
+    font-size: 11px;
+  }
+
+  .copilot-send-btn {
+    width: 40px;
+    min-width: 40px !important;
+    height: 40px;
+  }
+
+  .analysis-step-body {
+    padding: 0 11px 11px;
+  }
+}
+
+
+/* ============================================================
+   V12 — SEND BUTTON POSITION
+   Visually place the circular send control inside the input,
+   vertically centered at the right edge.
+   ============================================================ */
+
+.copilot-modal-form {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.copilot-modal-input {
+  padding-right: 64px !important;
+}
+
+.copilot-input-actions {
+  position: absolute !important;
+  top: 50% !important;
+  right: 8px !important;
+  bottom: auto !important;
+  left: auto !important;
+  margin: 0 !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.copilot-input-actions .copilot-send-btn {
+  pointer-events: auto;
+  flex: 0 0 42px;
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px;
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  line-height: 1 !important;
+}
+
+/* The keyboard hint is no longer part of the send control group. */
+.copilot-input-actions .kbd {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .copilot-modal-input {
+    padding-right: 58px !important;
+  }
+
+  .copilot-input-actions {
+    right: 6px !important;
+  }
+
+  .copilot-input-actions .copilot-send-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px;
+  }
+}
+
+
+/* ============================================================
+   V13 — INTEGRATED COMPOSER
+   The textbox is one outer composer. The send button lives
+   inside it as a sibling control, not on the textarea border.
+   ============================================================ */
+
+.copilot-modal-footer {
+  display: flex !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+.copilot-modal-form {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 7px 0 15px !important;
+  box-sizing: border-box !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: 18px !important;
+  background: var(--panel-2) !important;
+  box-shadow: 0 5px 18px color-mix(in srgb, var(--bg) 55%, transparent) !important;
+  transition: border-color .18s ease, box-shadow .18s ease !important;
+}
+
+.copilot-modal-form:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--line-strong)) !important;
+  box-shadow:
+    0 0 0 3px var(--accent-soft),
+    0 6px 20px color-mix(in srgb, var(--bg) 45%, transparent) !important;
+}
+
+/* Textarea is now borderless and transparent inside the outer composer. */
+.copilot-modal-input {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  height: 100% !important;
+  min-height: 46px !important;
+  max-height: 62px !important;
+  margin: 0 !important;
+  padding: 11px 8px 10px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  resize: none !important;
+  color: var(--text) !important;
+  caret-color: var(--accent) !important;
+}
+
+.copilot-modal-input:focus {
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.copilot-modal-input::placeholder {
+  color: var(--muted) !important;
+  opacity: 1 !important;
+}
+
+/* Button is inside the same outer shape, with no overlap. */
+.copilot-input-actions {
+  position: static !important;
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  height: 42px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transform: none !important;
+  z-index: 2 !important;
+  pointer-events: auto !important;
+}
+
+.copilot-input-actions .copilot-send-btn {
+  flex: 0 0 42px !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  max-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  display: grid !important;
+  place-items: center !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+}
+
+/* Keyboard hint is intentionally omitted from this compact composer. */
+.copilot-input-actions .kbd {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .copilot-modal-form {
+    min-height: 46px !important;
+    border-radius: 16px !important;
+    padding-left: 12px !important;
+    padding-right: 5px !important;
+  }
+
+  .copilot-modal-input {
+    min-height: 44px !important;
+    font-size: 12px !important;
+  }
+
+  .copilot-input-actions,
+  .copilot-input-actions .copilot-send-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+  }
+}

@@ -550,7 +550,7 @@ function openCopilotModal(prefill = "") {
           <textarea id="copilot-modal-question" class="textarea copilot-modal-input" rows="2" aria-label="Analysis request" placeholder="Ask about the selected pipeline…">${escapeHtml(prefill || "")}</textarea>
           <div class="copilot-input-actions">
             <div class="kbd">Ctrl / ⌘ + Enter</div>
-            <button class="btn primary copilot-send-btn" id="copilot-modal-submit" type="submit">Run Analysis →</button>
+            <button class="btn primary copilot-send-btn" id="copilot-modal-submit" type="submit" aria-label="Send analysis" title="Send analysis"><span class="send-icon">➤</span></button>
           </div>
         </form>
       </footer>
@@ -567,10 +567,14 @@ function openCopilotModal(prefill = "") {
   });
 
   document.getElementById("copilot-modal-question")?.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-      event.preventDefault();
-      form?.requestSubmit();
-    }
+    if (event.key !== "Enter") return;
+
+    // Shift+Enter intentionally inserts a newline.
+    if (event.shiftKey) return;
+
+    // Enter (and Ctrl/Cmd+Enter) submits the analysis.
+    event.preventDefault();
+    form?.requestSubmit();
   });
 
   modal.addEventListener("click", (event) => {
@@ -593,15 +597,29 @@ function refreshCopilotModal() {
   const input = modal.querySelector("#copilot-modal-question");
   const status = modal.querySelector("#analysis-state");
   if (answer) {
-    answer.className = `copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}`;
-    answer.innerHTML = state.copilotAnswer
-      ? renderCopilotAnswer(state.copilotAnswer)
-      : `<div class="copilot-empty"><div class="copilot-empty-orb">✦</div><div class="copilot-empty-title">Run an analysis</div><div class="copilot-empty-copy">Question will be answered based on analysis of the pipeline using LLM.</div></div>`;
+    if (state.copilotBusy) {
+      answer.className = "copilot-modal-answer loading";
+      answer.innerHTML = `
+        <div class="copilot-thinking">
+          <div class="copilot-thinking-dots" aria-label="Analysis in progress">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="copilot-thinking-title">Analyzing pipeline…</div>
+          <div class="copilot-thinking-copy">Building and evaluating the investigation result.</div>
+        </div>`;
+    } else {
+      answer.className = `copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}`;
+      answer.innerHTML = state.copilotAnswer
+        ? renderCopilotAnswer(state.copilotAnswer)
+        : `<div class="copilot-empty"><div class="copilot-empty-orb">✦</div><div class="copilot-empty-title">Run an analysis</div><div class="copilot-empty-copy">Question will be answered based on analysis of the pipeline using LLM.</div></div>`;
+    }
     answer.scrollTop = 0;
   }
   if (button) {
     button.disabled = state.copilotBusy;
-    button.textContent = state.copilotBusy ? "Running Analysis…" : "Run Analysis →";
+    button.innerHTML = state.copilotBusy
+      ? '<span class="send-spinner" aria-hidden="true"></span>'
+      : '<span class="send-icon" aria-hidden="true">➤</span>';
   }
   if (status) {
     status.textContent = state.copilotBusy ? "ANALYZING" : (state.copilotAnswer ? "COMPLETE" : "READY");
@@ -614,8 +632,15 @@ function refreshCopilotModal() {
   }
 }
 
+function normalizeRunId(value) {
+  const text = String(value ?? "").trim();
+  const match = text.match(/^RUN[\s-]*(\d+)$/i);
+  return match ? `RUN_${match[1]}` : text;
+}
+
 function renderCopilotAnswer(result) {
   if (!result) return "";
+
   const markdown = result.answer || "No answer returned.";
   let html;
   try {
@@ -623,32 +648,79 @@ function renderCopilotAnswer(result) {
   } catch {
     html = `<p>${escapeHtml(markdown)}</p>`;
   }
+
   if (window.DOMPurify) html = DOMPurify.sanitize(html);
 
   const queries = Array.isArray(result.queries) ? result.queries : [];
   const rcas = Array.isArray(result.rcas) ? result.rcas : [];
-  const plan = result.plan && typeof result.plan === "object" ? result.plan : null;
+  const planQueries =
+    result.plan && Array.isArray(result.plan.queries)
+      ? result.plan.queries
+      : [];
+
+  const steps = queries.map((query, index) => {
+    const plan = planQueries[index] || {};
+    const purpose = query.purpose || plan.purpose || `Investigation step ${index + 1}`;
+    const action = plan.action || "";
+
+    return `
+      <details class="analysis-step">
+        <summary>
+          <span class="analysis-step-number">${index + 1}</span>
+          <span class="analysis-step-title">${escapeHtml(purpose)}</span>
+        </summary>
+
+        <div class="analysis-step-body">
+          ${action ? `<div class="analysis-step-action">${escapeHtml(action)}</div>` : ""}
+
+          ${query.error
+            ? `<div class="alert error">${escapeHtml(query.error)}</div>`
+            : `
+              <div class="evidence-result-label">Result</div>
+              <pre class="code-log analysis-result-json">${escapeHtml(JSON.stringify(query.result ?? [], null, 2))}</pre>
+            `
+          }
+
+          <details class="evidence-details">
+            <summary>Evidence</summary>
+            <div class="evidence-section">
+              <div class="evidence-label">Generated query</div>
+              <pre class="code-log evidence-sql">${escapeHtml(query.sql ?? query.SQL ?? "")}</pre>
+            </div>
+          </details>
+        </div>
+      </details>
+    `;
+  }).join("");
+
+  const rcaSteps = rcas.map((item) => {
+    const runId = normalizeRunId(item.run_id);
+    return `
+      <details class="analysis-step rca-step" open>
+        <summary>
+          <span class="analysis-step-number">RCA</span>
+          <span class="analysis-step-title">Root cause analysis · ${escapeHtml(runId)}</span>
+        </summary>
+        <div class="analysis-step-body">
+          <pre class="code-log">${escapeHtml(JSON.stringify(item.rca ?? {}, null, 2))}</pre>
+        </div>
+      </details>
+    `;
+  }).join("");
 
   return `
     <div class="answer-content">${html}</div>
-    <div style="margin-top:14px;display:grid;gap:8px">
-      ${plan ? `<details class="rca-card"><summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">Investigation plan</summary><pre class="code-log" style="margin-top:10px;max-height:260px">${escapeHtml(JSON.stringify(plan, null, 2))}</pre></details>` : ""}
-      ${queries.map((q) => `
-        <details class="rca-card">
-          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">SQL ${escapeHtml(q.id ?? "")} · ${escapeHtml(q.purpose ?? "Query")}</summary>
-          <pre class="code-log" style="margin-top:10px;max-height:220px">${escapeHtml(q.sql ?? q.SQL ?? "")}</pre>
-          ${q.error ? `<div class="alert error" style="margin-top:9px">${escapeHtml(q.error)}</div>` : `<pre class="code-log" style="margin-top:9px;max-height:260px">${escapeHtml(JSON.stringify(q.result ?? [], null, 2))}</pre>`}
-        </details>
-      `).join("")}
-      ${rcas.map((r) => `
-        <details class="rca-card" open>
-          <summary style="cursor:pointer;color:var(--text);font-weight:700;font-size:10px">RCA · ${escapeHtml(r.run_id ?? "")}</summary>
-          <pre class="code-log" style="margin-top:10px;max-height:260px">${escapeHtml(JSON.stringify(r.rca ?? {}, null, 2))}</pre>
-        </details>
-      `).join("")}
-    </div>
+
+    ${(steps || rcaSteps) ? `
+      <section class="analysis-steps">
+        <div class="analysis-section-label">INVESTIGATION STEPS</div>
+        ${steps}
+        ${rcaSteps}
+      </section>
+    ` : ""}
   `;
 }
+
 
 async function runCopilot(inModal = false) {
   const input = document.getElementById(inModal ? "copilot-modal-question" : "copilot-question");
