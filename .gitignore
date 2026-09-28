@@ -35,5 +35,4 @@ RCA.*
 
 
 #local test scripts
-zbakendapi.bat
-zfronend.bat
+run_*
