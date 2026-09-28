@@ -523,7 +523,7 @@ function openCopilotModal(prefill = "") {
           <div class="copilot-modal-icon">✦</div>
           <div class="copilot-modal-title-wrap">
             <div class="copilot-modal-title">Data Engineering Analysis</div>
-            <div class="copilot-modal-sub">${escapeHtml(state.currentJob || "Pipeline")} · one-shot analysis</div>
+            <div class="copilot-modal-sub">${escapeHtml(state.currentJob || "Pipeline")} · analysis</div>
           </div>
         </div>
 
@@ -540,7 +540,7 @@ function openCopilotModal(prefill = "") {
             <div class="copilot-empty">
               <div class="copilot-empty-orb">✦</div>
               <div class="copilot-empty-title">Run an analysis</div>
-              <div class="copilot-empty-copy">Ask one question about the selected pipeline. Each request is a fresh investigation with no conversational history.</div>
+              <div class="copilot-empty-copy">Question will be answered based on analysis of the pipeline using LLM.</div>
             </div>`}
         </div>
       </main>
@@ -596,7 +596,7 @@ function refreshCopilotModal() {
     answer.className = `copilot-modal-answer ${state.copilotAnswer ? "" : "empty"}`;
     answer.innerHTML = state.copilotAnswer
       ? renderCopilotAnswer(state.copilotAnswer)
-      : `<div class="copilot-empty"><div class="copilot-empty-orb">✦</div><div class="copilot-empty-title">What should I investigate?</div><div class="copilot-empty-copy">Enter one question. Each analysis is independent and uses the current pipeline data only.</div></div>`;
+      : `<div class="copilot-empty"><div class="copilot-empty-orb">✦</div><div class="copilot-empty-title">Run an analysis</div><div class="copilot-empty-copy">Question will be answered based on analysis of the pipeline using LLM.</div></div>`;
     answer.scrollTop = 0;
   }
   if (button) {

@@ -1620,3 +1620,248 @@ html[data-theme="sand"] .copilot-modal-input {
     width: 100%;
   }
 }
+
+
+/* ============================================================
+   V10 STABLE THEME OVERLAY FIX
+   This layer does not change Copilot API logic or layout.
+   It only makes existing overlays consume the active theme.
+   ============================================================ */
+
+/* The dashboard already switches --bg/--panel/--text when the
+   theme changes. These selectors extend that same palette into
+   dynamically-created RCA/Copilot/JSON layers. */
+
+.modal-backdrop,
+.metadata-json-backdrop,
+.copilot-modal-backdrop {
+  color: var(--text);
+}
+
+/* Copilot */
+.copilot-modal {
+  color: var(--text);
+  background: var(--bg) !important;
+  border-color: var(--line) !important;
+}
+
+.copilot-modal-head,
+.copilot-modal-footer {
+  background: var(--panel-3) !important;
+  border-color: var(--line) !important;
+}
+
+.copilot-modal-main {
+  background: var(--bg) !important;
+}
+
+.copilot-modal-answer {
+  background: var(--panel-2) !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+
+.copilot-modal-answer .answer-content,
+.copilot-modal-answer .answer-content p,
+.copilot-modal-answer .answer-content li,
+.copilot-modal-answer .answer-content td,
+.copilot-modal-answer .answer-content th,
+.copilot-modal-answer .answer-content h1,
+.copilot-modal-answer .answer-content h2,
+.copilot-modal-answer .answer-content h3,
+.copilot-modal-answer .answer-content strong {
+  color: var(--text) !important;
+}
+
+.copilot-modal-answer .answer-content th {
+  background: var(--panel-3) !important;
+}
+
+.copilot-modal-answer .answer-content td,
+.copilot-modal-answer .answer-content th {
+  border-color: var(--line) !important;
+}
+
+.copilot-modal-answer pre,
+.copilot-modal-answer .code-log,
+.copilot-modal-answer .rca-card {
+  background: var(--panel-3) !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+
+.copilot-modal-input {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+  border-color: var(--line-strong) !important;
+  caret-color: var(--accent) !important;
+}
+
+.copilot-modal-input::placeholder {
+  color: var(--muted) !important;
+  opacity: 1 !important;
+}
+
+.copilot-modal-input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+
+.copilot-empty-title {
+  color: var(--text) !important;
+}
+
+.copilot-empty-copy {
+  color: var(--muted) !important;
+}
+
+.analysis-state,
+.copilot-live {
+  color: var(--muted) !important;
+  background: var(--panel) !important;
+  border-color: var(--line) !important;
+}
+
+.analysis-state.busy {
+  color: var(--accent) !important;
+  background: var(--accent-soft) !important;
+}
+
+.analysis-state.complete {
+  color: var(--success) !important;
+  background: var(--success-soft) !important;
+}
+
+/* RCA / run drawer */
+.drawer {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border-left-color: var(--line) !important;
+}
+
+.drawer-head,
+.drawer-tabs {
+  background: var(--panel-3) !important;
+  border-color: var(--line) !important;
+}
+
+.drawer-body {
+  background: var(--bg-soft) !important;
+  color: var(--text) !important;
+}
+
+.tab {
+  color: var(--muted);
+}
+
+.tab.active {
+  color: var(--text) !important;
+  background: var(--accent-soft) !important;
+  border-color: var(--line) !important;
+}
+
+.summary-tile,
+.metadata-hidden-row,
+.rca-card {
+  background: var(--panel-2) !important;
+  border-color: var(--line) !important;
+  color: var(--text) !important;
+}
+
+.summary-value,
+.meta-table td,
+.meta-table th,
+.rca-value,
+.drawer-title,
+.drawer-body,
+.metadata-hidden-note {
+  color: var(--text) !important;
+}
+
+.meta-title,
+.summary-label,
+.rca-label {
+  color: var(--muted-2) !important;
+}
+
+.code-log,
+.rca-error-log {
+  background: var(--panel-3) !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+
+/* Metadata JSON */
+.metadata-json-modal {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  border-color: var(--line-strong) !important;
+}
+
+.metadata-json-head {
+  background: var(--panel-3) !important;
+  border-color: var(--line) !important;
+}
+
+.metadata-json-body {
+  background: var(--bg) !important;
+}
+
+.metadata-json-code {
+  background: var(--panel-3) !important;
+  color: var(--text) !important;
+  border-color: var(--line) !important;
+}
+
+/* Explicit table rule: the original dashboard used a fixed
+   light-on-dark td color, which becomes low-contrast on light
+   themes. Always derive cell text from the active theme. */
+table td,
+table th,
+tbody td,
+tbody th,
+.meta-table td,
+.meta-table th {
+  color: var(--text) !important;
+}
+
+table th,
+.meta-table th {
+  color: var(--muted-2) !important;
+}
+
+tbody tr:hover,
+table tbody tr:hover {
+  background: color-mix(in srgb, var(--text) 4%, transparent) !important;
+}
+
+/* Light/medium themes: neutral shadows/backgrounds for overlays. */
+html[data-theme="light"] .copilot-modal,
+html[data-theme="cloud"] .copilot-modal,
+html[data-theme="slate"] .copilot-modal,
+html[data-theme="sand"] .copilot-modal,
+html[data-theme="light"] .drawer,
+html[data-theme="cloud"] .drawer,
+html[data-theme="slate"] .drawer,
+html[data-theme="sand"] .drawer {
+  box-shadow: var(--shadow) !important;
+}
+
+/* Existing CSS contains a dark code-log background. Reset it for
+   every theme so light themes don't retain black log blocks unless
+   the theme explicitly defines them. */
+html[data-theme="light"] .code-log,
+html[data-theme="cloud"] .code-log,
+html[data-theme="slate"] .code-log,
+html[data-theme="sand"] .code-log {
+  background: var(--panel-3) !important;
+  color: var(--text) !important;
+}
+
+/* Make sure theme changes are visible even when an overlay is open. */
+html[data-theme="light"] .copilot-modal-answer,
+html[data-theme="cloud"] .copilot-modal-answer,
+html[data-theme="slate"] .copilot-modal-answer,
+html[data-theme="sand"] .copilot-modal-answer {
+  background: var(--panel-2) !important;
+}
