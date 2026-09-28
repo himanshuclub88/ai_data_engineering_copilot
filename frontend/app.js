@@ -474,7 +474,7 @@ function renderJobDashboard() {
             <button class="chip" data-action="sample-question" data-question="Why did RUN_100 fail?">Latest failure</button>
             <button class="chip" data-action="sample-question" data-question="Give me RCA for RUN_100">RCA for RUN_100</button>
             <button class="chip" data-action="sample-question" data-question="Which runs had OUT_OF_MEMORY errors?">Memory failures</button>
-            <button class="chip" data-action="sample-question" data-question="What are the most common failure reasons?">Common failure reasons</button>
+            <button class="chip" data-action="sample-question" data-question="What are the most common failure reasons?">Common failure</button>
             <button class="chip" data-action="sample-question" data-question="What is the average run duration?">Average run duration</button>
           </div>
         </div>
